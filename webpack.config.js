@@ -1,10 +1,10 @@
 const
     path = require('path'),
-    fs = require('fs'),
     webpack = require('webpack');
 
 // npm dependencies
 const
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -33,7 +33,7 @@ module.exports = {
     devtool: debug ? "source-map" : null,
 
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json", ".jsx",],
+        extensions: [".ts", ".tsx", ".js", ".json", ".jsx", ".css",],
         modules: [
             path.resolve('node_modules'),
             path.resolve('src'),
@@ -42,6 +42,26 @@ module.exports = {
 
     module: {
         loaders: [
+            {
+                test: /\.(css|scss)$/,
+                include: /node_modules/,
+                loaders: [
+                    'style-loader',
+                    'css-loader',
+                ]
+            },
+            {
+                test: /\.woff2?$|\.ttf$|\.eot$|\.otf$/,
+                loaders: [
+                    'file-loader?name=[name].[hash:6].[ext]',
+                ],
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                loaders: [
+                    'file-loader?name=[name].[hash:6].[ext]',
+                ]
+            },
             {
                 test: /\.tsx?$/,
                 loaders: [
@@ -61,6 +81,10 @@ module.exports = {
     },
 
     plugins: [
+        new ExtractTextPlugin({
+            filename: 'styles.[hash].css',
+            publicPath: '/',
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new CleanWebpackPlugin([path.resolve('./example/web')]),
