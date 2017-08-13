@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es3",
-    "jsx": "react",
-    "sourceMap": true
-  }
+    "target": "es2015",
+    "sourceMap": true,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react"
+  },
+  "exclude": [
+    "./node_modules/**/*"
+  ]
 }

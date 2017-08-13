@@ -1,98 +1,109 @@
+/**
+ * Author: Alexander <Horat1us> Letnikow
+ * Support: reclamme@gmail.com
+ *
+ * This file is Dark and full of Terrors
+ */
+
 const
     path = require('path'),
     webpack = require('webpack');
 
-// npm dependencies
+const debug = process.env.NODE_ENV !== 'production';
+const env = debug ? 'local' : 'production';
+
 const
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
     CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const debug = process.env.NODE_ENV !== 'production';
+console.log("Building in " + env + " environment. Debug: " + debug.toString());
 
-module.exports = {
-    entry: "./example/src/index.tsx",
+const config = {
+        entry: ["./src/index.ts"],
 
-    devServer: {
-        publicPath: "/",
-        contentBase: './example/web',
-        noInfo: false,
-        hot: true,
-        inline: true,
-        open: true,
-        historyApiFallback: true,
-        port: 8088,
-    },
+        devServer: {
+            publicPath: "/",
+            contentBase: './web',
+            noInfo: false,
+            hot: true,
+            inline: true,
+            open: true,
+            historyApiFallback: true,
+            port: 8089,
+        },
 
-    output: {
-        filename: '[name].[hash:6].js',
-        path: path.resolve('./example/web'),
-        publicPath: "/",
-    },
+        output: {
+            filename: debug ? '[name].[hash:6].js' : '[name].js',
+            path: path.resolve('./build'),
+            publicPath: "/",
+        },
 
-    devtool: debug ? "source-map" : null,
+        devtool: debug ? "source-map" : false,
 
-    resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json", ".jsx", ".css",],
-        modules: [
-            path.resolve('node_modules'),
-            path.resolve('src'),
-        ],
-    },
+        resolve: {
+            extensions: [".ts", ".js", ".json", ".jsx", ".tsx",],
+            modules: [
+                path.resolve('node_modules'),
+                path.resolve('src'),
+            ],
+        },
 
-    module: {
-        loaders: [
-            {
-                test: /\.(css|scss)$/,
-                include: /node_modules/,
-                loaders: [
-                    'style-loader',
-                    'css-loader',
-                ]
-            },
-            {
-                test: /\.woff2?$|\.ttf$|\.eot$|\.otf$/,
-                loaders: [
-                    'file-loader?name=[name].[hash:6].[ext]',
-                ],
-            },
-            {
-                test: /\.(gif|png|jpe?g|svg)$/i,
-                loaders: [
-                    'file-loader?name=[name].[hash:6].[ext]',
-                ]
-            },
-            {
-                test: /\.tsx?$/,
-                loaders: [
-                    "awesome-typescript-loader"
-                ],
-            },
-            {
-                test: /\.jsx?$/,
-                exclude: [/node_modules/],
-                loader: "babel-loader",
-                query: {
-                    presets: ['es2015', 'react', 'stage-2']
+        module: {
+            loaders: [
+                {
+                    test: /\.ts$/,
+                    loaders: [
+                        {
+                            loader: "babel-loader",
+                            query: {
+                                presets: ['es2015', 'stage-0', 'stage-1',],
+                            },
+                        },
+                        "awesome-typescript-loader",
+                    ],
+                }
+                ,
+                {
+                    test: /\.js$/,
+                    exclude: [/node_modules/],
+                    loader: "babel-loader",
+                    query: {
+                        presets: ['es2015', 'react', 'stage-0', 'stage-1',]
+                    },
                 },
-            },
-            {enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
-        ],
-    },
+                {
+                    enforce: "pre",
+                    test: /\.js$/,
+                    loader: "source-map-loader",
+                },
+            ],
+        },
 
-    plugins: [
-        new ExtractTextPlugin({
-            filename: 'styles.[hash].css',
-            publicPath: '/',
-        }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new CleanWebpackPlugin([path.resolve('./example/web')]),
-        new HtmlWebpackPlugin({
-            title: "React Form Handler",
-            template: path.resolve('./example/templates/index.ejs'),
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.NodeEnvironmentPlugin(),
-    ]
-};
+        plugins: [
+            new webpack.NamedModulesPlugin(),
+            new CleanWebpackPlugin(path.resolve('./build')),
+            new webpack.optimize.ModuleConcatenationPlugin(),
+            new webpack.NodeEnvironmentPlugin(),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify(env),
+                },
+            }),
+        ]
+    }
+;
+
+if (debug) {
+} else {
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            },
+            minimize: true,
+            comments: false,
+        })
+    );
+}
+
+
+module.exports = config;
