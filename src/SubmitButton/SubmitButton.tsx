@@ -5,13 +5,16 @@ import {ReactNode} from "react";
 import {SubmitButtonState} from "./SubmitButtonState";
 
 export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButtonState> {
-    contextTypes = SubmitButtonContextTypes;
+    static contextTypes = SubmitButtonContextTypes;
     context: SubmitButtonContext;
 
-    propTypes = SubmitButtonPropTypes;
+    static propTypes = SubmitButtonPropTypes;
     defaultProps = SubmitButtonDefaultProps;
 
     button: HTMLButtonElement | undefined;
+    state:SubmitButtonState = {
+        width: undefined,
+    };
 
     get children(): ReactNode {
         return this.context.isLoading
@@ -20,7 +23,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     }
 
     componentDidUpdate(prevProps: SubmitButtonProps) {
-        if (this.context.isLoading || prevProps.children === this.props.children) {
+        if (this.context.isLoading || prevProps.children === this.props.children || !this.button) {
             return;
         }
         this.setState({width: this.button.offsetWidth});

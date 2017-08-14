@@ -7,3 +7,6 @@
 npm-debug.log
 node_modules
 dist
+tests/output/
+build/
+.nyc_output/

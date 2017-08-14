@@ -4,7 +4,7 @@
   "description": "One more way to handle forms on React",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/nyc mocha -r ignore-styles -r jsdom-global/register -r ts-node/register -r source-map-support/register tests/unit/**-specs.ts tests/unit/**/*-specs.ts",
+    "test": "TS_NODE_PROJECT=tsconfig.test.json ./node_modules/.bin/nyc mocha -r ts-node/register -r source-map-support/register tests/bootstrap.js tests/**-specs.tsx",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "dev": "./node_modules/.bin/webpack-dev-server"
   },
@@ -28,6 +28,11 @@
   },
   "homepage": "https://github.com/Horat1us/react-formgroup#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.3",
+    "@types/chai-enzyme": "^0.6.2",
+    "@types/cheerio": "^0.22.2",
+    "@types/enzyme": "^2.8.5",
+    "@types/mocha": "^2.2.41",
     "@types/prop-types": "^15.5.1",
     "@types/react": "^16.0.0",
     "awesome-typescript-loader": "^3.2.2",
@@ -38,11 +43,23 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "chai": "^4.1.1",
+    "chai-enzyme": "^0.8.0",
+    "cheerio": "^1.0.0-rc.2",
     "class-validator": "^0.7.2",
     "clean-webpack-plugin": "^0.1.16",
+    "codecov": "^2.3.0",
+    "enzyme": "^2.9.1",
+    "jsdom": "^11.1.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
     "source-map-loader": "^0.2.1",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.3.0",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
@@ -51,5 +68,22 @@
     "class-validator": "^0.7.2",
     "prop-types": "^15.5.10",
     "react": "^15.6.1"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude:": [
+      "**/*.d.ts",
+      "webpack.config.js",
+      "codecept.conf.js",
+      "tests"
+    ],
+    "reporter": [
+      "clover",
+      "text-summary"
+    ],
+    "report-dir": "./tests/output"
   }
 }
