@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 
 import {SubmitButton} from '../src/SubmitButton';
 
-describe("Submit Button", () => {
+describe("<SubmitButton />", () => {
     const Child = () => <span>Child</span>;
 
     class Loading extends React.Component<any, any> {
