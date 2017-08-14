@@ -1,6 +1,6 @@
 {
-  "name": "react-formgroup",
-  "version": "2.0.0",
+  "name": "react-context-form",
+  "version": "0.0.1-placeholder",
   "description": "One more way to handle forms on React",
   "main": "index.js",
   "scripts": {

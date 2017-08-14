@@ -8,5 +8,7 @@
 .eslintrc
 npm-debug.log
 lib
-src
+src/
 tests/
+.nyc_output/
+node_modules/
