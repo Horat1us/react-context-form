@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {expect} from 'chai';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 import {SubmitButton} from '../src/SubmitButton';
 
@@ -19,19 +19,19 @@ describe("<SubmitButton />", () => {
         const context = {
             isLoading: false,
         };
-        wrapper = shallow(<SubmitButton loadingComponent={<Loading/>}>
+        wrapper = mount(<SubmitButton loadingComponent={<Loading/>}>
             <Child/>
         </SubmitButton>, {context});
     });
 
-    it('should render child when not loading', () => {
+    it('should render `props.children` when not `context.isLoading`', () => {
         wrapper.setContext({
             isLoading: false,
         });
         expect(wrapper.contains(<Child/>)).to.be.true;
     });
 
-    it('should render loading instead of child when `context.isLoading`', () => {
+    it('should render `props.loadingComponent` instead of child when `context.isLoading`', () => {
         wrapper.setContext({
             isLoading: true,
         });
@@ -44,5 +44,14 @@ describe("<SubmitButton />", () => {
             isLoading: true,
         });
         expect(wrapper.hasClass('is-loading')).to.be.true;
+    });
+
+    it('should add `width` attribute (saved with children) when `context.isLoading`', () => {
+        const node: HTMLButtonElement = wrapper.getDOMNode();
+        let widthWithChildren = node.offsetWidth.toString();
+        wrapper.setContext({
+            isLoading: true,
+        });
+        expect(wrapper.getDOMNode().getAttribute('width')).to.be.equal(widthWithChildren);
     });
 });

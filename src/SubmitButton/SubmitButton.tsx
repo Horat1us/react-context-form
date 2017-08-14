@@ -12,21 +12,19 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     defaultProps = SubmitButtonDefaultProps;
 
     button: HTMLButtonElement | undefined;
-    state:SubmitButtonState = {
+    state: SubmitButtonState = {
         width: undefined,
+    };
+
+    protected registerButton = (e: HTMLButtonElement) => {
+        this.button = e;
+        this.state.width = e.offsetWidth;
     };
 
     get children(): ReactNode {
         return this.context.isLoading
             ? this.props.loadingComponent
             : this.props.children;
-    }
-
-    componentDidUpdate(prevProps: SubmitButtonProps) {
-        if (this.context.isLoading || prevProps.children === this.props.children || !this.button) {
-            return;
-        }
-        this.setState({width: this.button.offsetWidth});
     }
 
     render(): JSX.Element {
@@ -38,7 +36,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
             });
         }
 
-        return <button {...childProps} ref={e => this.button = e}>
+        return <button {...childProps} ref={this.registerButton}>
             {this.children}
         </button>;
     }
