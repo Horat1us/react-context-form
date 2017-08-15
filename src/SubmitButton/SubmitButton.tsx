@@ -9,12 +9,10 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     context: SubmitButtonContext;
 
     static propTypes = SubmitButtonPropTypes;
-    defaultProps = SubmitButtonDefaultProps;
+    static defaultProps = SubmitButtonDefaultProps;
 
     button: HTMLButtonElement | undefined;
-    state: SubmitButtonState = {
-        width: undefined,
-    };
+    state: SubmitButtonState = {};
 
     protected registerButton = (e: HTMLButtonElement) => {
         this.button = e;
