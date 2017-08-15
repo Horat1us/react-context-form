@@ -86,5 +86,9 @@
       "text-summary"
     ],
     "report-dir": "./tests/output"
+  },
+  "dependencies": {
+    "@types/classnames": "^2.2.0",
+    "classnames": "^2.2.5"
   }
 }

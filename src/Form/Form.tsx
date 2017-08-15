@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {FormProps} from "./FormProps"
 import {Model} from "../Model/Model";
-import FormContext, {FormContextInterface} from "./FormContext";
+import FormContext, {FormContext} from "./FormContext";
 
 export class Form<M extends Model> extends React.Component<FormProps<M>, M> {
     protected static childContextTypes = FormContext;
@@ -12,7 +12,7 @@ export class Form<M extends Model> extends React.Component<FormProps<M>, M> {
         this.state = props.instantiate();
     }
 
-    getChildContext(): FormContextInterface {
+    getChildContext(): FormContext {
         return {
             handleChange: (attribute: string, value: any) => this.setState({[attribute]: value} as any),
             values: this.state.values
