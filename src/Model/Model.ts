@@ -1,8 +1,9 @@
 import {validate, ValidationError, ValidationOptions} from "class-validator";
 import {ModelValue} from "./ModelValue";
 import {ModelError} from "./ModelError";
+import {ModelInterface} from "./ModelInterface";
 
-export abstract class Model {
+export abstract class Model implements ModelInterface{
     protected errors: ModelError[] = [];
 
     // We can setup models without initial

@@ -1,5 +1,5 @@
-import {Model} from "../Model";
+import {ModelInterface} from "../Model/ModelInterface";
 
-export interface FormProps<M extends Model> {
+export interface FormProps<M extends ModelInterface> {
     instantiate: () => M,
 }
