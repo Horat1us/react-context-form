@@ -31,8 +31,8 @@ export abstract class Model {
             .map(this.getValue.bind(this));
     }
 
-    public getErrors(attribute: string): ModelError[] {
-        return this.errors.filter((error: ModelError) => error.attribute === attribute);
+    public getError(attribute: string): ModelError | undefined {
+        return this.errors.find((error: ModelError) => error.attribute === attribute);
     };
 
     public getValue(attribute: string): ModelValue | undefined {
@@ -40,11 +40,16 @@ export abstract class Model {
             return undefined;
         }
 
-        return {
+        const value: ModelValue = {
             model: this,
             value: this[attribute],
             attribute: attribute,
-            error: this.getErrors(attribute).map((error: ModelError) => error.details).join(', '),
         };
+        const error = this.getError(attribute);
+        if (error) {
+            value.error = error.details;
+        }
+
+        return value;
     }
 }

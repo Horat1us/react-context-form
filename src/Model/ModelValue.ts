@@ -4,5 +4,5 @@ export interface ModelValue {
     attribute: string,
     value: any,
     model: Model,
-    error: string | undefined | false,
+    error?: string,
 }

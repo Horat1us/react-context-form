@@ -24,6 +24,18 @@ describe("Model", () => {
         it('Should return undefined for not set values', () => {
             expect(model.getValue('email')).to.be.undefined;
         });
+
+        it("Should represent errors as string", async () => {
+            model.email = 'some@example.com';
+            model.password = 'No-';
+            await model.validate();
+            const value = model.getValue('password');
+            expect(value).to.have.property('error');
+            expect(value.error).to.be.equal(
+                'password must contain only letters and numbers,' +
+                ' password must be longer than or equal to 10 characters'
+            );
+        });
     });
 
     describe("Validation", () => {
