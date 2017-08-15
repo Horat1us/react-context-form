@@ -12,6 +12,10 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
     static contextTypes = SubmitButtonContextTypes;
     static childContextTypes = SubmitButtonContextTypes;
     context: SubmitButtonContext;
+    state: SlowSubmitButtonState = {
+        isLoading: false,
+        isDelayed: true,
+    };
 
     getChildContext(): SubmitButtonContext {
         return {
@@ -37,6 +41,9 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
         }
 
         if (this.context.isLoading) {
+            this.setState({
+                isLoading: true,
+            });
             setTimeout(this.handleDelayEnd, this.props.duration);
         } else {
             this.state.isDelayed || this.setState({
