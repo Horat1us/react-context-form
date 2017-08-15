@@ -3,16 +3,18 @@ import {ModelValue} from "./ModelValue";
 import {ModelError} from "./ModelError";
 
 export abstract class Model {
-    protected errors: ModelError[];
+    protected errors: ModelError[] = [];
 
     // We can setup models without initial
     public get (): void {
     }
 
     public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
-        return this.errors = (await validate(this, Object.assign({}, options, {
+        return this.errors = (await validate(this, Object.assign({
+            skipMissingProperties: true,
+        }, options, group ? {
             groups: [group],
-        })))
+        } : {})))
             .map((error: ValidationError): ModelError => {
                 return {
                     attribute: error.property,
@@ -24,19 +26,30 @@ export abstract class Model {
     }
 
     public get values(): ModelValue[] {
-        return Object.keys(this).map(this.getValue);
+        return Object.keys(this)
+            .filter(key => key !== 'errors')
+            .map(this.getValue.bind(this));
     }
 
-    public getErrors(attribute: string): ModelError[] {
-        return this.errors.filter((error: ModelError) => error.attribute === attribute);
-    }
+    public getError(attribute: string): ModelError | undefined {
+        return this.errors.find((error: ModelError) => error.attribute === attribute);
+    };
 
-    public getValue(attribute: string): ModelValue {
-        return {
+    public getValue(attribute: string): ModelValue | undefined {
+        if ('undefined' === typeof this[attribute]) {
+            return undefined;
+        }
+
+        const value: ModelValue = {
             model: this,
             value: this[attribute],
             attribute: attribute,
-            error: this.getErrors(attribute).map((error: ModelError) => error.details).join(', '),
         };
+        const error = this.getError(attribute);
+        if (error) {
+            value.error = error.details;
+        }
+
+        return value;
     }
 }

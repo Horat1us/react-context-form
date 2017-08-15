@@ -4,6 +4,7 @@
     "sourceMap": true,
     "removeComments": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react"
   },
