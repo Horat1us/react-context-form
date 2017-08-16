@@ -1,5 +1,5 @@
 export interface ModelError {
-    attribute: string,
-    details: string,
-    code?: string | number,
+    attribute: string;
+    details: string;
+    code?: string | number;
 }

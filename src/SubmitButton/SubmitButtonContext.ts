@@ -1,7 +1,7 @@
-import * as  PropTypes from 'prop-types';
+import * as  PropTypes from "prop-types";
 
 export interface SubmitButtonContext {
-    isLoading: boolean,
+    isLoading: boolean;
 }
 
 export const SubmitButtonContextTypes = {
