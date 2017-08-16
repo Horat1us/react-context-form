@@ -29,42 +29,40 @@ describe('<SlowSubmitButton />', () => {
         timer.restore();
     });
 
-    it('should correctly show content and loading in case of context', () => {
-        expect(wrapper.contains(<Child/>)).to.be.true;
-        expect(wrapper.contains(<Loading/>)).to.be.false;
-
-        wrapper.setContext({
-            isLoading: true,
-        });
-
-        expect(wrapper.contains(<Child/>)).to.be.false;
-        expect(wrapper.contains(<Loading/>)).to.be.true;
-
-        timer.tick(duration);
-
-        wrapper.setContext({
-            isLoading: false,
-        });
+    it('should show <Child/> by default (context.isLoading = false)', () => {
         expect(wrapper.contains(<Child/>)).to.be.true;
         expect(wrapper.contains(<Loading/>)).to.be.false;
     });
 
-    it('should remain loading after fast changing context', () => {
+    it('should show <Loading/> when context switched (context.isLoading = true)', () => {
         wrapper.setContext({
             isLoading: true,
         });
-        timer.tick(step);
+
         expect(wrapper.contains(<Child/>)).to.be.false;
         expect(wrapper.contains(<Loading/>)).to.be.true;
+    });
+
+    it('Should not show <Child/> after changing context (context.isLoading = false)', () => {
+        wrapper.setContext({
+            isLoading: true,
+        });
+        wrapper.setContext({
+            isLoading: false,
+        });
+        expect(wrapper.contains(<Child/>)).to.be.false;
+        expect(wrapper.contains(<Loading/>)).to.be.true;
+    });
+
+    it('should show <Child /> after chanding context (isLoading = true) and after duration', () => {
+        wrapper.setContext({
+            isLoading: true,
+        });
         wrapper.setContext({
             isLoading: false,
         });
 
-        timer.tick(step);
-        expect(wrapper.contains(<Child/>)).to.be.false;
-        expect(wrapper.contains(<Loading/>)).to.be.true;
-
-        timer.tick(duration - step * 2);
+        timer.tick(duration);
         expect(wrapper.contains(<Child/>)).to.be.true;
         expect(wrapper.contains(<Loading/>)).to.be.false;
     });
