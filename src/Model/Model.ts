@@ -7,9 +7,8 @@ export abstract class Model implements ModelInterface {
     protected errors: ModelError[] = [];
 
     // We can setup models without initial
-    public get(): void {
-        return undefined;
-    }
+    // tslint:disable-next-line:no-empty
+    public get(): void {}
 
     public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
         return this.errors = (await validate(

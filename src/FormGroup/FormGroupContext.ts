@@ -14,11 +14,11 @@ export interface FormGroupContext {
 
 export const FormGroupContextTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
 
-    error: PropTypes.object,
+    error: PropTypes.string,
 };

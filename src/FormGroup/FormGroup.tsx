@@ -52,7 +52,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public render(): JSX.Element {
-        const {name, component, className, ...childProps} = this.props;
+        const {name, className, ...childProps} = this.props;
 
         return (
             <div className={this.className} {...childProps}>
