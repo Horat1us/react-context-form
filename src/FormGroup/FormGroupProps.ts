@@ -1,16 +1,15 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import * as PropTypes from "prop-types";
+import * as React from "react";
+import {Input} from "../Input/Input";
 
 export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
-    name: string,
-    component: typeof React.Component | ((props: any) => JSX.Element),
+    name: string;
 }
 
 export const FormGroupPropTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
 };
 
 export const FormGroupDefaultProps = {
-    className: 'form-group',
+    className: "form-group",
 };

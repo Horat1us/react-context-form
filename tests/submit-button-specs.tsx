@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {expect} from 'chai';
-import {mount, shallow} from 'enzyme';
+import {expect} from "chai";
+import {mount, shallow} from "enzyme";
 
-import {SubmitButton} from '../src/SubmitButton';
+import {SubmitButton} from "../src/SubmitButton";
 import {SubmitButtonContext} from "../src/SubmitButton/SubmitButtonContext";
 
 describe("<SubmitButton />", () => {
@@ -20,19 +20,22 @@ describe("<SubmitButton />", () => {
         const context: SubmitButtonContext = {
             isLoading: false,
         };
-        wrapper = mount(<SubmitButton loadingComponent={<Loading/>}>
-            <Child/>
-        </SubmitButton>, {context});
+        wrapper = mount(
+            <SubmitButton loadingComponent={<Loading/>}>
+                <Child/>
+            </SubmitButton>,
+            {context},
+        );
     });
 
-    it('should render `props.children` when not `context.isLoading`', () => {
+    it("should render `props.children` when not `context.isLoading`", () => {
         wrapper.setContext({
             isLoading: false,
         });
         expect(wrapper.contains(<Child/>)).to.be.true;
     });
 
-    it('should render `props.loadingComponent` instead of child when `context.isLoading`', () => {
+    it("should render `props.loadingComponent` instead of child when `context.isLoading`", () => {
         wrapper.setContext({
             isLoading: true,
         });
@@ -40,19 +43,19 @@ describe("<SubmitButton />", () => {
         expect(wrapper.contains(<Loading/>)).to.be.true;
     });
 
-    it('should add `is-loading` className when `context.isLoading`', () => {
+    it("should add `is-loading` className when `context.isLoading`", () => {
         wrapper.setContext({
             isLoading: true,
         });
-        expect(wrapper.hasClass('is-loading')).to.be.true;
+        expect(wrapper.hasClass("is-loading")).to.be.true;
     });
 
-    it('should add `width` attribute (saved with children) when `context.isLoading`', () => {
+    it("should add `width` attribute (saved with children) when `context.isLoading`", () => {
         const node: HTMLButtonElement = wrapper.getDOMNode();
         let widthWithChildren = node.offsetWidth.toString();
         wrapper.setContext({
             isLoading: true,
         });
-        expect(wrapper.getDOMNode().getAttribute('width')).to.be.equal(widthWithChildren);
+        expect(wrapper.getDOMNode().getAttribute("width")).to.be.equal(widthWithChildren);
     });
 });

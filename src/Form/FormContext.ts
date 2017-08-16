@@ -1,9 +1,9 @@
-import * as PropTypes from 'prop-types';
+import * as PropTypes from "prop-types";
 import {ModelValue} from "../Model/ModelValue";
 
 export interface FormContext {
-    handleChange: (attribute: string, value: any) => any,
-    values: ModelValue[],
+    handleChange: (attribute: string, value: any) => any;
+    values: ModelValue[];
 }
 
 export const FormContextTypes = {

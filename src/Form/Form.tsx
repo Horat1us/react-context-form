@@ -1,35 +1,37 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {FormProps} from "./FormProps"
 import {Model} from "../Model/Model";
-import FormContext, {FormContext} from "./FormContext";
+import {FormContext, FormContextTypes} from "./FormContext";
+import {FormProps} from "./FormProps";
 
 export class Form<M extends Model> extends React.Component<FormProps<M>, M> {
-    protected static childContextTypes = FormContext;
+    protected static childContextTypes = FormContextTypes;
 
     constructor(props: FormProps<M>) {
         super(props);
         this.state = props.instantiate();
     }
 
-    getChildContext(): FormContext {
+    public getChildContext(): FormContext {
         return {
             handleChange: (attribute: string, value: any) => this.setState({[attribute]: value} as any),
-            values: this.state.values
+            values: this.state.values,
         };
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         this.state.get();
     }
 
-    handleSubmit = async (event?: Event) => {
+    public handleSubmit = async (event?: Event) => {
         event && event.preventDefault();
     };
 
-    render(): JSX.Element {
-        return <form onSubmit={this.handleSubmit as any}>
-            {this.props.children}
-        </form>;
+    public render(): JSX.Element {
+        return (
+            <form onSubmit={this.handleSubmit as any}>
+                {this.props.children}
+            </form>
+        );
     }
 }

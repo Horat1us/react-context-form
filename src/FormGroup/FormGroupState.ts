@@ -1,3 +1,3 @@
 export interface FormGroupState {
-    isFocused: boolean
+    isFocused: boolean;
 }

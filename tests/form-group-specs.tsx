@@ -1,27 +1,36 @@
-import * as React from 'react';
-import {expect} from 'chai';
-import {mount} from "enzyme"
-import {FormGroup} from "../src/FormGroup/FormGroup";
+import * as React from "react";
+import {ReactWrapper, mount} from "enzyme";
+import {expect} from "chai";
+import {FormGroup, FormGroupProps} from "../src/FormGroup";
 import {Input} from "../src/Input/Input";
 import {FormContext} from "../src/Form/FormContext";
 
-describe('<FormGroup />', () => {
+describe("<FormGroup />", () => {
 
-    let wrapper;
+    let wrapper: ReactWrapper<FormGroupProps, any>;
+    let handler;
+
     beforeEach(() => {
-        const context:FormContext = {
-
+        handler = () => undefined;
+        const context: FormContext = {
+            handleChange: (...args) => handler(...args),
+            values: [],
         };
-        wrapper = mount(<FormGroup
-            name="anc"
-            component={Input as any}
-        />, {context});
+        wrapper = mount(
+            <FormGroup
+                name="fieldName"
+            >
+                <Input/>
+            </FormGroup>,
+            {context}
+        );
     });
 
-    it('Should render input inside itself', () => {
-        const wrapper = mount(<FormGroup
-            name="anc"
-            component={Input as any}
-        />)
+    afterEach(() => {
+        wrapper.unmount();
+    });
+
+    it("Should render input inside itself", () => {
+        expect(wrapper).to.containMatchingElement(<Input/>);
     });
 });

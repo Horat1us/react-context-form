@@ -1,12 +1,15 @@
-import * as PropTypes from 'prop-types';
+import * as PropTypes from "prop-types";
 import {ModelError} from "../Model/ModelError";
 
 export interface FormGroupContext {
-    name: string,
-    value: any,
+    name: string;
+    value: any;
 
-    onChange: any,
-    error: string | undefined,
+    onChange: (value: any) => void;
+    onFocus: () => void;
+    onBlur: () => void;
+
+    error: string | undefined;
 }
 
 export const FormGroupContextTypes = {
@@ -14,5 +17,8 @@ export const FormGroupContextTypes = {
     value: PropTypes.any.isRequired,
 
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+
     error: PropTypes.object,
 };
