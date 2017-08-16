@@ -82,4 +82,29 @@ describe("<FormGroup />", () => {
         expect(changedField).to.be.equal(name);
         expect(changedValue).to.be.equal(newValue);
     });
+
+    it("Should add `childContext.value` from `context.values` collection", () => {
+        expect(node.getChildContext().value).to.not.exist;
+        const parentContextValue = "string";
+        wrapper.setContext({
+            values: [
+                {
+                    attribute: "notThisFormGroupProperty",
+                    error: "Some error",
+                    model: new ExampleModel(),
+                },
+                {
+                    attribute: name,
+                    value: parentContextValue,
+                    model: new ExampleModel(),
+                },
+            ],
+            handleChange
+        });
+        expect(node.getChildContext().value).to.be.equal(parentContextValue);
+    });
+
+    it("Should add `childContext.name` from `props.name`", () => {
+        expect(node.getChildContext().name).to.be.equal(node.props.name);
+    });
 });
