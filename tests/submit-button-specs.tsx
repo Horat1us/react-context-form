@@ -5,16 +5,10 @@ import {mount, shallow} from "enzyme";
 
 import {SubmitButton} from "../src/SubmitButton";
 import {SubmitButtonContext} from "../src/SubmitButton/SubmitButtonContext";
+import {Child} from "./helpers/Child";
+import {Loading} from "./helpers/Loading";
 
 describe("<SubmitButton />", () => {
-    const Child = () => <span>Child</span>;
-
-    class Loading extends React.Component<any, any> {
-        render() {
-            return <span>Loading</span>;
-        }
-    }
-
     let wrapper;
     beforeEach(() => {
         const context: SubmitButtonContext = {
@@ -24,7 +18,7 @@ describe("<SubmitButton />", () => {
             <SubmitButton loadingComponent={<Loading/>}>
                 <Child/>
             </SubmitButton>,
-            {context},
+            {context}
         );
     });
 
@@ -52,7 +46,7 @@ describe("<SubmitButton />", () => {
 
     it("should add `width` attribute (saved with children) when `context.isLoading`", () => {
         const node: HTMLButtonElement = wrapper.getDOMNode();
-        let widthWithChildren = node.offsetWidth.toString();
+        const widthWithChildren = node.offsetWidth.toString();
         wrapper.setContext({
             isLoading: true,
         });
