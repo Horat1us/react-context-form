@@ -24,7 +24,7 @@ describe("<SubmitButton />", () => {
             <SubmitButton loadingComponent={<Loading/>}>
                 <Child/>
             </SubmitButton>,
-            {context},
+            {context}
         );
     });
 
@@ -52,7 +52,7 @@ describe("<SubmitButton />", () => {
 
     it("should add `width` attribute (saved with children) when `context.isLoading`", () => {
         const node: HTMLButtonElement = wrapper.getDOMNode();
-        let widthWithChildren = node.offsetWidth.toString();
+        const widthWithChildren = node.offsetWidth.toString();
         wrapper.setContext({
             isLoading: true,
         });
