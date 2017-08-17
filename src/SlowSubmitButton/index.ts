@@ -1,3 +1,3 @@
-export * from './SlowSubmitButton';
-export * from './SlowSubmitButtonProps';
-export * from './SlowSubmitButtonState';
+export * from "./SlowSubmitButton";
+export * from "./SlowSubmitButtonProps";
+export * from "./SlowSubmitButtonState";

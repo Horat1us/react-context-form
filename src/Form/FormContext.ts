@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
+import * as PropTypes from "prop-types";
 import {ModelValue} from "../Model/ModelValue";
 
-export interface FormContextInterface {
-    handleChange: (attribute: string, value: any) => any,
-    values: ModelValue[],
+export interface FormContext {
+    handleChange: (attribute: string, value: any) => any;
+    values: ModelValue[];
 }
 
-export default {
+export const FormContextTypes = {
     handleChange: PropTypes.func.isRequired,
     values: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
+};

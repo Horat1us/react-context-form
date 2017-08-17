@@ -1,26 +1,31 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {expect} from 'chai';
-import {mount} from 'enzyme';
+import {expect} from "chai";
+import {mount} from "enzyme";
 
-import {useFakeTimers, SinonFakeTimers} from 'sinon';
+import {useFakeTimers, SinonFakeTimers} from "sinon";
 
-import {SlowSubmitButton} from '../src/SlowSubmitButton';
-import {Child, Loading} from './helpers/CommonComponents';
+import {SlowSubmitButton} from "../src/SlowSubmitButton";
+import {Child} from "./helpers/Child";
+import {Loading} from "./helpers/Loading";
+import {SubmitButtonContext} from "../src/SubmitButton/SubmitButtonContext";
 
-describe('<SlowSubmitButton />', () => {
+describe("<SlowSubmitButton />", () => {
     let wrapper;
     let timer: SinonFakeTimers;
     const duration = 500;
     const step = 100;
 
     beforeEach(() => {
-        const context = {
+        const context: SubmitButtonContext = {
             isLoading: false,
         };
-        wrapper = mount(<SlowSubmitButton loadingComponent={<Loading/>} duration={duration}>
-            <Child/>
-        </SlowSubmitButton>, {context});
+        wrapper = mount(
+            <SlowSubmitButton loadingComponent={<Loading/>} duration={duration}>
+                <Child/>
+            </SlowSubmitButton>,
+            {context}
+        );
 
         timer = useFakeTimers();
     });
@@ -29,12 +34,12 @@ describe('<SlowSubmitButton />', () => {
         timer.restore();
     });
 
-    it('should show <Child/> by default (context.isLoading = false)', () => {
+    it("should show <Child/> by default (context.isLoading = false)", () => {
         expect(wrapper.contains(<Child/>)).to.be.true;
         expect(wrapper.contains(<Loading/>)).to.be.false;
     });
 
-    it('should show <Loading/> when context switched (context.isLoading = true)', () => {
+    it("should show <Loading/> when context switched (context.isLoading = true)", () => {
         wrapper.setContext({
             isLoading: true,
         });
@@ -43,7 +48,7 @@ describe('<SlowSubmitButton />', () => {
         expect(wrapper.contains(<Loading/>)).to.be.true;
     });
 
-    it('Should not show <Child/> after changing context (context.isLoading = false)', () => {
+    it("Should not show <Child/> after changing context (context.isLoading = false)", () => {
         wrapper.setContext({
             isLoading: true,
         });
@@ -54,7 +59,7 @@ describe('<SlowSubmitButton />', () => {
         expect(wrapper.contains(<Loading/>)).to.be.true;
     });
 
-    it('should show <Child /> after chanding context (isLoading = true) and after duration', () => {
+    it("should show <Child /> after changing context (isLoading = true) and after duration", () => {
         wrapper.setContext({
             isLoading: true,
         });
@@ -65,5 +70,33 @@ describe('<SlowSubmitButton />', () => {
         timer.tick(duration);
         expect(wrapper.contains(<Child/>)).to.be.true;
         expect(wrapper.contains(<Loading/>)).to.be.false;
+    });
+
+    it("should show <Loading/> while loading is going on", () => {
+        const doubleDuration = 1000;
+
+        wrapper.setContext({
+            isLoading: true,
+        });
+        timer.tick(doubleDuration);
+        expect(wrapper.contains(<Loading/>)).to.be.true;
+    });
+
+    it("'should correctly set second loading", () => {
+        wrapper.setContext({
+            isLoading: true,
+        });
+        wrapper.setContext({
+            isLoading: false,
+        });
+        timer.tick(duration);
+        expect(wrapper.contains(<Child/>)).to.be.true;
+        expect(wrapper.contains(<Loading/>)).to.be.false;
+        wrapper.setContext({
+            isLoading: true,
+        });
+
+        expect(wrapper.contains(<Child/>)).to.be.false;
+        expect(wrapper.contains(<Loading/>)).to.be.true;
     });
 });

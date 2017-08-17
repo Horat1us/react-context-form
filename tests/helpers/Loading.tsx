@@ -1,9 +1,7 @@
-import * as React from 'react';
-
-export const Child = () => <span>Child</span>;
+import * as React from "react";
 
 export class Loading extends React.Component<any, any> {
-    render() {
+    public render() {
         return <span>Loading</span>;
     }
 }

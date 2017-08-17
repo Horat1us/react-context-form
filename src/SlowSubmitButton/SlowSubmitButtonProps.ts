@@ -1,14 +1,12 @@
-import * as PropTypes from 'prop-types';
-import {SubmitButtonProps, SubmitButtonPropTypes, SubmitButtonDefaultProps} from '../SubmitButton';
+import * as PropTypes from "prop-types";
+import {SubmitButtonProps, SubmitButtonPropTypes, SubmitButtonDefaultProps} from "../SubmitButton";
 
 export interface SlowSubmitButtonProps extends SubmitButtonProps {
     duration?: number,
 }
 
-export const SlowSubmitButtonPropTypes = Object.assign({}, SubmitButtonPropTypes, {
-    duration: PropTypes.number,
-});
+export const SlowSubmitButtonPropTypes = {...SubmitButtonPropTypes,
+                                          duration: PropTypes.number};
 
-export const SlowSubmitButtonDefaultProps = Object.assign({}, SubmitButtonDefaultProps, {
-    duration: 500,
-});
+export const SlowSubmitButtonDefaultProps = {...SubmitButtonDefaultProps,
+                                             duration: 500};
