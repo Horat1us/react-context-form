@@ -19,36 +19,37 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     };
 
     public getChildContext(): FormGroupContext {
+        const value = this.value;
         return {
             name: this.props.name,
 
-            value: this.value ? this.value.value : undefined,
+            value: value ? value.value : undefined,
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
+            onMount: this.handleMount,
 
-            error: this.value ? this.value.error : undefined,
+            error: value ? value.error : undefined,
         };
     }
 
-    public handleChange = (value: any) => this.context.handleChange(this.props.name, value);
+    /**
+     * @todo: tests
+     */
+    public componentWillUnmount() {
+        this.context.onUnmount(this.props.name);
+    }
+
+    public handleChange = (value: any) => this.context.onChange(this.props.name, value);
 
     public handleBlur = () => this.setState({isFocused: false});
     public handleFocus = () => this.setState({isFocused: true});
 
-    get value(): ModelValue | undefined {
-        return this.context.values.find((value: ModelValue) => value.attribute === this.props.name);
-    }
+    public handleMount = (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
 
-    get className(): string {
-        return classNames(
-            this.props.className,
-            {
-                "has-error": !!(this.value && this.value.error),
-                "has-focus": this.state.isFocused,
-            }
-        );
+    public get value(): ModelValue | undefined {
+        return this.context.values.find((value: ModelValue) => value.attribute === this.props.name);
     }
 
     public render(): JSX.Element {
@@ -58,6 +59,17 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
             <div className={this.className} {...childProps}>
                 {this.props.children}
             </div>
+        );
+    }
+
+    protected get className(): string {
+        const value = this.value;
+        return classNames(
+            this.props.className,
+            {
+                "has-error": !!(value && value.error),
+                "has-focus": this.state.isFocused,
+            }
         );
     }
 }

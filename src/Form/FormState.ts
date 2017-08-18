@@ -1,5 +1,8 @@
 import {ModelInterface} from "../Model/ModelInterface";
 
-export interface FormState {
-    model: ModelInterface
+export interface FormState<M> {
+    model: M,
+    mounted: {
+        [key: string]: HTMLElement,
+    },
 }
