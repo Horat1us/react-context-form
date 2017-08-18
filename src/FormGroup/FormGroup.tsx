@@ -18,8 +18,17 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
         isFocused: false,
     };
 
+    public id: string;
+
+    constructor(props) {
+        super(props);
+
+        this.id = `${props.idPrefix}_${Date.now()}`;
+    }
+
     public getChildContext(): FormGroupContext {
         return {
+            id: this.id,
             name: this.props.name,
 
             value: this.value ? this.value.value : undefined,
@@ -52,7 +61,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public render(): JSX.Element {
-        const {name, className, ...childProps} = this.props;
+        const {name, className, idPrefix, ...childProps} = this.props;
 
         return (
             <div className={this.className} {...childProps}>

@@ -5,6 +5,7 @@ import {FormGroup, FormGroupProps} from "../src/FormGroup";
 import {Input} from "../src/Input/Input";
 import {FormContext} from "../src/Form/FormContext";
 import {ExampleModel} from "./helpers/ExampleModel";
+import {FormGroupDefaultProps} from "../src/FormGroup/FormGroupProps";
 
 describe("<FormGroup />", () => {
 
@@ -23,9 +24,10 @@ describe("<FormGroup />", () => {
         };
         wrapper = mount(
             <FormGroup
+                {...FormGroupDefaultProps}
                 name={name}
             >
-                <Input/>
+                <input/>
             </FormGroup>,
             {context}
         );
@@ -37,7 +39,7 @@ describe("<FormGroup />", () => {
     });
 
     it("Should render input inside itself", () => {
-        expect(wrapper).to.containMatchingElement(<Input/>);
+        expect(wrapper).to.containMatchingElement(<input/>);
     });
 
     it("Should add class `has-focus` when `context.onFocus` triggered", () => {
@@ -106,5 +108,10 @@ describe("<FormGroup />", () => {
 
     it("Should add `childContext.name` from `props.name`", () => {
         expect(node.getChildContext().name).to.be.equal(node.props.name);
+    });
+
+    it("Should add ID with prefix to context", () => {
+        expect(node.id).to.match(/^rcf_\d+$/);
+        expect(node.getChildContext().id).to.equal(node.id);
     });
 });

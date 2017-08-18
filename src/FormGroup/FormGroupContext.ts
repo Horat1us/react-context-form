@@ -1,7 +1,9 @@
 import * as PropTypes from "prop-types";
 import {ModelError} from "../Model/ModelError";
+import {LabelContext, LabelContextTypes} from "../Label/LabelContext";
 
-export interface FormGroupContext {
+export interface FormGroupContext extends LabelContext {
+    id: string;
     name: string;
     value: any;
 
@@ -13,6 +15,8 @@ export interface FormGroupContext {
 }
 
 export const FormGroupContextTypes = {
+    ...LabelContextTypes,
+
     name: PropTypes.string.isRequired,
     value: PropTypes.any,
 

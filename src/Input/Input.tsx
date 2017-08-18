@@ -10,6 +10,7 @@ export class Input extends React.Component<React.HTMLProps<HTMLInputElement>> {
         const childProps = {
             ...this.props,
             ...{
+                id: this.context.id,
                 onChange: this.handleChange,
                 onBlur: this.handleBlur,
                 onFocus: this.handleFocus,
