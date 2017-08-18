@@ -16,11 +16,10 @@ export class Input extends React.Component<InputProps> {
                 onFocus: this.handleFocus,
             }
         };
-
         return <input {...childProps}/>;
     }
 
-    protected handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    protected handleChange = (event: any) => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
             this.context.onChange(event.currentTarget.value);

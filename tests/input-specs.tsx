@@ -3,7 +3,6 @@ import {expect} from "chai";
 import {Input, InputProps} from "../src/Input";
 import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
-import {FormEvent} from "react";
 
 describe("<Input />", () => {
     let wrapper: ReactWrapper<InputProps, any>;
@@ -20,6 +19,36 @@ describe("<Input />", () => {
     const onChange = (...args) => changeHandler(...args);
     const onBlur = (...args) => blurHandler(...args);
     const onFocus = (...args) => focusHandler(...args);
+
+    const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
+        let contextTriggered = false;
+        let propsTriggered = false;
+
+        const fieldTriggered = `${field}Triggered`;
+
+        wrapper.setProps({
+            [field]: (event: any) => {
+                propsTriggered = true;
+                expect(event[fieldTriggered].value).to.be.equal(value);
+            }
+        });
+
+        wrapper.setContext({
+            onChange, onBlur, onFocus,
+            name,
+            [field]: () => contextTriggered = true,
+        });
+
+        wrapper.simulate(action, {
+            [fieldTriggered]: {
+                value,
+            },
+            defaultPrevented: !contextExpect,
+        });
+
+        expect(contextTriggered).to.be.equal(contextExpect);
+        expect(propsTriggered).to.be.equal(propsExpect);
+    };
 
     beforeEach(() => {
         changeHandler = blurHandler = focusHandler = () => undefined;
@@ -41,20 +70,74 @@ describe("<Input />", () => {
     });
 
     it("Should trigger both `props.onChange` and `context.onChange`", () => {
-        let contextTriggered = false;
-        let propsTriggered = false;
-        const nextValue = "next-value";
-        changeHandler = (event: FormEvent<HTMLInputElement>) => {
-            contextTriggered = true;
-            expect(event.currentTarget.value).to.be.equal(nextValue);
+        const options = {
+            action: "change",
+            value: "next-value",
+            field: "onChange",
+            contextExpect: true,
+            propsExpect: true,
         };
-        wrapper.setProps({
-            onChange: () => propsTriggered = true,
-        });
-        wrapper.simulate("change", {currentTarget: {
-            value: nextValue,
-        }});
-        expect(contextTriggered).to.be.true;
-        expect(propsTriggered).to.be.true;
+
+        optionsTrigger(options);
+    });
+
+    it("Should trigger both `props.onBlur` and `context.onBlur`", () => {
+        const options = {
+            action: "blur",
+            value: true,
+            field: "onBlur",
+            contextExpect: true,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
+    });
+
+    it("Should trigger both `props.onFocus` and `context.onFocus`", () => {
+        const options = {
+            action: "focus",
+            value: true,
+            field: "onFocus",
+            contextExpect: true,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
+    });
+
+    it("Should trigger `props.onFocus` without `context.onFocus`", () => {
+        const options = {
+            action: "focus",
+            value: true,
+            field: "onFocus",
+            contextExpect: false,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
+    });
+
+    it("Should trigger `props.onBlur` without `context.onBlur`", () => {
+        const options = {
+            action: "blur",
+            value: true,
+            field: "onBlur",
+            contextExpect: false,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
+    });
+
+    it("Should trigger `props.onChange` without `context.onChange`", () => {
+        const options = {
+            action: "change",
+            value: "next-value",
+            field: "onChange",
+            contextExpect: false,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
     });
 });
