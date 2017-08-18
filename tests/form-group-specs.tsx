@@ -111,7 +111,14 @@ describe("<FormGroup />", () => {
     });
 
     it("Should add ID with prefix to context", () => {
-        expect(node.id).to.match(/^rcf_\d+$/);
-        expect(node.getChildContext().id).to.equal(node.id);
+        const pattern = `^${FormGroupDefaultProps.idPrefix}_\\d+$`;
+        expect(node.getChildContext().id).to.match(new RegExp(pattern));
+        expect(node.getChildContext().id).to.contain(node.id);
+
+        const newIdPrefix = "id";
+        wrapper.setProps({
+            idPrefix: newIdPrefix,
+        });
+        expect(node.getChildContext().id).to.contain(newIdPrefix);
     });
 });

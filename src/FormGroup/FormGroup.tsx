@@ -23,12 +23,12 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     constructor(props) {
         super(props);
 
-        this.id = `${props.idPrefix}_${Date.now()}`;
+        this.id = Date.now().toString();
     }
 
     public getChildContext(): FormGroupContext {
         return {
-            id: this.id,
+            id: `${this.props.idPrefix}_${this.id}`,
             name: this.props.name,
 
             value: this.value ? this.value.value : undefined,
