@@ -5,16 +5,10 @@ import {mount, shallow} from "enzyme";
 
 import {SubmitButton} from "../src/SubmitButton";
 import {SubmitButtonContext} from "../src/SubmitButton/SubmitButtonContext";
+import {Child} from "./helpers/Child";
+import {Loading} from "./helpers/Loading";
 
 describe("<SubmitButton />", () => {
-    const Child = () => <span>Child</span>;
-
-    class Loading extends React.Component<any, any> {
-        render() {
-            return <span>Loading</span>;
-        }
-    }
-
     let wrapper;
     beforeEach(() => {
         const context: SubmitButtonContext = {
