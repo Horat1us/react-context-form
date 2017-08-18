@@ -5,7 +5,7 @@ import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 import {LabelContext} from "../src/Label/LabelContext";
 
-describe("<Label/>", () => {
+describe("<Label />", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLSpanElement>, void>;
     const context: LabelContext = {
         id: "prefix-123"
