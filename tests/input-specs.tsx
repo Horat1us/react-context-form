@@ -1,11 +1,11 @@
 import * as React from "react";
 import {expect} from "chai";
-import {Input, InputProps} from "../src/Input";
+import {Input} from "../src/Input";
 import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 
 describe("<Input />", () => {
-    let wrapper: ReactWrapper<InputProps, any>;
+    let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
 
     let changeHandler;
     let blurHandler;

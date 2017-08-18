@@ -1,8 +1,7 @@
 import * as React from "react";
-import {InputProps} from "./InputProps";
 import {FormGroupContext, FormGroupContextTypes} from "../FormGroup/FormGroupContext";
 
-export class Input extends React.Component<InputProps> {
+export class Input extends React.Component<React.HTMLProps<HTMLInputElement>> {
 
     public static contextTypes = FormGroupContextTypes;
     public context: FormGroupContext;
