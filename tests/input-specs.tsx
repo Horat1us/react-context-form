@@ -12,6 +12,7 @@ describe("<Input />", () => {
     let focusHandler;
 
     let node: HTMLInputElement;
+    let previousContext: FormGroupContext;
 
     const name = "fieldName";
     const initialValue = "undefined";
@@ -19,6 +20,8 @@ describe("<Input />", () => {
     const onChange = (...args) => changeHandler(...args);
     const onBlur = (...args) => blurHandler(...args);
     const onFocus = (...args) => focusHandler(...args);
+
+    const id = "prefix-" + (new Date());
 
     const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
         let contextTriggered = false;
@@ -33,9 +36,8 @@ describe("<Input />", () => {
             }
         });
 
-        wrapper.setContext({
-            onChange, onBlur, onFocus,
-            name,
+        wrapper.setContext(previousContext = {
+            ...previousContext,
             [field]: () => contextTriggered = true,
         });
 
@@ -52,7 +54,8 @@ describe("<Input />", () => {
 
     beforeEach(() => {
         changeHandler = blurHandler = focusHandler = () => undefined;
-        const context: FormGroupContext = {
+        const context: FormGroupContext = previousContext = {
+            id,
             name,
             onChange, onBlur, onFocus,
             value: initialValue,
@@ -139,5 +142,9 @@ describe("<Input />", () => {
         };
 
         optionsTrigger(options);
+    });
+
+    it("Should have ID from context", () => {
+        expect(wrapper).to.have.id(id);
     });
 });
