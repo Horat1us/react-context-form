@@ -33,7 +33,7 @@ describe("<Label />", () => {
         expect(innerHTML).to.contain(errorText);
     });
 
-    it("Should not render itself when to children and error provided", () => {
+    it("Should not render itself when to children and error is not provided", () => {
         wrapper.setProps({
             children: undefined,
         });
