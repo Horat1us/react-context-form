@@ -59,7 +59,6 @@ describe("<Input />", () => {
             name,
             onChange, onBlur, onFocus,
             value: initialValue,
-            error: undefined,
         };
         wrapper = mount(
             <Input/>,
