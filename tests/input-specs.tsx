@@ -7,18 +7,18 @@ import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 describe("<Input />", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
 
-    let changeHandler;
-    let blurHandler;
-    let focusHandler;
-
     let node: HTMLInputElement;
+    let previousContext: FormGroupContext;
 
     const name = "fieldName";
     const initialValue = "undefined";
 
-    const onChange = (...args) => changeHandler(...args);
-    const onBlur = (...args) => blurHandler(...args);
-    const onFocus = (...args) => focusHandler(...args);
+    const onChange = (...args) => undefined;
+    const onBlur = (...args) => undefined;
+    const onFocus = (...args) => undefined;
+    const onMount = (...args) => undefined;
+
+    const id = "prefix-" + (new Date());
 
     const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
         let contextTriggered = false;
@@ -33,9 +33,8 @@ describe("<Input />", () => {
             }
         });
 
-        wrapper.setContext({
-            onChange, onBlur, onFocus,
-            name,
+        wrapper.setContext(previousContext = {
+            ...previousContext,
             [field]: () => contextTriggered = true,
         });
 
@@ -51,12 +50,11 @@ describe("<Input />", () => {
     };
 
     beforeEach(() => {
-        changeHandler = blurHandler = focusHandler = () => undefined;
-        const context: FormGroupContext = {
+        const context: FormGroupContext = previousContext = {
+            id,
             name,
-            onChange, onBlur, onFocus,
+            onChange, onBlur, onFocus, onMount,
             value: initialValue,
-            error: undefined,
         };
         wrapper = mount(
             <Input/>,
@@ -139,5 +137,9 @@ describe("<Input />", () => {
         };
 
         optionsTrigger(options);
+    });
+
+    it("Should have ID from context", () => {
+        expect(wrapper).to.have.id(id);
     });
 });

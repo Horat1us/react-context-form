@@ -1,26 +1,11 @@
-import * as PropTypes from "prop-types";
-import {ModelError} from "../Model/ModelError";
+import {LabelContext, LabelContextTypes} from "../Label";
+import {HintContext, HintContextTypes} from "../Hint";
+import {InputContext, InputContextTypes} from "../Input/InputContext";
 
-export interface FormGroupContext {
-    name: string;
-    value: any;
-
-    onChange: (value: any) => void;
-    onFocus: () => void;
-    onBlur: () => void;
-    onMount: (ref: HTMLElement) => void;
-
-    error: string | undefined;
-}
+export interface FormGroupContext extends LabelContext, HintContext, InputContext {}
 
 export const FormGroupContextTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.any,
-
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    onBlur: PropTypes.func.isRequired,
-    onMount: PropTypes.func.isRequired,
-
-    error: PropTypes.string,
+    ...LabelContextTypes,
+    ...HintContextTypes,
+    ...InputContextTypes,
 };

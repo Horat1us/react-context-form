@@ -5,6 +5,7 @@ import {FormGroup, FormGroupProps} from "../src/FormGroup";
 import {Input} from "../src/Input/Input";
 import {FormContext} from "../src/Form/FormContext";
 import {ExampleModel} from "./helpers/ExampleModel";
+import {FormGroupDefaultProps} from "../src/FormGroup/FormGroupProps";
 
 describe("<FormGroup />", () => {
 
@@ -34,6 +35,7 @@ describe("<FormGroup />", () => {
         };
         wrapper = mount(
             <FormGroup
+                {...FormGroupDefaultProps}
                 name={name}
             >
                 <Input/>
@@ -117,6 +119,18 @@ describe("<FormGroup />", () => {
 
     it("Should add `childContext.name` from `props.name`", () => {
         expect(node.getChildContext().name).to.be.equal(node.props.name);
+    });
+
+    it("Should add ID with prefix to context", () => {
+        const pattern = `^${FormGroupDefaultProps.idPrefix}_\\d+$`;
+        expect(node.getChildContext().id).to.match(new RegExp(pattern));
+        expect(node.getChildContext().id).to.contain(node.id);
+
+        const newIdPrefix = "id";
+        wrapper.setProps({
+            idPrefix: newIdPrefix,
+        });
+        expect(node.getChildContext().id).to.contain(newIdPrefix);
     });
 
     it("Should call `context.onUnmount` when unmount", () => {
