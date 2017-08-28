@@ -9,6 +9,7 @@ export interface InputContext {
     onChange: (value: any) => void;
     onFocus: () => void;
     onBlur: () => void;
+    onMount: (ref: HTMLElement) => void;
 }
 
 export const InputContextTypes = {
@@ -20,4 +21,5 @@ export const InputContextTypes = {
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
+    onMount: PropTypes.func.isRequired,
 };

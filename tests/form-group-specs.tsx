@@ -11,23 +11,34 @@ describe("<FormGroup />", () => {
 
     let wrapper: ReactWrapper<FormGroupProps, any>;
     let handler;
+    let mountHandler;
+    let unmountHandler;
     let node: FormGroup;
+    let previousContext;
     const name = "fieldName";
 
     const handleChange = (...args) => handler(...args);
+    const handleMount = (...args) => mountHandler(...args);
+    const handleUnmount = (...args) => unmountHandler(...args);
 
     beforeEach(() => {
         handler = () => undefined;
-        const context: FormContext = {
-            handleChange,
+        mountHandler = () => undefined;
+        unmountHandler = () => undefined;
+
+        const context: FormContext = previousContext = {
             values: [],
+
+            onChange: handleChange,
+            onMount: handleMount,
+            onUnmount: handleUnmount,
         };
         wrapper = mount(
             <FormGroup
                 {...FormGroupDefaultProps}
                 name={name}
             >
-                <input/>
+                <Input/>
             </FormGroup>,
             {context}
         );
@@ -39,7 +50,7 @@ describe("<FormGroup />", () => {
     });
 
     it("Should render input inside itself", () => {
-        expect(wrapper).to.containMatchingElement(<input/>);
+        expect(wrapper).to.containMatchingElement(<Input/>);
     });
 
     it("Should add class `has-focus` when `context.onFocus` triggered", () => {
@@ -58,6 +69,7 @@ describe("<FormGroup />", () => {
     it("Should have class `has-error` when value with error provided", () => {
         expect(wrapper).not.to.have.className("has-error");
         wrapper.setContext({
+            ...previousContext,
             values: [
                 {
                     attribute: name,
@@ -66,7 +78,6 @@ describe("<FormGroup />", () => {
                     model: new ExampleModel(),
                 }
             ],
-            handleChange
         });
         expect(wrapper).to.have.className("has-error");
     });
@@ -89,6 +100,7 @@ describe("<FormGroup />", () => {
         expect(node.getChildContext().value).to.not.exist;
         const parentContextValue = "string";
         wrapper.setContext({
+            ...previousContext,
             values: [
                 {
                     attribute: "notThisFormGroupProperty",
@@ -101,7 +113,6 @@ describe("<FormGroup />", () => {
                     model: new ExampleModel(),
                 },
             ],
-            handleChange
         });
         expect(node.getChildContext().value).to.be.equal(parentContextValue);
     });
@@ -120,5 +131,12 @@ describe("<FormGroup />", () => {
             idPrefix: newIdPrefix,
         });
         expect(node.getChildContext().id).to.contain(newIdPrefix);
+    });
+
+    it("Should call `context.onUnmount` when unmount", () => {
+        let unmountTriggered = false;
+        unmountHandler = () => unmountTriggered = true;
+        wrapper.unmount();
+        expect(unmountTriggered).to.be.true;
     });
 });
