@@ -4,7 +4,7 @@ import {Model} from "../Model/Model";
 import {FormContext, FormContextTypes} from "./FormContext";
 import {FormProps} from "./FormProps";
 
-export class Form<M extends Model> extends React.Component<FormProps<M>, M> {
+export class Form<M extends Model> extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, M> {
     protected static childContextTypes = FormContextTypes;
 
     constructor(props: FormProps<M>) {
@@ -28,8 +28,10 @@ export class Form<M extends Model> extends React.Component<FormProps<M>, M> {
     };
 
     public render(): JSX.Element {
+        const {instantiate, ...childProps} = this.props;
+
         return (
-            <form onSubmit={this.handleSubmit as any}>
+            <form onSubmit={this.handleSubmit as any} {...childProps}>
                 {this.props.children}
             </form>
         );

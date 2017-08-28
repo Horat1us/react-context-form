@@ -40,5 +40,5 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     protected registerButton = (e: HTMLButtonElement) => {
         this.button = e;
         this.state.width = e.offsetWidth;
-    }
+    };
 }

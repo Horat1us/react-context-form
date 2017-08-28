@@ -1,4 +1,3 @@
-import * as classNames from "classnames";
 import * as React from "react";
 import {FormContext, FormContextTypes} from "../Form/FormContext";
 import {ModelValue} from "../Model/ModelValue";
@@ -51,13 +50,11 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     get className(): string {
-        return classNames(
+        return [
             this.props.className,
-            {
-                "has-error": !!(this.value && this.value.error),
-                "has-focus": this.state.isFocused,
-            }
-        );
+            !!(this.value && this.value.error) ? "has-error" : "",
+            this.state.isFocused ? "has-focus" : "",
+        ].join(" ");
     }
 
     public render(): JSX.Element {
