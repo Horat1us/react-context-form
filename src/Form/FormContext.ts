@@ -1,5 +1,6 @@
 import * as PropTypes from "prop-types";
 import {ModelValue} from "../Model/ModelValue";
+import {ModelInterface} from "../Model/ModelInterface";
 
 export interface FormContext {
     values: ModelValue[];
@@ -7,6 +8,10 @@ export interface FormContext {
     onChange: (attribute: string, value: any) => any;
     onMount: (attribute: string, element: HTMLElement) => void;
     onUnmount: (attribute: string) => void;
+
+    readonly model: ModelInterface,
+
+    isLoading: boolean,
 }
 
 export const FormContextTypes = {
@@ -15,4 +20,8 @@ export const FormContextTypes = {
     onChange: PropTypes.func.isRequired,
     onMount: PropTypes.func.isRequired,
     onUnmount: PropTypes.func.isRequired,
+
+    model: PropTypes.object.isRequired,
+
+    isLoading: PropTypes.bool.isRequired,
 };

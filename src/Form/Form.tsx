@@ -5,9 +5,13 @@ import {FormContext, FormContextTypes} from "./FormContext";
 import {FormProps, FormPropTypes} from "./FormProps";
 import {FormState} from "./FormState";
 
-export class Form<M extends Model> extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, FormState<M>> {
+export class Form<M extends Model>
+    extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, FormState<M>> {
+
     public static propTypes = FormPropTypes;
     public static childContextTypes = FormContextTypes;
+
+    public state: FormState<M>;
 
     constructor(props: FormProps<M>) {
         super(props);
@@ -15,6 +19,7 @@ export class Form<M extends Model> extends React.Component<FormProps<M> & React.
         this.state = {
             model: this.props.instantiate(),
             mounted: {},
+            isLoading: false,
         };
     }
 
@@ -25,15 +30,33 @@ export class Form<M extends Model> extends React.Component<FormProps<M> & React.
 
             onMount: this.handleMount,
             onUnmount: this.handleUnmount,
+
+            model: this.state.model,
+
+            isLoading: this.state.isLoading,
         };
     }
 
-    public componentWillMount() {
-        this.state.model.get();
+    public async componentWillMount() {
+        await this.state.model.get();
     }
 
     public handleSubmit = async (event?: Event) => {
         event && event.preventDefault();
+
+        await this.setState({isLoading: true});
+
+        await this.state.model.validate();
+
+        if (!this.state.model.hasErrors()) {
+            const action = this.state.model[this.props.method];
+            if ("function" === typeof action) {
+                await action();
+            }
+        }
+
+        this.state.isLoading = false;
+        this.forceUpdate();
     };
 
     public render(): JSX.Element {

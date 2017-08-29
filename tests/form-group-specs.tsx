@@ -32,6 +32,10 @@ describe("<FormGroup />", () => {
             onChange: handleChange,
             onMount: handleMount,
             onUnmount: handleUnmount,
+
+            isLoading: false,
+
+            model: new ExampleModel(),
         };
         wrapper = mount(
             <FormGroup

@@ -5,4 +5,5 @@ export interface FormState<M> {
     mounted: {
         [key: string]: HTMLElement,
     },
+    isLoading: boolean,
 }

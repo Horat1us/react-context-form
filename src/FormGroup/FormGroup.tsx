@@ -42,9 +42,6 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
         };
     }
 
-    /**
-     * @todo: tests
-     */
     public componentWillUnmount() {
         this.context.onUnmount(this.props.name);
     }
@@ -57,7 +54,9 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public handleMount = (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
 
     public get value(): ModelValue | undefined {
-        return this.context.values.find((value: ModelValue) => value.attribute === this.props.name);
+        return this.context.values.find(
+            (value: ModelValue) => value.attribute === this.props.name
+        );
     }
 
     public render(): JSX.Element {
@@ -72,9 +71,9 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
 
     protected get className(): string {
         return [
-            this.props.className,
+            this.props.className || "form-group",
             !!(this.value && this.value.error) ? "has-error" : "",
             this.state.isFocused ? "has-focus" : "",
-        ].join(" ");
+        ].join(" ").trim();
     }
 }

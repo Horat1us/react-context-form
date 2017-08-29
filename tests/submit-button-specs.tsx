@@ -50,6 +50,7 @@ describe("<SubmitButton />", () => {
         wrapper.setContext({
             isLoading: true,
         });
-        expect(wrapper.getDOMNode().getAttribute("width")).to.be.equal(widthWithChildren);
+        expect(wrapper.getDOMNode().getAttribute("width"))
+            .to.be.equal(`${widthWithChildren}px`);
     });
 });

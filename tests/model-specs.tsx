@@ -23,8 +23,8 @@ describe("Model", () => {
             expect(values).to.have.length(modelFilledPropertiesCount);
         });
 
-        it("Should return undefined for not set values", () => {
-            expect(model.getValue("email")).to.be.undefined;
+        it("Should not return undefined for not set values", () => {
+            expect(model.getValue("email")).to.be.not.undefined;
         });
 
         it("Should represent errors as string", async () => {

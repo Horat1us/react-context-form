@@ -9,6 +9,7 @@ import {FormProps} from "../src/Form/FormProps";
 import {FormState} from "../src/Form/FormState";
 import {ExampleModel} from "./helpers/ExampleModel";
 import {FormContext} from "../src/Form/FormContext";
+// tslint:disable-next-line
 import {SinonSpy} from "sinon";
 
 describe("<Form/>", () => {
@@ -31,6 +32,9 @@ describe("<Form/>", () => {
 
         onMount: undefined,
         onUnmount: undefined,
+
+        model: new ExampleModel(),
+        isLoading: false,
     };
 
     beforeEach(() => {

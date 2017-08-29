@@ -8,34 +8,36 @@ export class BaseInput<T extends HTMLElement> extends React.Component<React.HTML
     protected get childProps(): React.HTMLProps<T> {
         return {
             id: this.context.id,
-
-            onChange: this.handleChange,
-            onBlur: this.handleBlur,
-            onFocus: this.handleFocus,
-            className: "form-group",
+            name: this.context.name,
 
             ...this.props,
+            ...{
+                onChange: this.handleChange,
+                onBlur: this.handleBlur,
+                onFocus: this.handleFocus,
+                className: this.props.className || "form-control",
+            },
         };
     }
 
-    protected handleChange = (event: any) => {
+    protected handleChange = async (event: any) => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
-            this.context.onChange(event.currentTarget.value);
+            await this.context.onChange(event.currentTarget.value);
         }
     };
 
-    protected handleBlur = (event: any) => {
+    protected handleBlur = async (event: any) => {
         this.props.onBlur && this.props.onBlur(event);
         if (!event.defaultPrevented) {
-            this.context.onBlur();
+            await this.context.onBlur();
         }
     };
 
-    protected handleFocus = (event: any) => {
+    protected handleFocus = async (event: any) => {
         this.props.onFocus && this.props.onFocus(event);
         if (!event.defaultPrevented) {
-            this.context.onFocus();
+            await this.context.onFocus();
         }
     };
 }

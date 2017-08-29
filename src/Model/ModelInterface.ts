@@ -9,4 +9,6 @@ export interface ModelInterface {
 
     getError: (attribute: string) => ModelError | undefined;
     getValue: (attribute: string) => ModelValue | undefined;
+
+    hasErrors: () => boolean;
 }
