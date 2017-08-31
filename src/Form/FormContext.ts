@@ -1,6 +1,7 @@
 import * as PropTypes from "prop-types";
 import {ModelValue} from "../Model/ModelValue";
 import {ModelInterface} from "../Model/ModelInterface";
+import {ModelError} from "../Model/ModelError";
 
 export interface FormContext {
     values: ModelValue[];
@@ -9,7 +10,9 @@ export interface FormContext {
     onMount: (attribute: string, element: HTMLElement) => void;
     onUnmount: (attribute: string) => void;
 
-    readonly model: ModelInterface,
+    readonly validate: (group: string) => Promise<ModelError[]>,
+    readonly getDOMElement:
+        (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | undefined,
 
     isLoading: boolean,
 }
@@ -21,7 +24,8 @@ export const FormContextTypes = {
     onMount: PropTypes.func.isRequired,
     onUnmount: PropTypes.func.isRequired,
 
-    model: PropTypes.object.isRequired,
+    validate: PropTypes.func.isRequired,
+    getDOMElement: PropTypes.func.isRequired,
 
     isLoading: PropTypes.bool.isRequired,
 };

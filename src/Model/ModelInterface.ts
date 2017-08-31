@@ -7,8 +7,11 @@ export interface ModelInterface {
     get: () => void;
     validate: (group?: string) => Promise<ModelError[]>;
 
+    hasErrors: () => boolean;
     getError: (attribute: string) => ModelError | undefined;
+    removeErrors: (attribute: string) => number,
+
     getValue: (attribute: string) => ModelValue | undefined;
 
-    hasErrors: () => boolean;
+    groups: () => { [key: string]: string[] };
 }

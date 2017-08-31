@@ -31,6 +31,10 @@ export abstract class Model implements ModelInterface {
             });
     }
 
+    public groups(): { [key: string]: string[] } {
+        return {};
+    }
+
     public attributes(): string[] {
         return Object.keys(this)
             .filter((key) => key !== "errors" && key !== "get");
@@ -62,5 +66,11 @@ export abstract class Model implements ModelInterface {
 
     public hasErrors(): boolean {
         return this.errors.length !== 0;
+    }
+
+    public removeErrors(attribute: string): number {
+        return this.errors.length -
+            (this.errors = this.errors.filter((error: ModelError) => error.attribute !== attribute))
+                .length;
     }
 }

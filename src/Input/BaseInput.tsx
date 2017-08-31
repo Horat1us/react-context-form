@@ -8,15 +8,15 @@ export class BaseInput<T extends HTMLElement> extends React.Component<React.HTML
     protected get childProps(): React.HTMLProps<T> {
         return {
             id: this.context.id,
+            ref: this.context.onMount,
+
             name: this.context.name,
 
-            ...this.props,
-            ...{
-                onChange: this.handleChange,
-                onBlur: this.handleBlur,
-                onFocus: this.handleFocus,
-                className: this.props.className || "form-control",
-            },
+            onChange: this.handleChange,
+            onBlur: this.handleBlur,
+            onFocus: this.handleFocus,
+
+            className: this.props.className || "form-control",
         };
     }
 

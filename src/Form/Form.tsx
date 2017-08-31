@@ -4,6 +4,7 @@ import {Model} from "../Model/Model";
 import {FormContext, FormContextTypes} from "./FormContext";
 import {FormProps, FormPropTypes} from "./FormProps";
 import {FormState} from "./FormState";
+import {ModelError} from "../Model/ModelError";
 
 export class Form<M extends Model>
     extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, FormState<M>> {
@@ -31,7 +32,8 @@ export class Form<M extends Model>
             onMount: this.handleMount,
             onUnmount: this.handleUnmount,
 
-            model: this.state.model,
+            validate: this.validate,
+            getDOMElement: this.getDOMElement,
 
             isLoading: this.state.isLoading,
         };
@@ -69,6 +71,10 @@ export class Form<M extends Model>
         );
     }
 
+    public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
+        return this.state.mounted[attribute];
+    };
+
     protected handleChange = (attribute: string, value: any) => {
         if (this.state.model[attribute] === value) {
             return;
@@ -77,13 +83,14 @@ export class Form<M extends Model>
         this.forceUpdate();
     };
 
-    protected handleMount = (attribute: string, element: HTMLElement) => {
-        if (this.state.mounted[attribute] === element) {
-            return;
-        }
-        this.state.mounted[attribute] = element;
-        this.forceUpdate();
-    };
+    protected handleMount =
+        (attribute: string, element: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+            if (this.state.mounted[attribute] === element) {
+                return;
+            }
+            this.state.mounted[attribute] = element;
+            this.forceUpdate();
+        };
 
     protected handleUnmount = (attribute: string) => {
         if (this.state.mounted[attribute] === undefined) {
@@ -91,5 +98,18 @@ export class Form<M extends Model>
         }
         delete this.state.mounted[attribute];
         this.forceUpdate();
+    };
+
+    protected validate = async (group: string): Promise<ModelError[]> => {
+        const errorsRemoved = (this.state.model.groups()[group] || [])
+            .map((attribute: string) => this.state.model.removeErrors(attribute))
+            .reduce((carry: number, attributeErrorsCount: number) => carry + attributeErrorsCount, 0);
+
+        const errors = await this.state.model.validate(group);
+        if (errors.length > 0 || errorsRemoved > 0) {
+            this.forceUpdate();
+        }
+
+        return errors;
     };
 }

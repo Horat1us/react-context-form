@@ -33,9 +33,10 @@ describe("<FormGroup />", () => {
             onMount: handleMount,
             onUnmount: handleUnmount,
 
-            isLoading: false,
+            validate: () => undefined,
+            getDOMElement: () => undefined,
 
-            model: new ExampleModel(),
+            isLoading: false,
         };
         wrapper = mount(
             <FormGroup

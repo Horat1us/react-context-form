@@ -26,21 +26,9 @@ describe("<Form/>", () => {
     const value = "testValue";
     const element = document.createElement("div");
 
-    const context: FormContext = {
-        onChange: undefined,
-        values: undefined,
-
-        onMount: undefined,
-        onUnmount: undefined,
-
-        model: new ExampleModel(),
-        isLoading: false,
-    };
-
     beforeEach(() => {
         wrapper = mount(
-            <ExampleForm method="post" instantiate={instantiateExampleModel}/>,
-            {context}
+            <ExampleForm method="post" instantiate={instantiateExampleModel}/>
         );
         node = wrapper.getNode() as any;
 

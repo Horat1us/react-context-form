@@ -6,4 +6,5 @@ export * from "./SubmitButton";
 export * from "./SlowSubmitButton";
 export * from "./Model";
 export * from "./Input";
-export * from "./AutoValidator";
+export * from "./AutoValidate";
+export * from "./AutoFocus"

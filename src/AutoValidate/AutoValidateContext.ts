@@ -1,11 +1,11 @@
 import * as PropTypes from "prop-types";
 
-export interface AutoValidatorContext {
+export interface AutoValidateContext {
     onChange: (value: any) => void,
     onBlur: () => void,
 }
 
-export const AutoValidatorContextTypes = {
+export const AutoValidateContextTypes = {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
 };
