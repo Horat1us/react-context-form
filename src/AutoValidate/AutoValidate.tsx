@@ -5,7 +5,7 @@ import {AutoValidateDefaultProps, AutoValidateProps, AutoValidatePropTypes} from
 import {InputContextTypes} from "../Input";
 import {AutoValidateContext, AutoValidateContextTypes} from "./AutoValidateContext";
 import {InputContext} from "../Input/InputContext";
-import {ModelError} from "../Model/ModelError";
+import {ModelError} from "../Model";
 
 export class AutoValidate extends React.Component<AutoValidateProps, undefined> {
     public static readonly propTypes = AutoValidatePropTypes;

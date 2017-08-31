@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import {InputContext, InputContextTypes} from "./InputContext";
 
 export class BaseInput<T extends HTMLElement> extends React.Component<React.HTMLProps<T>, undefined> {

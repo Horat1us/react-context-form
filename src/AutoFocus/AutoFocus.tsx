@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import {AutoFocusProps, AutoFocusPropTypes} from "./AutoFocusProps";
 import {AutoValidate} from "../AutoValidate/AutoValidate";
 import {AutoFocusContext, AutoFocusContextTypes} from "./AutoFocusContext";

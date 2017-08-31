@@ -1,8 +1,9 @@
 {
   "name": "react-context-form",
-  "version": "0.0.1-placeholder",
+  "version": "1.0.0-rc1",
   "description": "One more way to handle forms on React",
-  "main": "index.js",
+  "main": "build/index.js",
+  "typings": "build/index.d.ts",
   "scripts": {
     "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json ./node_modules/.bin/nyc mocha -r jsdom-global/register -r ts-node/register -r source-map-support/register tests/bootstrap.ts tests/**-specs.tsx",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
@@ -71,7 +72,8 @@
     "tslint-react": "^3.2.0",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^2.6.1",
+    "webpack-node-externals": "^1.6.0"
   },
   "peerDependencies": {
     "class-validator": "^0.7.2",

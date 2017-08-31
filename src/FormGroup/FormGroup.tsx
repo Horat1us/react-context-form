@@ -1,9 +1,14 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import {FormContext, FormContextTypes} from "../Form/FormContext";
-import {ModelValue} from "../Model/ModelValue";
+import {ModelValue} from "../Model";
 import {FormGroupContext, FormGroupContextTypes} from "./FormGroupContext";
 import {FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes} from "./FormGroupProps";
-import {FormGroupState} from "./FormGroupState";
+
+export interface FormGroupState {
+    isFocused: boolean;
+}
 
 export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public static propTypes = FormGroupPropTypes;

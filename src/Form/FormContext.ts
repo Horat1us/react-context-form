@@ -1,7 +1,6 @@
 import * as PropTypes from "prop-types";
-import {ModelValue} from "../Model/ModelValue";
-import {ModelInterface} from "../Model/ModelInterface";
-import {ModelError} from "../Model/ModelError";
+
+import {ModelValue, ModelInterface, ModelError} from "../Model";
 
 export interface FormContext {
     values: ModelValue[];

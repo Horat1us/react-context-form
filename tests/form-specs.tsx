@@ -4,9 +4,7 @@ import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
 
 import * as sinon from "sinon";
-import {Form} from "../src/Form";
-import {FormProps} from "../src/Form/FormProps";
-import {FormState} from "../src/Form/FormState";
+import {Form, FormState, FormProps} from "../src/Form";
 import {ExampleModel} from "./helpers/ExampleModel";
 import {FormContext} from "../src/Form/FormContext";
 // tslint:disable-next-line

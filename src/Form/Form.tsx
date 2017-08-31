@@ -1,10 +1,17 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
-import {Model} from "../Model/Model";
+import {Model, ModelError} from "../Model";
 import {FormContext, FormContextTypes} from "./FormContext";
 import {FormProps, FormPropTypes} from "./FormProps";
-import {FormState} from "./FormState";
-import {ModelError} from "../Model/ModelError";
+
+export interface FormState<M> {
+    model: M,
+    mounted: {
+        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+    },
+    isLoading: boolean,
+}
 
 export class Form<M extends Model>
     extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, FormState<M>> {

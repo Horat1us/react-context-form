@@ -1,7 +1,36 @@
 import {validate, ValidationError, ValidationOptions} from "class-validator";
-import {ModelError} from "./ModelError";
-import {ModelInterface} from "./ModelInterface";
-import {ModelValue} from "./ModelValue";
+
+export interface ModelError {
+    attribute: string;
+    details: string;
+    code?: string | number;
+}
+
+export interface ModelGroups {
+    [key: string]: string[],
+}
+
+export interface ModelInterface {
+    readonly values: ModelValue[];
+
+    get: () => void;
+    validate: (group?: string) => Promise<ModelError[]>;
+
+    hasErrors: () => boolean;
+    getError: (attribute: string) => ModelError | undefined;
+    removeErrors: (attribute: string) => number,
+
+    getValue: (attribute: string) => ModelValue | undefined;
+
+    groups: () => { [key: string]: string[] };
+}
+
+export interface ModelValue {
+    attribute: string;
+    value: any;
+    model: Model;
+    error?: string;
+}
 
 export abstract class Model implements ModelInterface {
     protected errors: ModelError[] = [];

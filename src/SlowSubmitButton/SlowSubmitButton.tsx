@@ -1,9 +1,14 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import {SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton} from "../SubmitButton";
 
 import {SlowSubmitButtonDefaultProps, SlowSubmitButtonProps, SlowSubmitButtonPropTypes} from "./SlowSubmitButtonProps";
-import {SlowSubmitButtonState} from "./SlowSubmitButtonState";
+
+export interface SlowSubmitButtonState {
+    isLoading: boolean,
+    isDelayed: boolean,
+}
 
 export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, SlowSubmitButtonState> {
     public static childContextTypes = SubmitButtonContextTypes;

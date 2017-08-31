@@ -1,7 +1,12 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import {SubmitButtonContext, SubmitButtonContextTypes} from "./SubmitButtonContext";
 import {SubmitButtonDefaultProps, SubmitButtonProps, SubmitButtonPropTypes} from "./SubmitButtonProps";
-import {SubmitButtonState} from "./SubmitButtonState";
+
+export interface SubmitButtonState {
+    width?: number,
+}
 
 export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButtonState> {
     public static propTypes = SubmitButtonPropTypes;
