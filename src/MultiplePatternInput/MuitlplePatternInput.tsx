@@ -1,21 +1,37 @@
 import * as React from "react";
 import {Input} from "../Input/Input";
 import {MultiplePatternInputProps, MultiplePatternInputPropTypes} from "./MultiplePatternInputProps";
+import {InputContext, InputContextTypes} from "../Input/InputContext";
+import {MultiplePatternInputContext, MultiplePatternInputContextTypes} from "./MultiplePatternInputContext";
 
-export class PatternInput extends React.Component<MultiplePatternInputProps> {
+export class MultiplePatternInput extends React.Component<MultiplePatternInputProps> {
     public static propTypes = MultiplePatternInputPropTypes;
+    public static childContextTypes = MultiplePatternInputContextTypes;
+    public static contextTypes = InputContextTypes;
+    public context: InputContext;
 
-    public render(): JSX.Element {
-        return <Input onChange={this.handleChange} onFocus={this.handleFocus}/>;
+    public escapeRegExp(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     }
 
-    protected handleChange = (event: any) => {
+    public getChildContext(): MultiplePatternInputContext {
+        return {
+            onChange: this.handleChange,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+        };
+    }
+
+    public render(): JSX.Element {
+        return <Input/>;
+    }
+
+    protected handleChange = (value: string) => {
         let endOfStringReached = false;
         /* Variable for storing target pattern. */
         /* After each loop iteration this pattern will be concatenated with used pattern. */
         let targetPattern = /^/;
-        const patterns: Array<string|RegExp> = this.props.patterns;
-        const {value} = event.target;
+        const patterns: Array<string | RegExp> = this.props.patterns;
 
         for (const pattern of patterns) {
 
@@ -23,7 +39,7 @@ export class PatternInput extends React.Component<MultiplePatternInputProps> {
                 /* Save current pattern, because it will be updated. */
                 const prevPattern = targetPattern;
                 /* Update target pattern using passed string. */
-                targetPattern = new RegExp(targetPattern.source + pattern);
+                targetPattern = new RegExp(targetPattern.source + this.escapeRegExp(pattern));
 
                 /* If passed string was ignored, add it to the target value. */
                 if (!value.match(targetPattern) && !(`${value}${pattern}`).match(targetPattern)) {
@@ -31,21 +47,21 @@ export class PatternInput extends React.Component<MultiplePatternInputProps> {
                     const match = value.match(prevPattern);
                     const {length} = match[0];
                     /* Insert passed string on position that equals to length of matched string. */
-                    event.target.value = value.slice(0, length) + pattern + value.slice(length);
-                    break;
+                    value = value.slice(0, length) + pattern + value.slice(length);
+                    continue;
                 }
 
                 /* If value can be concatenated, then there is no more characters in target value. */
                 /* Add passed string and call onChange. */
                 if (endOfStringReached) {
-                    event.target.value += pattern;
+                    value += pattern;
                     break;
                 }
 
                 /* If user decided to erase text, check, if this string is last in target value.*/
                 /* If so, remove it from target value and call onChange. */
                 if (value.match(new RegExp(targetPattern.source + "$"))) {
-                    event.target.value = value.match(prevPattern)[0];
+                    value = value.match(prevPattern)[0];
                     break;
                 }
                 continue;
@@ -66,37 +82,32 @@ export class PatternInput extends React.Component<MultiplePatternInputProps> {
             }
         }
 
-        this.callOnChange(event);
+        this.context.onChange(value);
     };
 
     protected handleFocus = (event: any) => {
         if (
             this.props.patterns[0] instanceof RegExp
-            || event.target.value !== ""
+            || event.currentTarget.value !== ""
         ) {
             return;
         }
 
-        event.target.value = this.props.patterns[0];
-        this.callOnChange(event);
+        event.currentTarget.value = this.props.patterns[0].toString();
+        this.context.onChange(event.currentTarget.value);
+        this.context.onFocus(event);
     };
 
     protected handleBlur = (event: any) => {
         if (
             this.props.patterns[0] instanceof RegExp
-            || event.target.value !== this.props.patterns[0]
+            || event.currentTarget.value !== this.props.patterns[0]
         ) {
             return;
         }
 
-        event.target.value = "";
-        this.callOnChange(event);
-    };
-
-    protected callOnChange = (event: any) => {
-        this.props.onChange && this.props.onChange(event);
-        if (!event.defaultPrevented) {
-            this.context.onChange(event.currentTarget.value);
-        }
+        event.currentTarget.value = "";
+        this.context.onChange(event.currentTarget.value);
+        this.context.onBlur(event);
     };
 }
