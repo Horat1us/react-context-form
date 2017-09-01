@@ -7,16 +7,28 @@ import {MultiplePatternInput} from "../src/MultiplePatternInput/MuitlplePatternI
 import {simulateInputChange} from "./helpers/simulateInputChange";
 
 describe("<MultiplePatternInput />", () => {
+    const placeholder = () => undefined;
     const name = "fieldName";
     const id = "prefix-" + (new Date());
     const defaultValue = "";
+    const defaultContext = {
+        id,
+        name,
+        onChange: (changedValue: string) => {
+            spy();
+            value = changedValue;
+        },
+        onBlur: placeholder,
+        onFocus: placeholder,
+        onMount: placeholder,
+        value: "",
+    };
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
     let spy;
     let value;
     let pattern;
     let context: FormGroupContext;
 
-    const changeValue = (event: any) => value = event.target.value;
     const input = () => wrapper.find("input");
     const mountWrapper = () => {
         const patterns = Array.isArray(pattern) ? pattern : [pattern];
@@ -26,21 +38,13 @@ describe("<MultiplePatternInput />", () => {
         );
     };
 
+    placeholder();
+
     beforeEach(() => {
         pattern = "123";
         value = "";
         spy = sinon.spy();
-        context = {
-            id,
-            name,
-            onChange: (changedValue: string) => {
-                spy();
-                value = changedValue;
-            },
-            onBlur: changeValue,
-            onFocus: changeValue,
-            value: "",
-        };
+        context = defaultContext;
     });
 
     afterEach(() => {
@@ -57,9 +61,11 @@ describe("<MultiplePatternInput />", () => {
 
     it("Should not change on focus when value is not empty", () => {
         mountWrapper();
+        wrapper.setContext({
+            ...defaultContext,
+            value: "1",
+        });
 
-        expect(value).to.be.equal(defaultValue);
-        (input().getDOMNode() as HTMLInputElement).value = "1";
         input().simulate("focus");
         expect(value).to.be.not.equal(pattern);
         expect(value).to.be.equal(defaultValue);
@@ -67,20 +73,25 @@ describe("<MultiplePatternInput />", () => {
 
     it("Should remove first string pattern on blur event and match", () => {
         mountWrapper();
+        wrapper.setContext({
+            ...defaultContext,
+            value: pattern,
+        });
 
-        (input().getDOMNode() as HTMLInputElement).value = pattern;
         input().simulate("blur");
         expect(value).to.be.equal(defaultValue);
     });
 
     it("Should not remove first string pattern on blur event when value doesn't match", () => {
         mountWrapper();
+        const newValue = value = pattern + "1";
 
-        const newValue = pattern + "1";
-        (input().getDOMNode() as HTMLInputElement).value = newValue;
-        input()
-            .simulate("change")
-            .simulate("blur");
+        wrapper.setContext({
+            ...defaultContext,
+            value: newValue,
+        });
+
+        input().simulate("blur");
         expect(value).to.be.not.equal(defaultValue);
         expect(value).to.be.equal(newValue);
     });

@@ -1,14 +1,16 @@
 {
   "name": "react-context-form",
-  "version": "0.0.1-placeholder",
+  "version": "1.0.0-rc7",
   "description": "One more way to handle forms on React",
-  "main": "index.js",
+  "main": "build/index.js",
+  "typings": "build/index.d.ts",
   "scripts": {
     "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json ./node_modules/.bin/nyc mocha -r jsdom-global/register -r ts-node/register -r source-map-support/register tests/bootstrap.ts tests/**-specs.tsx",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "dev": "./node_modules/.bin/webpack-dev-server",
     "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "./node_modules/.bin/tslint --project . --fix"
+    "lint": "./node_modules/.bin/tslint --project . --exclude ./node_modules/*",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,6 @@
     "@types/chai": "^4.0.3",
     "@types/chai-enzyme": "^0.6.2",
     "@types/cheerio": "^0.22.2",
-    "@types/classnames": "^2.2.0",
     "@types/enzyme": "^2.8.5",
     "@types/mocha": "^2.2.41",
     "@types/prop-types": "^15.5.1",
@@ -50,6 +51,7 @@
     "chai": "^4.1.1",
     "chai-enzyme": "^0.8.0",
     "cheerio": "^1.0.0-rc.2",
+    "circular-dependency-plugin": "^4.2.0",
     "class-validator": "^0.7.2",
     "clean-webpack-plugin": "^0.1.16",
     "codecov": "^2.3.0",
@@ -72,7 +74,8 @@
     "tslint-react": "^3.2.0",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^2.6.1",
+    "webpack-node-externals": "^1.6.0"
   },
   "peerDependencies": {
     "class-validator": "^0.7.2",
@@ -96,9 +99,7 @@
     ],
     "report-dir": "./tests/output"
   },
-  "dependencies": {
-    "classnames": "^2.2.5"
-  },
+  "dependencies": {},
   "pre-commit": [
     "lint",
     "test"

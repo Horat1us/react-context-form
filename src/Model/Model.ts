@@ -1,14 +1,42 @@
 import {validate, ValidationError, ValidationOptions} from "class-validator";
-import {ModelError} from "./ModelError";
-import {ModelInterface} from "./ModelInterface";
-import {ModelValue} from "./ModelValue";
+
+export interface ModelError {
+    attribute: string;
+    details: string;
+    code?: string | number;
+}
+
+export interface ModelGroups {
+    [key: string]: string[],
+}
+
+export interface ModelInterface {
+    readonly values: ModelValue[];
+
+    get: () => void;
+    validate: (group?: string) => Promise<ModelError[]>;
+
+    hasErrors: () => boolean;
+    getError: (attribute: string) => ModelError | undefined;
+    removeErrors: (attribute: string) => number,
+
+    getValue: (attribute: string) => ModelValue | undefined;
+
+    groups: () => { [key: string]: string[] };
+}
+
+export interface ModelValue {
+    attribute: string;
+    value: any;
+    model: Model;
+    error?: string;
+}
 
 export abstract class Model implements ModelInterface {
     protected errors: ModelError[] = [];
 
     // We can setup models without initial
-    // tslint:disable-next-line:no-empty
-    public get(): void {}
+    public get = async (): Promise<void> => undefined;
 
     public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
         return this.errors = (await validate(
@@ -32,9 +60,17 @@ export abstract class Model implements ModelInterface {
             });
     }
 
-    public get values(): ModelValue[] {
+    public groups(): { [key: string]: string[] } {
+        return {};
+    }
+
+    public attributes(): string[] {
         return Object.keys(this)
-            .filter((key) => key !== "errors")
+            .filter((key) => key !== "errors" && key !== "get");
+    }
+
+    public get values(): ModelValue[] {
+        return this.attributes()
             .map(this.getValue.bind(this));
     }
 
@@ -43,11 +79,7 @@ export abstract class Model implements ModelInterface {
         return this.errors.find((error: ModelError) => error.attribute === attribute);
     }
 
-    public getValue(attribute: string): ModelValue | undefined {
-        if ("undefined" === typeof this[attribute]) {
-            return undefined;
-        }
-
+    public getValue(attribute: string): ModelValue {
         const value: ModelValue = {
             attribute,
             model: this,
@@ -59,5 +91,15 @@ export abstract class Model implements ModelInterface {
         }
 
         return value;
+    }
+
+    public hasErrors(): boolean {
+        return this.errors.length !== 0;
+    }
+
+    public removeErrors(attribute: string): number {
+        return this.errors.length -
+            (this.errors = this.errors.filter((error: ModelError) => error.attribute !== attribute))
+                .length;
     }
 }

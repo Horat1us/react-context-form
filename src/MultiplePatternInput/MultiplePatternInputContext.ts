@@ -2,8 +2,8 @@ import * as PropTypes from "prop-types";
 
 export interface MultiplePatternInputContext {
     onChange: (event: string) => void
-    onFocus: (event: Event) => void
-    onBlur: (event: Event) => void
+    onFocus: () => void
+    onBlur: () => void
 }
 
 export const MultiplePatternInputContextTypes = {

@@ -7,19 +7,16 @@ import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 describe("<Input />", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
 
-    let changeHandler;
-    let blurHandler;
-    let focusHandler;
-
     let node: HTMLInputElement;
     let previousContext: FormGroupContext;
 
     const name = "fieldName";
     const initialValue = "undefined";
 
-    const onChange = (...args) => changeHandler(...args);
-    const onBlur = (...args) => blurHandler(...args);
-    const onFocus = (...args) => focusHandler(...args);
+    const onChange = (...args) => undefined;
+    const onBlur = (...args) => undefined;
+    const onFocus = (...args) => undefined;
+    const onMount = (...args) => undefined;
 
     const id = "prefix-" + (new Date());
 
@@ -53,11 +50,10 @@ describe("<Input />", () => {
     };
 
     beforeEach(() => {
-        changeHandler = blurHandler = focusHandler = () => undefined;
         const context: FormGroupContext = previousContext = {
             id,
             name,
-            onChange, onBlur, onFocus,
+            onChange, onBlur, onFocus, onMount,
             value: initialValue,
         };
         wrapper = mount(

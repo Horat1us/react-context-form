@@ -6,7 +6,9 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react"
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "build"
   },
   "exclude": [
     "./node_modules/**/*",

@@ -30,6 +30,7 @@ describe("<PatternInput />", () => {
             onChange,
             onBlur: placeholder,
             onFocus: placeholder,
+            onMount: placeholder,
             value: "",
         };
         wrapper = mount(

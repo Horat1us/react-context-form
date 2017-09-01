@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 import {Input} from "../Input/Input";
 import {PatternInputProps, PatternInputPropTypes} from "./PatternInputProps";
 import {PatternInputContext, PatternInputContextTypes} from "./PatternInputContext";

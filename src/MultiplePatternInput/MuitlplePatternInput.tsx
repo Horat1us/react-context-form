@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 import {Input} from "../Input/Input";
 import {MultiplePatternInputProps, MultiplePatternInputPropTypes} from "./MultiplePatternInputProps";
 import {InputContext, InputContextTypes} from "../Input/InputContext";
@@ -85,29 +86,27 @@ export class MultiplePatternInput extends React.Component<MultiplePatternInputPr
         this.context.onChange(value);
     };
 
-    protected handleFocus = (event: any) => {
+    protected handleFocus = () => {
         if (
             this.props.patterns[0] instanceof RegExp
-            || event.currentTarget.value !== ""
+            || this.context.value !== ""
         ) {
             return;
         }
 
-        event.currentTarget.value = this.props.patterns[0].toString();
-        this.context.onChange(event.currentTarget.value);
-        this.context.onFocus(event);
+        this.context.onChange(this.props.patterns[0].toString());
+        this.context.onFocus();
     };
 
-    protected handleBlur = (event: any) => {
+    protected handleBlur = () => {
         if (
             this.props.patterns[0] instanceof RegExp
-            || event.currentTarget.value !== this.props.patterns[0]
+            || this.context.value !== this.props.patterns[0]
         ) {
             return;
         }
 
-        event.currentTarget.value = "";
-        this.context.onChange(event.currentTarget.value);
-        this.context.onBlur(event);
+        this.context.onChange("");
+        this.context.onBlur();
     };
 }

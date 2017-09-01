@@ -1,10 +1,14 @@
-import * as classNames from "classnames";
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import {FormContext, FormContextTypes} from "../Form/FormContext";
-import {ModelValue} from "../Model/ModelValue";
+import {ModelValue} from "../Model";
 import {FormGroupContext, FormGroupContextTypes} from "./FormGroupContext";
 import {FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes} from "./FormGroupProps";
-import {FormGroupState} from "./FormGroupState";
+
+export interface FormGroupState {
+    isFocused: boolean;
+}
 
 export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public static propTypes = FormGroupPropTypes;
@@ -27,36 +31,36 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public getChildContext(): FormGroupContext {
+        const value = this.value;
         return {
-            id: `${this.props.idPrefix}_${this.id}`,
+            id: `${this.props.idPrefix || FormGroupDefaultProps.idPrefix}_${this.id}`,
             name: this.props.name,
 
-            value: this.value ? this.value.value : undefined,
+            value: value ? value.value : undefined,
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
+            onMount: this.handleMount,
 
-            error: this.value ? this.value.error : undefined,
+            error: value ? value.error : undefined,
         };
     }
 
-    public handleChange = (value: any) => this.context.handleChange(this.props.name, value);
+    public componentWillUnmount() {
+        this.context.onUnmount(this.props.name);
+    }
+
+    public handleChange = (value: any) => this.context.onChange(this.props.name, value);
 
     public handleBlur = () => this.setState({isFocused: false});
     public handleFocus = () => this.setState({isFocused: true});
 
-    get value(): ModelValue | undefined {
-        return this.context.values.find((value: ModelValue) => value.attribute === this.props.name);
-    }
+    public handleMount = (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
 
-    get className(): string {
-        return classNames(
-            this.props.className,
-            {
-                "has-error": !!(this.value && this.value.error),
-                "has-focus": this.state.isFocused,
-            }
+    public get value(): ModelValue | undefined {
+        return this.context.values.find(
+            (value: ModelValue) => value.attribute === this.props.name
         );
     }
 
@@ -68,5 +72,20 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
                 {this.props.children}
             </div>
         );
+    }
+
+    protected get className(): string {
+        return [
+            this.props.className || FormGroupDefaultProps.className,
+            !!(this.value && this.value.error)
+                ? (this.props.errorClassName || FormGroupDefaultProps.errorClassName)
+                : undefined,
+            this.state.isFocused
+                ? (this.props.focusClassName || FormGroupDefaultProps.focusClassName)
+                : undefined,
+        ]
+            .filter((className: string) => !!className)
+            .join(" ")
+            .trim();
     }
 }

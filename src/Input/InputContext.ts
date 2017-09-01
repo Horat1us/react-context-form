@@ -1,4 +1,3 @@
-import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface InputContext {
@@ -8,8 +7,9 @@ export interface InputContext {
     value: any;
 
     onChange: (value: string) => void;
-    onFocus: (event: Event) => void;
-    onBlur: (event: Event) => void;
+    onFocus: () => void;
+    onBlur: () => void;
+    onMount: (ref: HTMLElement) => void;
 }
 
 export const InputContextTypes = {
@@ -21,4 +21,5 @@ export const InputContextTypes = {
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
+    onMount: PropTypes.func.isRequired,
 };

@@ -16,7 +16,7 @@
     "jsx-no-string-ref": true,
     "jsx-self-close": true,
     "jsx-wrap-multiline": true,
-    "no-magic-numbers": true,
+    "no-magic-numbers": [-1, 0, 1, 2],
     "no-reference": true,
     "curly": true,
     "await-promise": true,
@@ -56,6 +56,7 @@
     "space-within-parens": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "no-unused-expression": false
+    "no-unused-expression": false,
+    "jsx-boolean-value": false
   }
 }
