@@ -14,6 +14,7 @@ const env = debug ? 'local' : 'production';
 
 const
     CleanWebpackPlugin = require('clean-webpack-plugin'),
+    CircularDependencyPlugin = require('circular-dependency-plugin'),
     nodeExternals = require("webpack-node-externals");
 
 console.log("Building in " + env + " environment. Debug: " + debug.toString());
@@ -28,6 +29,8 @@ const config = {
         filename: 'index.js',
         path: path.resolve('./build'),
         publicPath: "/",
+        library: "react-context-form",
+        libraryTarget: "umd",
     },
 
     devtool: debug ? "source-map" : false,
@@ -81,6 +84,18 @@ const config = {
                 'NODE_ENV': JSON.stringify(env),
             },
         }),
+        new CircularDependencyPlugin({
+            // exclude detection of files based on a RegExp
+            exclude: /node_modules/,
+            // add errors to webpack instead of warnings
+            failOnError: true,
+            // override `exclude` and `failOnError` behavior
+            // `onDetected` is called for each module that is cyclical
+            onDetected({paths, compilation}) {
+                // `paths` will be an Array of the relative module paths that make up the cycle
+                compilation.errors.push(new Error(paths.join(' -> ')))
+            }
+        })
     ]
 };
 

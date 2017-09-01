@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc5",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -50,6 +50,7 @@
     "chai": "^4.1.1",
     "chai-enzyme": "^0.8.0",
     "cheerio": "^1.0.0-rc.2",
+    "circular-dependency-plugin": "^4.2.0",
     "class-validator": "^0.7.2",
     "clean-webpack-plugin": "^0.1.16",
     "codecov": "^2.3.0",
