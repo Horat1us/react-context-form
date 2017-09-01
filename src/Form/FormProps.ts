@@ -3,11 +3,13 @@ import * as PropTypes from "prop-types";
 import {ModelInterface} from "../Model";
 
 export interface FormProps<M extends ModelInterface> {
-    instantiate: () => M;
-    method: string,
+    instantiate: () => M; /* This method will be used for creating model instance in Form state */
+    method?: string, /* Name of method of model, which will be called on form submit */
+    onSubmit?: (model: M) => Promise<void>, /* Function, which will be called on form submit if no method provided */
 }
 
 export const FormPropTypes = {
     instantiate: PropTypes.func.isRequired,
-    method: PropTypes.string.isRequired,
+    method: PropTypes.string,
+    onSubmit: PropTypes.func,
 };

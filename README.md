@@ -3,25 +3,30 @@
 [![codecov](https://codecov.io/gh/Horat1us/react-context-form/branch/master/graph/badge.svg)](https://codecov.io/gh/Horat1us/react-context-form)
 
 
-One more way to write forms on React  
-**[This package is under development]**
+One more way to write forms on React.
 
-Example usage:
+## Example
 ```typescript jsx
-<Form model={Authorization} method="put">
+<Form instantiate={instantiateAuthorizationModel} method="put">
     <FormGroup
         name="email"
-        component={EmailInput}
-    />
+    >
+        <Input type="email"/>
+    </FormGroup>
     <FormGroup
         name="password"
-        component={(props) => {
-            return <Input type="password" {...props}/>;
-        }}
-    />
+    >
+        <Input type="password"/>
+    </FormGroup>
     <a href="/login">Forgot password?</a>
-    <SubmitButton>
+    <SlowSubmitButton>
         Login
-    </SubmitButton>
+    </SlowSubmitButton>
 </Form>
 ``` 
+See more in [demo project](https://github.com/Horat1us/taskbook-frontend)
+
+## Documentation
+- [Form](./docs/Form.md)
+- [FormGroup](./docs/FormGroup.md)
+- [Model](./docs/Model.md)

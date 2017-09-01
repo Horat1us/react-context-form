@@ -33,7 +33,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public getChildContext(): FormGroupContext {
         const value = this.value;
         return {
-            id: `${this.props.idPrefix}_${this.id}`,
+            id: `${this.props.idPrefix || FormGroupDefaultProps.idPrefix}_${this.id}`,
             name: this.props.name,
 
             value: value ? value.value : undefined,
@@ -76,9 +76,16 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
 
     protected get className(): string {
         return [
-            this.props.className || "form-group",
-            !!(this.value && this.value.error) ? "has-error" : "",
-            this.state.isFocused ? "has-focus" : "",
-        ].join(" ").trim();
+            this.props.className || FormGroupDefaultProps.className,
+            !!(this.value && this.value.error)
+                ? (this.props.errorClassName || FormGroupDefaultProps.errorClassName)
+                : undefined,
+            this.state.isFocused
+                ? (this.props.focusClassName || FormGroupDefaultProps.focusClassName)
+                : undefined,
+        ]
+            .filter((className: string) => !!className)
+            .join(" ")
+            .trim();
     }
 }

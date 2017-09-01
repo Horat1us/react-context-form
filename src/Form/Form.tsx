@@ -14,7 +14,7 @@ export interface FormState<M> {
 }
 
 export class Form<M extends Model>
-    extends React.Component<FormProps<M> & React.HTMLProps<HTMLFormElement>, FormState<M>> {
+    extends React.Component<React.HTMLProps<HTMLFormElement> & FormProps<M>, FormState<M>> {
 
     public static propTypes = FormPropTypes;
     public static childContextTypes = FormContextTypes;
@@ -22,7 +22,7 @@ export class Form<M extends Model>
     public state: FormState<M>;
 
     constructor(props: FormProps<M>) {
-        super(props);
+        super(props as any);
 
         this.state = {
             model: this.props.instantiate(),
@@ -61,6 +61,8 @@ export class Form<M extends Model>
             const action = this.state.model[this.props.method];
             if ("function" === typeof action) {
                 await action();
+            } else {
+                this.props.onSubmit && await this.props.onSubmit(this.state.model);
             }
         }
 
@@ -69,7 +71,7 @@ export class Form<M extends Model>
     };
 
     public render(): JSX.Element {
-        const {instantiate, ...childProps} = this.props;
+        const {instantiate, onSubmit, method, ...childProps} = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
