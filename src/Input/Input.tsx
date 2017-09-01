@@ -1,5 +1,4 @@
 import * as React from "react";
-import {FormGroupContext, FormGroupContextTypes} from "../FormGroup/FormGroupContext";
 import {InputContext, InputContextTypes} from "./InputContext";
 
 export class Input extends React.Component<React.HTMLProps<HTMLInputElement>> {
@@ -30,14 +29,14 @@ export class Input extends React.Component<React.HTMLProps<HTMLInputElement>> {
     protected handleBlur = (event: any) => {
         this.props.onBlur && this.props.onBlur(event);
         if (!event.defaultPrevented) {
-            this.context.onBlur();
+            this.context.onBlur(event);
         }
     };
 
     protected handleFocus = (event: any) => {
         this.props.onFocus && this.props.onFocus(event);
         if (!event.defaultPrevented) {
-            this.context.onFocus();
+            this.context.onFocus(event);
         }
     };
 }

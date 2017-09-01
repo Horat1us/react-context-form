@@ -44,14 +44,14 @@ describe("<FormGroup />", () => {
 
     it("Should add class `has-focus` when `context.onFocus` triggered", () => {
         expect(wrapper).not.to.have.className("has-focus");
-        node.getChildContext().onFocus();
+        node.getChildContext().onFocus(new Event("focus"));
         expect(wrapper).to.have.className("has-focus");
     });
 
     it("Should remove class `has-focus` when `context.onBlur` triggered", () => {
-        node.getChildContext().onFocus();
+        node.getChildContext().onFocus(new Event("focus"));
         expect(wrapper).to.have.className("has-focus");
-        node.getChildContext().onBlur();
+        node.getChildContext().onBlur(new Event("focus"));
         expect(wrapper).not.to.have.className("has-focus");
     });
 
