@@ -6,7 +6,7 @@ export interface InputContext {
     name: string;
     value: any;
 
-    onChange: (value: string) => void;
+    onChange: (value: any) => void;
     onFocus: () => void;
     onBlur: () => void;
     onMount: (ref: HTMLElement) => void;
