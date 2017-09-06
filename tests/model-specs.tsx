@@ -16,11 +16,11 @@ describe("Model", () => {
             expect(values).to.have.length(modelPropertiesCount);
         });
 
-        it("Should not give empty values", () => {
+        it("Should give empty values both with filled", () => {
             model.email = "some@example.com";
             const values = model.values;
-            const modelFilledPropertiesCount = 1;
-            expect(values).to.have.length(modelFilledPropertiesCount);
+            const exampleModelAttributesCount = 2;
+            expect(values).to.have.length(exampleModelAttributesCount);
         });
 
         it("Should not return undefined for not set values", () => {

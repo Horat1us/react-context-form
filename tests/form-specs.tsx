@@ -87,4 +87,53 @@ describe("<Form/>", () => {
         node.getChildContext().onUnmount(field);
         expect(wrapper.state("mounted")).to.not.contain([field]);
     });
+
+    it("Should save values to localStorage if storageKey prop provided", () => {
+        const localStorageEmulator = {};
+        (window as any).localStorage = {
+            setItem: (key: string, newValue: any) => {
+                localStorageEmulator[key] = newValue;
+            },
+            getItem: () => undefined,
+        };
+
+        const changedPassword = Math.random().toString().repeat(10);
+        const storageKey = "form";
+
+        wrapper.setProps({
+            storageKey,
+        });
+        node.getChildContext().onChange("password", changedPassword);
+        wrapper.unmount();
+        expect(localStorageEmulator).to.have.key(storageKey);
+
+        const storedForm = JSON.parse(localStorageEmulator[storageKey]);
+        expect(storedForm).to.have.property("password");
+        expect(storedForm.password).to.be.equal(changedPassword);
+    });
+
+    it("Should have load values from localStorage if storageKey prop provided", async () => {
+        const storedForm = {
+            password: Math.random().toString().repeat(2),
+            email: "person@example.com",
+        };
+        const storedFormName = "storedForm";
+
+        (window as any).localStorage = {
+            setItem: () => undefined,
+            getItem: (key: string) => {
+                return key === storedFormName ? JSON.stringify(storedForm) : undefined;
+            }
+        };
+
+        wrapper.setProps({
+            storageKey: storedFormName,
+        });
+
+        // Can not emulate onMount (componentWillMount wont be called)
+        (wrapper.instance() as Form<ExampleModel>).loadFromStorage();
+
+        expect(wrapper.state().model.password).to.be.equal(storedForm.password);
+        expect(wrapper.state().model.email).to.be.equal(storedForm.email);
+    });
 });

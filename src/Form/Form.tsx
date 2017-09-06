@@ -48,6 +48,16 @@ export class Form<M extends Model>
 
     public async componentWillMount() {
         await this.state.model.get();
+
+        if (this.props.storageKey) {
+            this.loadFromStorage();
+        }
+    }
+
+    public async componentWillUnmount() {
+        if (this.props.storageKey) {
+            this.pushToStorage();
+        }
     }
 
     public handleSubmit = async (event?: Event) => {
@@ -71,7 +81,7 @@ export class Form<M extends Model>
     };
 
     public render(): JSX.Element {
-        const {instantiate, onSubmit, method, ...childProps} = this.props;
+        const {instantiate, onSubmit, method, storageKey, ...childProps} = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
@@ -83,6 +93,36 @@ export class Form<M extends Model>
     public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
         return this.state.mounted[attribute];
     };
+
+    public loadFromStorage(): boolean {
+        let localStorageValue;
+        try {
+            localStorageValue = JSON.parse(window.localStorage.getItem(this.props.storageKey));
+        } catch (exception) {
+            return false;
+        }
+
+        if (localStorageValue) {
+            this.state.model.attributes()
+                .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
+                .forEach(
+                    (attribute: string) => this.state.model[attribute] = localStorageValue[attribute]
+                );
+            return true;
+        }
+
+        return false;
+    }
+
+    public pushToStorage(): void {
+        const localStorageValue = {};
+        this.state.model.attributes()
+            .filter((attribute: string) => this.state.model[attribute] !== undefined)
+            .forEach((attribute: string) => localStorageValue[attribute] = this.state.model[attribute]);
+
+        window.localStorage
+        && window.localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
+    }
 
     protected handleChange = (attribute: string, value: any) => {
         if (this.state.model[attribute] === value) {

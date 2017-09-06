@@ -9,4 +9,8 @@ export class ExampleModel extends Model {
     @IsEmail()
     @IsDefined()
     public email: string;
+
+    public attributes() {
+        return ["password", "email"];
+    }
 }
