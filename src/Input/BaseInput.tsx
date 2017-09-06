@@ -9,6 +9,8 @@ export class BaseInput<T extends HTMLElement> extends React.Component<React.HTML
 
     protected get childProps(): React.HTMLProps<T> {
         return {
+            ...this.props,
+
             id: this.context.id,
             ref: this.context.onMount,
 

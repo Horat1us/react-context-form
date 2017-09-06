@@ -142,4 +142,10 @@ describe("<Input />", () => {
     it("Should have ID from context", () => {
         expect(wrapper).to.have.id(id);
     });
+
+    it("Should add additional html props to DOM", () => {
+        const placeholder = "Some text";
+        wrapper.setProps({placeholder});
+        expect(wrapper.getDOMNode().getAttribute("placeholder")).to.be.equal(placeholder);
+    });
 });
