@@ -106,7 +106,7 @@ export class Form<M extends Model>
             this.state.model.attributes()
                 .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
                 .forEach(
-                    (attribute: string) => this.state.model[attribute] = localStorageValue[attribute]
+                    (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
                 );
             return true;
         }
