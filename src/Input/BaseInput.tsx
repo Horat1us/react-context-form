@@ -13,6 +13,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<React.HTML
             ref: this.context.onMount,
 
             name: this.context.name,
+            value: this.context.value,
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,

@@ -51,12 +51,12 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
         this.context.onUnmount(this.props.name);
     }
 
-    public handleChange = (value: any) => this.context.onChange(this.props.name, value);
+    public handleChange = async (value: any) => this.context.onChange(this.props.name, value);
 
     public handleBlur = () => this.setState({isFocused: false});
     public handleFocus = () => this.setState({isFocused: true});
 
-    public handleMount = (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
+    public handleMount = async (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
 
     public get value(): ModelValue | undefined {
         return this.context.values.find(

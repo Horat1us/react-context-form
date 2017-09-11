@@ -3,7 +3,7 @@ import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 import * as sinon from "sinon";
-import {MultiplePatternInput} from "../src/MultiplePatternInput/MuitlplePatternInput";
+import {MultiplePatternInput} from "../src/MultiplePatternInput";
 import {simulateInputChange} from "./helpers/simulateInputChange";
 
 describe("<MultiplePatternInput />", () => {
