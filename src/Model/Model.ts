@@ -39,7 +39,7 @@ export abstract class Model implements ModelInterface {
     public get = async (): Promise<void> => undefined;
 
     public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
-        return this.errors = (await validate(
+        const newErrors = (await validate(
             this as any,
             {
                 skipMissingProperties: true,
@@ -58,6 +58,15 @@ export abstract class Model implements ModelInterface {
                         .join(", "),
                 };
             });
+
+        const oldErrors = group === undefined
+            ? []
+            : this.errors.filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
+
+        return this.errors = [
+            ...newErrors,
+            ...oldErrors
+        ];
     }
 
     public groups(): { [key: string]: string[] } {
@@ -77,6 +86,15 @@ export abstract class Model implements ModelInterface {
     public getError(attribute: string): ModelError | undefined {
 
         return this.errors.find((error: ModelError) => error.attribute === attribute);
+    }
+
+    public addError(newError: ModelError) {
+        const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);
+
+        this.errors = [
+            ...oldErrors,
+            newError
+        ];
     }
 
     public getValue(attribute: string): ModelValue {

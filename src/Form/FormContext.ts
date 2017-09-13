@@ -4,6 +4,7 @@ import {ModelValue, ModelInterface, ModelError} from "../Model";
 
 export interface FormContext {
     values: ModelValue[];
+    addError: (newError: ModelError) => void,
 
     onChange: (attribute: string, value: any) => any;
     onMount: (attribute: string, element: HTMLElement) => void;
@@ -18,6 +19,7 @@ export interface FormContext {
 
 export const FormContextTypes = {
     values: PropTypes.arrayOf(PropTypes.object).isRequired,
+    addError: PropTypes.func.isRequired,
 
     onChange: PropTypes.func.isRequired,
     onMount: PropTypes.func.isRequired,
