@@ -28,6 +28,7 @@ describe("<FormGroup />", () => {
 
         const context: FormContext = previousContext = {
             values: [],
+            addError: () => undefined,
 
             onChange: handleChange,
             onMount: handleMount,
