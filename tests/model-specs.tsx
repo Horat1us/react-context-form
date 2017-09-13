@@ -35,8 +35,21 @@ describe("Model", () => {
             expect(value).to.have.property("error");
             expect(value.error).to.be.equal(
                 "password must contain only letters and numbers," +
-                " password must be longer than or equal to 10 characters",
+                " password must be longer than or equal to 10 characters"
             );
+        });
+
+        it("Should return all attributes", async () => {
+            expect(model.attributes().length).to.equal(modelPropertiesCount);
+            expect(model.attributes()).to.contain("password");
+            expect(model.attributes()).to.contain("email");
+        });
+
+        it("Should return all groups", async () => {
+            expect(Object.keys(model.groups()).length).to.equal(modelPropertiesCount);
+
+            expect(Object.keys(model.groups())).to.contain("password");
+            expect(Object.keys(model.groups())).to.contain("email");
         });
     });
 
@@ -55,7 +68,7 @@ describe("Model", () => {
 
         it("Should generate errors for required errors", async () => {
             const errors = await model.validate();
-            expect(errors).to.have.length(1);
+            expect(errors).to.have.length(modelPropertiesCount - 1);
             expect(errors[0].attribute).to.be.equal("email");
         });
 
@@ -65,9 +78,65 @@ describe("Model", () => {
 
             const errors = await model.validate("email");
 
-            expect(errors).to.have.length(2);
+            expect(errors).to.have.length(modelPropertiesCount);
             expect(errors[1].attribute).to.be.equal("email");
             expect(errors[0].attribute).to.be.equal("password");
+        });
+    });
+
+    describe("errors", () => {
+        it("Should return error if it present in errors array", () => {
+            expect(model.getError("email")).to.not.exist;
+
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            expect(model.getError("email").details).to.equal(errorMsg);
+        });
+
+        it("Should add errors", async () => {
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            expect(model.getError("email")).to.exist;
+            expect(model.getError("email").details).to.equal(errorMsg);
+        });
+
+        it("Should remove errors from errors array", async () => {
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            expect(model.getError("email")).to.exist;
+            expect(model.getError("email").details).to.equal(errorMsg);
+
+            model.removeErrors("email");
+
+            expect(model.getError("email")).to.not.exist;
+        });
+
+        it("Should return true if errors exist in errors array", async () => {
+            expect(model.hasErrors()).to.be.false;
+
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            expect(model.hasErrors()).to.be.true
         });
     });
 });

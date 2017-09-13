@@ -1,5 +1,4 @@
 import {validate, ValidationError, ValidationOptions} from "class-validator";
-import deleteProperty = Reflect.deleteProperty;
 
 export interface ModelError {
     attribute: string;
@@ -87,6 +86,15 @@ export abstract class Model implements ModelInterface {
     public getError(attribute: string): ModelError | undefined {
 
         return this.errors.find((error: ModelError) => error.attribute === attribute);
+    }
+
+    public addError(newError: ModelError) {
+        const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);
+
+        this.errors = [
+            ...oldErrors,
+            newError
+        ];
     }
 
     public getValue(attribute: string): ModelValue {
