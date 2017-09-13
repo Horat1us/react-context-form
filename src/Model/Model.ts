@@ -1,4 +1,5 @@
 import {validate, ValidationError, ValidationOptions} from "class-validator";
+import deleteProperty = Reflect.deleteProperty;
 
 export interface ModelError {
     attribute: string;
@@ -39,7 +40,7 @@ export abstract class Model implements ModelInterface {
     public get = async (): Promise<void> => undefined;
 
     public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
-        return this.errors = (await validate(
+        const newErrors = (await validate(
             this as any,
             {
                 skipMissingProperties: true,
@@ -58,6 +59,16 @@ export abstract class Model implements ModelInterface {
                         .join(", "),
                 };
             });
+
+        const oldErrors = group === undefined
+            ? []
+            : this.errors
+                .filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
+
+        return this.errors = [
+            ...newErrors,
+            ...oldErrors
+        ];
     }
 
     public groups(): { [key: string]: string[] } {
