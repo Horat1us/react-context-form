@@ -1,4 +1,5 @@
 export * from "./Hint";
+export * from "./HintPopup";
 export * from "./Label";
 export * from "./Form";
 export * from "./FormGroup";

@@ -1,9 +1,9 @@
 import * as React from "react";
 import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
-import {Hint} from "../src";
+import {HintPopup} from "../src";
 
-describe("<Hint/>", () => {
+describe("<HintPopup/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLSpanElement>, void>;
     const hintText = "You should enter your name here";
     const context = {
@@ -12,7 +12,7 @@ describe("<Hint/>", () => {
 
     beforeEach(() => {
         wrapper = mount(
-            <Hint>{hintText}</Hint>,
+            <HintPopup>{hintText}</HintPopup>,
             {
                 context,
             }
