@@ -27,13 +27,13 @@ export class InputRange extends React.Component<InputRangeProps, undefined> {
         return this.props.children;
     }
 
-    protected handleChange = async (value) => {
+    protected handleChange = async (value: number) => {
         const currentLength = value.toString().length;
         const maxLength = this.props.max.toString().length;
 
         // simulate maxLength for input
         if (currentLength > maxLength) {
-            value = value.substring(0, maxLength);
+            value = Number(value.toString().substring(0, maxLength));
         }
 
         if (value > this.props.max) {
@@ -48,14 +48,8 @@ export class InputRange extends React.Component<InputRangeProps, undefined> {
 
         if (value > this.props.max) {
             value = this.props.max;
-        }
-
-        if (value < this.props.min) {
+        } else if (value < this.props.min) {
             value = this.props.min;
-        }
-
-        if (Number(this.context.value) === value) {
-            return;
         }
 
         await this.context.onChange(value);
