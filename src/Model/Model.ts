@@ -62,8 +62,7 @@ export abstract class Model implements ModelInterface {
 
         const oldErrors = group === undefined
             ? []
-            : this.errors
-                .filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
+            : this.errors.filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
 
         return this.errors = [
             ...newErrors,

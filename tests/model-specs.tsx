@@ -58,5 +58,16 @@ describe("Model", () => {
             expect(errors).to.have.length(1);
             expect(errors[0].attribute).to.be.equal("email");
         });
+
+        it("Should keep old errors when group validation", async () => {
+            model.email = "someexample.com";
+            model.password = "weak";
+
+            const errors = await model.validate("email");
+
+            expect(errors).to.have.length(2);
+            expect(errors[1].attribute).to.be.equal("email");
+            expect(errors[0].attribute).to.be.equal("password");
+        });
     });
 });
