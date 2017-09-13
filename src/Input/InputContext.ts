@@ -6,10 +6,10 @@ export interface InputContext {
     name: string;
     value: any;
 
-    onChange: (value: any) => void;
-    onFocus: () => void;
-    onBlur: () => void;
-    onMount: (ref: HTMLElement) => void;
+    onChange: (value: any) => Promise<void>;
+    onFocus: () => Promise<void>;
+    onBlur: () => Promise<void>;
+    onMount: (ref: HTMLElement) => Promise<void>;
 }
 
 export const InputContextTypes = {

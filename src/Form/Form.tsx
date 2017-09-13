@@ -63,7 +63,8 @@ export class Form<M extends Model>
     public handleSubmit = async (event?: Event) => {
         event && event.preventDefault();
 
-        await this.setState({isLoading: true});
+        this.state.isLoading = true;
+        this.forceUpdate();
 
         await this.state.model.validate();
 
