@@ -4,7 +4,7 @@ import {InputRange} from "../src/InputRange";
 import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 
-describe("<NumericInput/>", () => {
+describe("<InputRange/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
     let node: InputRange;
 
