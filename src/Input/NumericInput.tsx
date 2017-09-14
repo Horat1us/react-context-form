@@ -11,6 +11,7 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
             ...{
                 onInput: this.handleInputChange,
                 onChange: () => undefined,
+                type: "number"
             }
         };
 
