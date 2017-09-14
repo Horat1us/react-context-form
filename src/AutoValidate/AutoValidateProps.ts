@@ -9,6 +9,8 @@ export interface AutoValidateProps {
     onLength?: number,
 
     onValidated?: (isValid: boolean) => void,
+
+    on?: (nextValue: string) => boolean
 }
 
 export const AutoValidatePropTypes = {
@@ -20,6 +22,8 @@ export const AutoValidatePropTypes = {
     onLength: PropTypes.number,
 
     onValidated: PropTypes.func,
+
+    on: PropTypes.func
 };
 
 export const AutoValidateDefaultProps = {

@@ -88,14 +88,14 @@ export abstract class Model implements ModelInterface {
         return this.errors.find((error: ModelError) => error.attribute === attribute);
     }
 
-    public addError(newError: ModelError) {
+    public addError = (newError: ModelError) => {
         const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);
 
         this.errors = [
             ...oldErrors,
             newError
         ];
-    }
+    };
 
     public getValue(attribute: string): ModelValue {
         const value: ModelValue = {
