@@ -136,4 +136,16 @@ describe("<Form/>", () => {
         expect(wrapper.state().model.password).to.be.equal(storedForm.password);
         expect(wrapper.state().model.email).to.be.equal(storedForm.email);
     });
+
+    it("Should add error and call forceUpdate", async () => {
+        const error = {
+            attribute: "email",
+            details: "Some error"
+        };
+
+        node.getChildContext().addError(error);
+
+        expect((node.forceUpdate as SinonSpy).calledOnce).to.be.true;
+        expect(wrapper.state().model.getError(error.attribute).details).to.equal(error.details);
+    });
 });
