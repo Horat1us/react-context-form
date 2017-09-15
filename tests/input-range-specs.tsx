@@ -17,6 +17,7 @@ describe("<InputRange/>", () => {
     const onBlur = () => onChange(wrapper.context().value);
     const onFocus = (...args) => undefined;
     const onMount = (...args) => undefined;
+    const onAttributeChange = (...args) => undefined;
 
     const id = "prefix-" + (new Date());
 
@@ -28,7 +29,7 @@ describe("<InputRange/>", () => {
     const context: FormGroupContext = previousContext = {
         id,
         name,
-        onChange, onBlur, onFocus, onMount,
+        onChange, onBlur, onFocus, onMount, onAttributeChange,
         value: controlValue,
     };
 
