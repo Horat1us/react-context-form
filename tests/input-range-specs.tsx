@@ -56,7 +56,7 @@ describe("<InputRange/>", () => {
                 ...{value: controlValue}
             });
 
-            expect(wrapper.context().value).to.equal(i);
+            expect(wrapper.context().value).to.equal(i.toString());
         }
     });
 
@@ -73,7 +73,7 @@ describe("<InputRange/>", () => {
 
         const expectedValue = Number(controlValue.toString().substring(0, maxLength));
 
-        expect(wrapper.context().value).to.equal(expectedValue);
+        expect(wrapper.context().value).to.equal(expectedValue.toString());
     });
 
     it("Should set max value if new value more then `props.max` on change", () => {
@@ -86,7 +86,7 @@ describe("<InputRange/>", () => {
             ...{value: controlValue}
         });
 
-        expect(wrapper.context().value).to.equal(props.max);
+        expect(wrapper.context().value).to.equal(props.max.toString());
     });
 
     it("Should update value from context on blur", () => {
@@ -103,7 +103,7 @@ describe("<InputRange/>", () => {
                 ...{value: controlValue}
             });
 
-            expect(wrapper.context().value).to.equal(i);
+            expect(wrapper.context().value).to.equal(i.toString());
         }
     });
 
@@ -122,7 +122,7 @@ describe("<InputRange/>", () => {
             ...{value: controlValue}
         });
 
-        expect(wrapper.context().value).to.equal(props.max);
+        expect(wrapper.context().value).to.equal(props.max.toString());
 
     });
 
@@ -141,7 +141,7 @@ describe("<InputRange/>", () => {
             ...{value: controlValue}
         });
 
-        expect(wrapper.context().value).to.equal(props.min);
+        expect(wrapper.context().value).to.equal(props.min.toString());
 
     });
 
@@ -171,6 +171,6 @@ describe("<InputRange/>", () => {
             ...{value: controlValue}
         });
 
-        expect(wrapper.context().value).to.equal(props.min);
+        expect(wrapper.context().value).to.equal(props.min.toString());
     });
 });
