@@ -40,7 +40,7 @@ export class InputRange extends React.Component<InputRangeProps, undefined> {
             value = this.props.max;
         }
 
-        await this.context.onChange(value);
+        await this.context.onChange(value.toString());
     };
 
     protected handleBlur = async () => {
@@ -52,6 +52,6 @@ export class InputRange extends React.Component<InputRangeProps, undefined> {
             value = this.props.min;
         }
 
-        await this.context.onChange(value);
+        await this.context.onChange(value.toString());
     };
 }
