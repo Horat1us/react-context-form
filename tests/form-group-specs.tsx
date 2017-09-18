@@ -102,7 +102,7 @@ describe("<FormGroup />", () => {
         expect(changedValue).to.be.equal(newValue);
     });
 
-    it("Should trigger `context.handleAttributeChang` when `childContext.onAttributeChange` is triggered", () => {
+    it("Should trigger `context.onChange` when `childContext.onAttributeChange` is triggered", () => {
         let changedValue;
         let changedField;
         const newValue = "newValue";

@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import { AutoUpdateProps, AutoUpdatePropTypes} from "./AutoUpdateProps";
 import {InputContextTypes, InputContext} from "../Input";
-import {AutoUpdateContextTypes} from "./AutoUpdateContext";
+import {AutoUpdateContext, AutoUpdateContextTypes} from "./AutoUpdateContext";
 
 export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
     public static propTypes = AutoUpdatePropTypes;
@@ -13,7 +13,7 @@ export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
 
     public context: InputContext;
 
-    public getChildContext() {
+    public getChildContext(): AutoUpdateContext {
         return {
             onBlur: this.handleUpdate
         }
