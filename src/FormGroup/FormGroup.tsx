@@ -39,6 +39,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
             value: value ? value.value : undefined,
 
             onChange: this.handleChange,
+            onAttributeChange: this.context.onChange,
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
             onMount: this.handleMount,
@@ -52,7 +53,6 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public handleChange = async (value: any) => await this.context.onChange(this.props.name, value);
-
     public handleBlur = async () => this.setState({isFocused: false});
     public handleFocus = async () => this.setState({isFocused: true});
 

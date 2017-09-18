@@ -17,6 +17,7 @@ describe("<Input />", () => {
     const onBlur = (...args) => undefined;
     const onFocus = (...args) => undefined;
     const onMount = (...args) => undefined;
+    const onAttributeChange = (...args) => undefined;
 
     const id = "prefix-" + (new Date());
 
@@ -53,7 +54,7 @@ describe("<Input />", () => {
         const context: FormGroupContext = previousContext = {
             id,
             name,
-            onChange, onBlur, onFocus, onMount,
+            onChange, onBlur, onFocus, onMount, onAttributeChange,
             value: initialValue,
         };
         wrapper = mount(
