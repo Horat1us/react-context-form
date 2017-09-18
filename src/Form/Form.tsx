@@ -43,7 +43,7 @@ export class Form<M extends Model>
             getDOMElement: this.getDOMElement,
 
             isLoading: this.state.isLoading,
-            addError: this.state.model.addError
+            addError: this.handleErrorAdded
         };
     }
 
@@ -163,4 +163,9 @@ export class Form<M extends Model>
 
         return errors;
     };
+
+    protected handleErrorAdded = (newError: ModelError) => {
+        this.state.model.addError(newError);
+        this.forceUpdate();
+    }
 }
