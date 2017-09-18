@@ -38,7 +38,7 @@ export class AutoValidate extends React.Component<AutoValidateProps, undefined> 
         if (
             this.props.onChange
             || ("string" === typeof value && value.length >= this.props.onLength)
-            || this.props.on(value)
+            || this.props.on && this.props.on(value)
         ) {
             await this.validate();
         }
