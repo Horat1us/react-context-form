@@ -102,6 +102,21 @@ describe("<FormGroup />", () => {
         expect(changedValue).to.be.equal(newValue);
     });
 
+    it("Should trigger `context.onChange` when `childContext.onAttributeChange` is triggered", () => {
+        let changedValue;
+        let changedField;
+        const newValue = "newValue";
+        const field = "email";
+        handler = (receivedField, newReceivedValue) => {
+            changedValue = newReceivedValue;
+            changedField = receivedField;
+        };
+        node.getChildContext().onAttributeChange(field, newValue);
+
+        expect(changedField).to.be.equal(field);
+        expect(changedValue).to.be.equal(newValue);
+    });
+
     it("Should add `childContext.value` from `context.values` collection", () => {
         expect(node.getChildContext().value).to.not.exist;
         const parentContextValue = "string";
