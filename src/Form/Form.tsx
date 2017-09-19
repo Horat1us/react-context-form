@@ -74,7 +74,7 @@ export class Form<M extends Model>
             if ("function" === typeof action) {
                 await action();
             } else {
-                this.props.onSubmit && await this.props.onSubmit(this.state.model);
+                this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
             }
         }
 
