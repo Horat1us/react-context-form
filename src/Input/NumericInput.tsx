@@ -26,7 +26,7 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
             event.currentTarget.value = "";
             event.currentTarget.value = cleanValue;
 
-            await this.context.onChange(event.currentTarget.value);
+            await this.context.onChange(cleanValue);
         }
     };
 }
