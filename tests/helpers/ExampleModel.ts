@@ -3,10 +3,10 @@ import {IsAlphanumeric, IsDefined, IsEmail, MinLength} from "class-validator";
 
 export class ExampleModel extends Model {
     @MinLength(10, {
-        groups: ["email"],
+        groups: ["password"],
     })
     @IsAlphanumeric({
-        groups: ["email"],
+        groups: ["password"],
     })
     public password: string;
 
@@ -28,4 +28,6 @@ export class ExampleModel extends Model {
             password: ["password"]
         }
     }
+
+    public post = () => undefined;
 }

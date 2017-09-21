@@ -6,7 +6,6 @@ import {mount, ReactWrapper} from "enzyme";
 import * as sinon from "sinon";
 import {Form, FormState, FormProps} from "../src/Form";
 import {ExampleModel} from "./helpers/ExampleModel";
-import {FormContext} from "../src/Form/FormContext";
 // tslint:disable-next-line
 import {SinonSpy} from "sinon";
 
@@ -18,16 +17,34 @@ describe("<Form/>", () => {
     type ExampleForm = new() => Form<ExampleModel>;
     const ExampleForm: ExampleForm = Form as any;
 
-    const instantiateExampleModel = () => new ExampleModel();
+    const instantiateExampleModel = () => {
+        const model = new ExampleModel();
+
+        model.email = "email@eamil.com";
+        model.password = "abcd10214568";
+
+        return model;
+    };
+
+    let isOnSubmitTriggered;
+    const onSubmit = async () => {
+        isOnSubmitTriggered = true
+    };
+
+    let props = {
+        instantiate: instantiateExampleModel,
+        onSubmit,
+        method: undefined
+    };
 
     const field = "testField";
     const value = "testValue";
     const element = document.createElement("div");
 
     beforeEach(() => {
-        wrapper = mount(
-            <ExampleForm method="post" instantiate={instantiateExampleModel}/>
-        );
+        isOnSubmitTriggered = false;
+        wrapper = mount(<ExampleForm {...props}/>);
+
         node = wrapper.getNode() as any;
 
         sinon.spy(node, "forceUpdate");
@@ -37,6 +54,12 @@ describe("<Form/>", () => {
         wrapper.unmount();
 
         (node.forceUpdate as any).restore();
+        isOnSubmitTriggered = false;
+        props = {
+            instantiate: instantiateExampleModel,
+            onSubmit,
+            method: undefined
+        };
     });
 
     it("Should put value to `model` if field changed", () => {
@@ -97,7 +120,7 @@ describe("<Form/>", () => {
             getItem: () => undefined,
         };
 
-        const changedPassword = Math.random().toString().repeat(10);
+        const changedPassword = (Math.random().toString() as any).repeat(10);
         const storageKey = "form";
 
         wrapper.setProps({
@@ -112,9 +135,9 @@ describe("<Form/>", () => {
         expect(storedForm.password).to.be.equal(changedPassword);
     });
 
-    it("Should have load values from localStorage if storageKey prop provided", async () => {
+    it("Should have load values from localStorage if storageKey prop provided", () => {
         const storedForm = {
-            password: Math.random().toString().repeat(2),
+            password: (Math.random().toString() as any).repeat(2),
             email: "person@example.com",
         };
         const storedFormName = "storedForm";
@@ -137,7 +160,7 @@ describe("<Form/>", () => {
         expect(wrapper.state().model.email).to.be.equal(storedForm.email);
     });
 
-    it("Should add error and call forceUpdate", async () => {
+    it("Should add error and call forceUpdate", () => {
         const error = {
             attribute: "email",
             details: "Some error"
@@ -147,5 +170,30 @@ describe("<Form/>", () => {
 
         expect((node.forceUpdate as SinonSpy).calledOnce).to.be.true;
         expect(wrapper.state().model.getError(error.attribute).details).to.equal(error.details);
+    });
+
+    it("Should preventDefault when event pass to function", () => {
+        let isDefaultPrevented = false;
+        wrapper.simulate("submit", {
+            preventDefault: () => {
+                isDefaultPrevented = true;
+            }
+        });
+        expect(isDefaultPrevented).to.be.true;
+    });
+
+    it("Should call `props.onSubmit` when form has been validated", async () => {
+        await node.handleSubmit();
+        expect(wrapper.state().model.hasErrors()).to.be.false;
+        expect(isOnSubmitTriggered).to.be.true;
+    });
+
+    it("Should not call `props.onSubmit` if prop `method` passed to form", async () => {
+        props.method = "post";
+        wrapper.setProps(props);
+
+        await node.handleSubmit();
+        expect(wrapper.state().model.hasErrors()).to.be.false;
+        expect(isOnSubmitTriggered).to.be.false;
     });
 });

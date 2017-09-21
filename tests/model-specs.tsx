@@ -74,10 +74,13 @@ describe("Model", () => {
 
         it("Should keep old errors when group validation", async () => {
             model.email = "someexample.com";
-            model.password = "weak";
+            let errors = await model.validate();
 
-            const errors = await model.validate("email");
+            expect(errors).to.have.length(1);
+            expect(errors[0].attribute).to.be.equal("email");
 
+            model.password = "week";
+            errors = await model.validate("password");
             expect(errors).to.have.length(modelPropertiesCount);
             expect(errors[1].attribute).to.be.equal("email");
             expect(errors[0].attribute).to.be.equal("password");
