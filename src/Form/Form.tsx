@@ -43,7 +43,8 @@ export class Form<M extends Model>
             getDOMElement: this.getDOMElement,
 
             isLoading: this.state.isLoading,
-            addError: this.handleErrorAdded
+            addError: this.handleErrorAdded,
+            hasErrors: this.state.model.hasErrors,
         };
     }
 
