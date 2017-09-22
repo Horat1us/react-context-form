@@ -141,5 +141,18 @@ describe("Model", () => {
 
             expect(model.hasErrors()).to.be.true
         });
+
+        it("Should return true if group error exist in errors array", async () => {
+            expect(model.getError("email")).to.not.exist;
+
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            expect(model.getError("email")).to.exist;
+        });
     });
 });
