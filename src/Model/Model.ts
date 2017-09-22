@@ -84,7 +84,6 @@ export abstract class Model implements ModelInterface {
     }
 
     public getError = (attribute: string): ModelError | undefined => {
-
         return this.errors.find((error: ModelError) => error.attribute === attribute);
     };
 
