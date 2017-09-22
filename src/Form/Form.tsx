@@ -44,7 +44,7 @@ export class Form<M extends Model>
 
             isLoading: this.state.isLoading,
             addError: this.handleErrorAdded,
-            hasErrors: this.state.model.hasErrors,
+            getError: this.state.model.getError,
         };
     }
 

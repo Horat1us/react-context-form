@@ -111,7 +111,11 @@ export abstract class Model implements ModelInterface {
         return value;
     }
 
-    public hasErrors(): boolean {
+    public hasErrors(group?: string): boolean {
+        if (group && typeof group === "string") {
+            return !!this.errors.find(({attribute}) => (this.groups()[group] || []).includes(attribute));
+        }
+
         return this.errors.length !== 0;
     }
 
