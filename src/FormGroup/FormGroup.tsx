@@ -68,7 +68,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
         const {name, className, idPrefix, errorClassName, focusClassName, ...childProps} = this.props;
 
         return (
-            <div className={this.className} {...childProps}>
+            <div className={this.className} data-name={this.props.name} {...childProps}>
                 {this.props.children}
             </div>
         );

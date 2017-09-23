@@ -25,17 +25,19 @@ describe("<FormGroup />", () => {
         handler = () => undefined;
         mountHandler = () => undefined;
         unmountHandler = () => undefined;
+        const commonHandle = () => undefined;
 
         const context: FormContext = previousContext = {
             values: [],
-            addError: () => undefined,
+            addError: commonHandle,
+            getError: commonHandle,
 
             onChange: handleChange,
             onMount: handleMount,
             onUnmount: handleUnmount,
 
-            validate: () => undefined,
-            getDOMElement: () => undefined,
+            validate: commonHandle,
+            getDOMElement: commonHandle,
 
             isLoading: false,
         };

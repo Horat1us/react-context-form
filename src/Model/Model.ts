@@ -83,10 +83,9 @@ export abstract class Model implements ModelInterface {
             .map(this.getValue.bind(this));
     }
 
-    public getError(attribute: string): ModelError | undefined {
-
+    public getError = (attribute: string): ModelError | undefined => {
         return this.errors.find((error: ModelError) => error.attribute === attribute);
-    }
+    };
 
     public addError = (newError: ModelError) => {
         const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);
