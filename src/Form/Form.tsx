@@ -77,6 +77,8 @@ export class Form<M extends Model>
             } else {
                 this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
             }
+        } else {
+            this.getDOMElement(this.state.model.getErrors()[0].attribute).focus();
         }
 
         this.state.isLoading = false;
