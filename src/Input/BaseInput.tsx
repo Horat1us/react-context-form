@@ -43,9 +43,6 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
                     value = value.toString().toUpperCase();
                     break;
                 }
-                case TransformTypes.none: {
-                    break;
-                }
             }
 
             await this.context.onChange(value);
