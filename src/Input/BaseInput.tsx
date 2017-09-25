@@ -28,7 +28,11 @@ export class BaseInput<T extends HTMLElement> extends React.Component<React.HTML
     protected handleChange = async (event: any) => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
-            await this.context.onChange(event.currentTarget.value);
+            const {currentTarget: {value}} = event;
+            const capitalizedValue = value.toString().charAt(0).toUpperCase()
+                + value.toString().substring(1).toLowerCase();
+
+            await this.context.onChange(capitalizedValue);
         }
     };
 
