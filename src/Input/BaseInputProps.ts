@@ -1,14 +1,15 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import {TransformTypes} from "./TransformTypes";
 
 export interface BaseInputProps<T extends HTMLElement> extends React.HTMLProps<T> {
-    capitalize?: boolean
+    transform?: TransformTypes
 }
 
 export const BaseInputPropTypes = {
-    capitalize: PropTypes.bool
+    transform: PropTypes.oneOf(Object.keys(TransformTypes))
 };
 
 export const BaseInputDefaultProps = {
-    capitalize: false
+    transform: TransformTypes.none
 };

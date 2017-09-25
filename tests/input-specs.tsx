@@ -3,9 +3,11 @@ import {expect} from "chai";
 import {Input} from "../src/Input";
 import {mount, ReactWrapper} from "enzyme";
 import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
+import {TransformTypes} from "../src/Input/TransformTypes";
+import {BaseInputProps} from "../src/Input/BaseInputProps";
 
 describe("<Input />", () => {
-    let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
+    let wrapper: ReactWrapper<BaseInputProps<HTMLInputElement>, any>;
 
     let node: HTMLInputElement;
     let previousContext: FormGroupContext;
@@ -62,7 +64,7 @@ describe("<Input />", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Input capitalize={true}/>,
+            <Input transform={TransformTypes.capitalize}/>,
             {context}
         );
         node = wrapper.getDOMNode() as any;
@@ -70,6 +72,7 @@ describe("<Input />", () => {
 
     afterEach(() => {
         wrapper.unmount();
+        testValue = "";
     });
 
     it("Should trigger both `props.onChange` and `context.onChange`", () => {
@@ -160,5 +163,17 @@ describe("<Input />", () => {
         (wrapper.getNode() as any).handleChange({currentTarget: {value}});
 
         expect(testValue).to.equal("String");
-    })
+    });
+
+    it("Should uppercase value onChange", () => {
+        const value = "string";
+
+        wrapper.setProps({
+            transform: TransformTypes.upperCase,
+        });
+
+        (wrapper.getNode() as any).handleChange({currentTarget: {value}});
+
+        expect(testValue).to.equal("STRING");
+    });
 });
