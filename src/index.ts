@@ -2,6 +2,8 @@ export * from "./Hint";
 export * from "./HintPopup";
 export * from "./Label";
 export * from "./Form";
+export * from "./Button";
+export * from "./RadioGroup";
 export * from "./FormGroup";
 export * from "./SubmitButton";
 export * from "./SlowSubmitButton";
