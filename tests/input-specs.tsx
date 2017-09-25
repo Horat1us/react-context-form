@@ -62,7 +62,7 @@ describe("<Input />", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Input/>,
+            <Input capitalize={true}/>,
             {context}
         );
         node = wrapper.getDOMNode() as any;
@@ -156,6 +156,7 @@ describe("<Input />", () => {
 
     it("Should capitalize value onChange", () => {
         const value = "sTRING";
+
         (wrapper.getNode() as any).handleChange({currentTarget: {value}});
 
         expect(testValue).to.equal("String");
