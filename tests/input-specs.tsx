@@ -12,8 +12,12 @@ describe("<Input />", () => {
 
     const name = "fieldName";
     const initialValue = "undefined";
+    let testValue;
 
-    const onChange = (...args) => undefined;
+    const onChange = (value) => {
+        testValue = value;
+        return undefined
+    };
     const onBlur = (...args) => undefined;
     const onFocus = (...args) => undefined;
     const onMount = (...args) => undefined;
@@ -58,7 +62,7 @@ describe("<Input />", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Input/>,
+            <Input capitalize={true}/>,
             {context}
         );
         node = wrapper.getDOMNode() as any;
@@ -149,4 +153,12 @@ describe("<Input />", () => {
         wrapper.setProps({placeholder});
         expect(wrapper.getDOMNode().getAttribute("placeholder")).to.be.equal(placeholder);
     });
+
+    it("Should capitalize value onChange", () => {
+        const value = "sTRING";
+
+        (wrapper.getNode() as any).handleChange({currentTarget: {value}});
+
+        expect(testValue).to.equal("String");
+    })
 });
