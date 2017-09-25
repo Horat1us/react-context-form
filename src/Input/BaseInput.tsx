@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import {InputContext, InputContextTypes} from "./InputContext";
 import {BaseInputDefaultProps, BaseInputProps} from "./BaseInputProps";
+import {TransformTypes} from "./TransformTypes";
 
 export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputProps<T>, undefined> {
     public static contextTypes = InputContextTypes;
@@ -10,7 +11,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
     public defaultProps: BaseInputProps<T> = BaseInputDefaultProps;
 
     protected get childProps(): BaseInputProps<T> {
-        const {capitalize, ...childProps} = this.props;
+        const {transform, ...childProps} = this.props;
         return {
             ...childProps,
 
@@ -33,9 +34,19 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
         if (!event.defaultPrevented) {
             let value = event.currentTarget.value;
 
-            value = this.props.capitalize
-                ? value.toString().charAt(0).toUpperCase() + value.toString().substring(1).toLowerCase()
-                : value;
+            switch (this.props.transform) {
+                case TransformTypes.capitalize: {
+                    value = value.toString().charAt(0).toUpperCase() + value.toString().substring(1).toLowerCase();
+                    break;
+                }
+                case TransformTypes.upperCase: {
+                    value = value.toString().toUpperCase();
+                    break;
+                }
+                case TransformTypes.none: {
+                    break;
+                }
+            }
 
             await this.context.onChange(value);
         }
