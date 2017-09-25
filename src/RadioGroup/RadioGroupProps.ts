@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 import {FormGroupDefaultProps, FormGroupPropTypes} from "../FormGroup/FormGroupProps";
 
-export interface RadioGroupProps extends HTMLElement{
+export interface RadioGroupProps extends HTMLElement {
     yesLabel: string,
     noLabel: string
 }
