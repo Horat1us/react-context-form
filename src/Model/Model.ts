@@ -18,6 +18,7 @@ export interface ModelInterface {
 
     hasErrors: () => boolean;
     getError: (attribute: string) => ModelError | undefined;
+    getErrors: () => ModelError[];
     removeErrors: (attribute: string) => number,
 
     getValue: (attribute: string) => ModelValue | undefined;
@@ -86,6 +87,8 @@ export abstract class Model implements ModelInterface {
     public getError = (attribute: string): ModelError | undefined => {
         return this.errors.find((error: ModelError) => error.attribute === attribute);
     };
+
+    public getErrors = (): ModelError[] => this.errors;
 
     public addError = (newError: ModelError) => {
         const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);

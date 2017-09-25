@@ -154,5 +154,24 @@ describe("Model", () => {
 
             expect(model.getError("email")).to.exist;
         });
+
+        it("Should return all errors", async () => {
+            expect(model.getError("email")).to.not.exist;
+
+            const errorMsg = "error details";
+
+            model.addError({
+                attribute: "email",
+                details: errorMsg
+            });
+
+            model.addError({
+                attribute: "password",
+                details: errorMsg
+            });
+
+            expect(model.getErrors()[0].attribute).to.equal("email");
+            expect(model.getErrors()[1].attribute).to.equal("password");
+        });
     });
 });
