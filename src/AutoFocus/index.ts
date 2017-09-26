@@ -1,2 +1,3 @@
 export * from "./AutoFocus";
-export * from "./AutoFocusProps"
+export * from "./AutoFocusContext";
+export * from "./AutoFocusProps";
