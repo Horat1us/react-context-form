@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -67,7 +67,7 @@
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
     "sinon": "^3.2.0",
-    "source-map-loader": "^0.2.1",
+    "source-map-loader": "^0пше зг.2.1",
     "source-map-support": "^0.4.15",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
