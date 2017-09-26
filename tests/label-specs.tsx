@@ -2,7 +2,6 @@ import * as React from "react";
 import {Label} from "../src";
 import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
-import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
 import {LabelContext} from "../src/Label/LabelContext";
 
 describe("<Label />", () => {

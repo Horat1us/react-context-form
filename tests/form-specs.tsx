@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
 
@@ -31,13 +30,11 @@ describe("<Form/>", () => {
     const onSubmit = async () => {
         isOnSubmitTriggered = true
     };
-
     let props = {
         instantiate: instantiateExampleModel,
         onSubmit,
         method: undefined
     };
-
     const field = "testField";
     const value = "testValue";
     const element = document.createElement("div");
@@ -51,9 +48,9 @@ describe("<Form/>", () => {
                 </FormGroup>
             </ExampleForm>
         );
-
         node = wrapper.getNode() as any;
         sinon.spy(node, "forceUpdate");
+        sinon.spy(wrapper.state().model, "removeErrors");
     });
 
     afterEach(() => {
@@ -106,6 +103,7 @@ describe("<Form/>", () => {
         expect(wrapper.state("mounted")).to.contain({[field]: element});
         expect((node.forceUpdate as SinonSpy).calledOnce).to.be.true;
         node.getChildContext().onUnmount(field);
+        node.getChildContext().onUnmount("not existing field");
         expect(wrapper.state("mounted")).to.not.contain([field]);
     });
 
@@ -117,12 +115,9 @@ describe("<Form/>", () => {
             },
             getItem: () => undefined,
         };
-
         const changedPassword = (Math.random().toString() as any).repeat(10);
         const storageKey = "form";
-        wrapper.setProps({
-            storageKey,
-        });
+        wrapper.setProps({storageKey});
         node.getChildContext().onChange("password", changedPassword);
         wrapper.unmount();
         expect(localStorageEmulator).to.have.key(storageKey);
@@ -139,13 +134,9 @@ describe("<Form/>", () => {
         const storedFormName = "storedForm";
         (window as any).localStorage = {
             setItem: () => undefined,
-            getItem: (key: string) => {
-                return key === storedFormName ? JSON.stringify(storedForm) : undefined;
-            }
+            getItem: (key: string) => key === storedFormName ? JSON.stringify(storedForm) : undefined,
         };
-        wrapper.setProps({
-            storageKey: storedFormName,
-        });
+        wrapper.setProps({storageKey: storedFormName});
 
         // Can not emulate onMount (componentWillMount wont be called)
         (wrapper.instance() as Form<ExampleModel>).loadFromStorage();
@@ -153,11 +144,13 @@ describe("<Form/>", () => {
         expect(wrapper.state().model.email).to.be.equal(storedForm.email);
     });
 
+    it("Should return false on loadFromStorage is local storage is empty (0)", () => {
+        (window as any).localStorage = {getItem: () => 0};
+        expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
+    });
+
     it("Should add error and call forceUpdate", () => {
-        const error = {
-            attribute: "email",
-            details: "Some error"
-        };
+        const error = {attribute: "email", details: "Some error"};
         node.getChildContext().addError(error);
         expect((node.forceUpdate as SinonSpy).calledOnce).to.be.true;
         expect(wrapper.state().model.getError(error.attribute).details).to.equal(error.details);
@@ -177,6 +170,13 @@ describe("<Form/>", () => {
         await node.handleSubmit();
         expect(wrapper.state().model.hasErrors()).to.be.false;
         expect(isOnSubmitTriggered).to.be.true;
+    });
+
+    it("Should remove errors from field ", async () => {
+        model.email = "wrong";
+        wrapper.update();
+        await node.getChildContext().validate("email");
+        expect((wrapper.state().model.removeErrors as SinonSpy).called).to.be.true;
     });
 
     it("Should not call `props.onSubmit` if prop `method` passed to form", async () => {
