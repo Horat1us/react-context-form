@@ -10,8 +10,6 @@ export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLBut
 
     public get childProps(): React.HTMLProps<HTMLButtonElement> {
         return {
-            ...this.props,
-            ...{
                 id: this.context.id,
                 ref: this.context.onMount,
                 name: this.context.name,
@@ -21,7 +19,6 @@ export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLBut
                 onClick: this.handleClick,
 
                 type: "button"
-            }
         }
     }
 

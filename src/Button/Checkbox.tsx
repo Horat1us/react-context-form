@@ -11,8 +11,18 @@ export class Checkbox extends BaseButton {
     public props: CheckboxProps;
 
     public render() {
+        const {activeClassName, ...HTMLProps} = this.props;
+
+        const childProps = {
+            ...this.childProps,
+            ...HTMLProps,
+            ...{
+                className: this.className
+            }
+        };
+
         return (
-            <button className={this.className} {...this.childProps}>
+            <button {...childProps}>
                 {this.props.children}
             </button>
         );

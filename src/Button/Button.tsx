@@ -1,4 +1,4 @@
-import * as React from "React";
+import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import {BaseButton} from "./BaseButton";
@@ -11,8 +11,18 @@ export class Button extends BaseButton {
     public props: ButtonProps;
 
     public render() {
+        const {activeClassName, ...HTMLProps} = this.props;
+
+        const childProps = {
+            ...this.childProps,
+            ...HTMLProps,
+            ...{
+                className: this.className
+            }
+        };
+
         return (
-            <button className={this.className} {...this.childProps}>
+            <button {...childProps}>
                 {this.props.children}
             </button>
         );
