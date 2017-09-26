@@ -23,9 +23,11 @@ export class AutoValidate extends React.Component<AutoValidateProps, undefined> 
     };
 
     public getChildContext(): AutoValidateContext {
+        const isOnChange = this.props.onLength || this.props.on || this.props.always;
+        const isOnBlur = this.props.onBlur || this.props.always;
         return {
-            onChange: (this.props.onLength || this.props.on) ? this.handleChange : this.context.onChange,
-            onBlur: this.props.onBlur ? this.handleBlur : this.context.onBlur,
+            onChange: isOnChange ? this.handleChange : this.context.onChange,
+            onBlur: isOnBlur ? this.handleBlur : this.context.onBlur,
         };
     }
 
@@ -39,6 +41,7 @@ export class AutoValidate extends React.Component<AutoValidateProps, undefined> 
             this.props.onChange
             || ("string" === typeof value && value.length >= this.props.onLength)
             || this.props.on && this.props.on(value)
+            || this.props.always
         ) {
             await this.validate();
         }

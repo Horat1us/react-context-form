@@ -7,6 +7,7 @@ export interface AutoValidateProps {
     onBlur?: boolean,
     onChange?: boolean,
     onLength?: number,
+    always?: boolean
 
     onValidated?: (isValid: boolean) => void,
 
@@ -20,7 +21,7 @@ export const AutoValidatePropTypes = {
     onBlur: PropTypes.bool,
     onChange: PropTypes.bool,
     onLength: PropTypes.number,
-
+    always: PropTypes.bool,
     onValidated: PropTypes.func,
 
     on: PropTypes.func
@@ -29,5 +30,6 @@ export const AutoValidatePropTypes = {
 export const AutoValidateDefaultProps = {
     onBlur: true,
     onChange: false,
+    always: false,
     onValidated: () => undefined,
 };
