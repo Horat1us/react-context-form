@@ -1,12 +1,12 @@
 import * as React from "react";
-import * as PropTpyes from "prop-types";
+import * as PropTypes from "prop-types";
 
-import {BaseButtonContext, BaseButtonContextTypes} from "./BaseButtonContext";
+import {InputContext, InputContextTypes} from "../Input";
 
-export class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElement>, undefined> {
-    public static contextTypes = BaseButtonContextTypes;
+export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElement>, undefined> {
+    public static contextTypes = InputContextTypes;
 
-    public context: BaseButtonContext;
+    public context: InputContext;
 
     public get childProps(): React.HTMLProps<HTMLButtonElement> {
         return {
@@ -18,11 +18,14 @@ export class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElemen
 
                 onFocus: this.handleFocus,
                 onBlur: this.handleBlur,
+                onClick: this.handleClick,
 
                 type: "button"
             }
         }
     }
+
+    protected abstract handleClick: (args: any) => any;
 
     protected handleBlur = async (event: any) => {
         this.props.onBlur && this.props.onBlur(event);

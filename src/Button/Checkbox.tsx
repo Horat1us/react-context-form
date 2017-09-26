@@ -1,21 +1,18 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import {BaseButton} from "./BaseButton";
+import {CheckboxDefaultProps, CheckboxProps, CheckboxPropTypes} from "./CheckboxProps";
 
 export class Checkbox extends BaseButton {
-    public readonly activeClassName = "active";
+    public static readonly propTypes = CheckboxPropTypes;
+    public static readonly defaultProps = CheckboxDefaultProps;
+
+    public props: CheckboxProps;
 
     public render() {
-        const childProps = {
-            ...this.childProps,
-            ...{
-                onClick: this.handleClick,
-                className: this.className
-            }
-        };
-
         return (
-            <button {...childProps}>
+            <button className={this.className} {...this.childProps}>
                 {this.props.children}
             </button>
         );
@@ -29,8 +26,7 @@ export class Checkbox extends BaseButton {
     };
 
     protected get className(): string {
-        const className = this.props.className || "register-checkbox";
-        const additionalClassName = !!this.context.value ? ` ${this.activeClassName}` : "";
-        return `${className}${additionalClassName}`;
+        const additionalClassName = !!this.context.value ? ` ${this.props.activeClassName}` : "";
+        return `${this.props.className}${additionalClassName}`;
     }
 }
