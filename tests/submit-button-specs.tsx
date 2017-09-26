@@ -10,6 +10,7 @@ import {Loading} from "./helpers/Loading";
 
 describe("<SubmitButton />", () => {
     let wrapper;
+
     beforeEach(() => {
         const context: SubmitButtonContext = {
             isLoading: false,
@@ -20,6 +21,10 @@ describe("<SubmitButton />", () => {
             </SubmitButton>,
             {context}
         );
+    });
+
+    afterEach(() => {
+        wrapper.unmount();
     });
 
     it("should render `props.children` when not `context.isLoading`", () => {

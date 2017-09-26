@@ -1,11 +1,14 @@
 import {expect} from "chai";
 import {ExampleModel} from "./helpers/ExampleModel";
+import {EmptyeModel} from "./helpers/EmptyModel";
 
 describe("Model", () => {
     let model: ExampleModel;
+    let emptyModel: EmptyeModel;
     const modelPropertiesCount = 2;
     beforeEach(() => {
         model = new ExampleModel();
+        emptyModel = new EmptyeModel();
     });
 
     describe("Values", () => {
@@ -39,17 +42,30 @@ describe("Model", () => {
             );
         });
 
-        it("Should return all attributes", async () => {
+        it("Should return all attributes", () => {
             expect(model.attributes().length).to.equal(modelPropertiesCount);
             expect(model.attributes()).to.contain("password");
             expect(model.attributes()).to.contain("email");
         });
 
-        it("Should return all groups", async () => {
+        it("Should return all groups", () => {
             expect(Object.keys(model.groups()).length).to.equal(modelPropertiesCount);
 
             expect(Object.keys(model.groups())).to.contain("password");
             expect(Object.keys(model.groups())).to.contain("email");
+        });
+    });
+
+    describe("attributes and groups", () => {
+        it("Should return empty group list", () => {
+            expect(Object.keys(emptyModel.groups()).length).to.equal(0);
+        });
+
+        it("Should return Model public fields list", () => {
+            emptyModel.attributes().forEach((field) => {
+                expect(emptyModel[field]).to.exist;
+                expect(typeof emptyModel[field]).to.equal("function");
+                });
         });
     });
 
@@ -101,7 +117,7 @@ describe("Model", () => {
             expect(model.getError("email").details).to.equal(errorMsg);
         });
 
-        it("Should add errors", async () => {
+        it("Should add errors", () => {
             const errorMsg = "error details";
 
             model.addError({
@@ -113,7 +129,7 @@ describe("Model", () => {
             expect(model.getError("email").details).to.equal(errorMsg);
         });
 
-        it("Should remove errors from errors array", async () => {
+        it("Should remove errors from errors array", () => {
             const errorMsg = "error details";
 
             model.addError({
@@ -129,7 +145,7 @@ describe("Model", () => {
             expect(model.getError("email")).to.not.exist;
         });
 
-        it("Should return true if errors exist in errors array", async () => {
+        it("Should return true if errors exist in errors array", () => {
             expect(model.hasErrors()).to.be.false;
 
             const errorMsg = "error details";
@@ -142,7 +158,7 @@ describe("Model", () => {
             expect(model.hasErrors()).to.be.true
         });
 
-        it("Should return true if group error exist in errors array", async () => {
+        it("Should return true if group error exist in errors array", () => {
             expect(model.getError("email")).to.not.exist;
 
             const errorMsg = "error details";
@@ -155,7 +171,7 @@ describe("Model", () => {
             expect(model.getError("email")).to.exist;
         });
 
-        it("Should return all errors", async () => {
+        it("Should return all errors", () => {
             expect(model.getError("email")).to.not.exist;
 
             const errorMsg = "error details";
