@@ -38,10 +38,10 @@ export class AutoValidate extends React.Component<AutoValidateProps, undefined> 
     protected handleChange = async (value: any): Promise<void> => {
         const onChange = await this.context.onChange(value);
         if (
-            this.props.onChange
+            this.props.always
+            || this.props.onChange
             || ("string" === typeof value && value.length >= this.props.onLength)
             || this.props.on && this.props.on(value)
-            || this.props.always
         ) {
             await this.validate();
         }

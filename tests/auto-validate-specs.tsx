@@ -109,4 +109,14 @@ describe("<AutoValidate/>", () => {
         expect(onChangeTriggered).to.be.true;
     });
 
+    it("Should trigger `context.onChange` both `context.validate` when `props.always` has been passed", async () => {
+        wrapper.setProps({
+            onBlur: false,
+            always: true
+        });
+
+        await node.getChildContext().onChange("11");
+        expect(validateTriggered).to.be.true;
+        expect(onChangeTriggered).to.be.true;
+    });
 });
