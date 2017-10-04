@@ -1,9 +1,10 @@
 import * as React from "react";
-import {FormGroupContext, FormGroupContextTypes} from "../FormGroup/FormGroupContext";
-import {InputContext, InputContextTypes} from "./InputContext";
+
 import {BaseInput} from "./BaseInput";
 
 export class NumericInput extends BaseInput<HTMLInputElement> {
+
+    protected cleanValue: number | string = "";
 
     public render() {
         const childProps = {
@@ -22,11 +23,16 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
 
-            const cleanValue = parseInt(event.currentTarget.value, 10) || "";
-            event.currentTarget.value = "";
-            event.currentTarget.value = cleanValue;
+            const parsedValue = parseInt(event.currentTarget.value, 10);
 
-            await this.context.onChange(cleanValue);
+            this.cleanValue = parsedValue
+                ? parsedValue
+                : (this.cleanValue.toString().length > 1 ? this.cleanValue : "");
+
+            event.currentTarget.value = "";
+            event.currentTarget.value = this.cleanValue;
+
+            await this.context.onChange(this.cleanValue);
         }
     };
 }
