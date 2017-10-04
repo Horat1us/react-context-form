@@ -1,6 +1,5 @@
 import * as React from "react";
-import {FormGroupContext, FormGroupContextTypes} from "../FormGroup/FormGroupContext";
-import {InputContext, InputContextTypes} from "./InputContext";
+
 import {BaseInput} from "./BaseInput";
 
 export class NumericInput extends BaseInput<HTMLInputElement> {

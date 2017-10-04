@@ -74,6 +74,18 @@ describe("<NumericInput/>", () => {
         optionsTrigger(options);
     });
 
+    it("Should set empty string when `currentTarget.value` is empty onInput event", () => {
+        const options = {
+            action: "input",
+            value: "",
+            field: "onChange",
+            contextExpect: true,
+            propsExpect: true,
+        };
+
+        optionsTrigger(options);
+    });
+
     it("Should trigger `props.onChange` without `context.onChange` onInput event", () => {
         const options = {
             action: "input",
