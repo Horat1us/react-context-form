@@ -12,7 +12,9 @@ describe("<NumericInput/>", () => {
     const name = "fieldName";
     const initialValue = "undefined";
 
-    const onChange = (...args) => undefined;
+    let testValue = "undefined";
+
+    const onChange = (arg: any) => testValue = arg;
     const onBlur = (...args) => undefined;
     const onFocus = (...args) => undefined;
     const onMount = (...args) => undefined;
@@ -60,7 +62,10 @@ describe("<NumericInput/>", () => {
         wrapper = mount(<NumericInput/>, {context});
     });
 
-    afterEach(() => wrapper.unmount());
+    afterEach(() => {
+        wrapper.unmount();
+        testValue = "undefined";
+    });
 
     it("Should trigger both `props.onChange` and `context.onChange` onInput event", () => {
         const options = {
@@ -83,6 +88,8 @@ describe("<NumericInput/>", () => {
         });
 
         wrapper.simulate("input");
+
+        expect(testValue).to.equal("");
     });
 
     it("Should trigger `props.onChange` without `context.onChange` onInput event", () => {

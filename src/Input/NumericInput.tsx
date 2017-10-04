@@ -25,7 +25,7 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
 
             const parsedValue = parseInt(event.currentTarget.value, 10);
 
-            this.cleanValue = event.currentTarget.value
+            this.cleanValue = parsedValue
                 ? parsedValue
                 : (this.cleanValue.toString().length > 1 ? this.cleanValue : "");
 
