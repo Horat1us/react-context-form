@@ -1,17 +1,22 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import { AutoUpdateProps, AutoUpdatePropTypes} from "./AutoUpdateProps";
+import {AutoUpdateProps, AutoUpdatePropTypes} from "./AutoUpdateProps";
 import {InputContextTypes, InputContext} from "../Input";
 import {AutoUpdateContext, AutoUpdateContextTypes} from "./AutoUpdateContext";
 
 export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
     public static propTypes = AutoUpdatePropTypes;
-    public static contextTypes = InputContextTypes;
+    public static contextTypes = {
+        ...InputContextTypes,
+        getDOMElement: PropTypes.func.isRequired
+    };
 
     public static readonly childContextTypes = AutoUpdateContextTypes;
 
-    public context: InputContext;
+    public context: InputContext & {
+        getDOMElement: (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | undefined,
+    };
 
     public getChildContext(): AutoUpdateContext {
         return {
@@ -25,6 +30,13 @@ export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
 
     protected handleUpdate = async () => {
         await this.context.onAttributeChange(this.props.attribute, this.props.value(this.context.value));
+
+        const element = this.context.getDOMElement(this.props.attribute);
+        if (element instanceof HTMLElement) {
+            // blur event does not triggered if element not focused
+            element.focus();
+            element.blur();
+        }
 
         await this.context.onBlur();
     }
