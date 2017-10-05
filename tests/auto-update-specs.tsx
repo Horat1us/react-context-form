@@ -10,11 +10,16 @@ describe("<AutoUpdate/>", () => {
     const attr = "phone";
     const value = () => undefined;
     let isTriggered = false;
+    let isFocused = false;
 
     const onChange = () => undefined;
     const onBlur = () => undefined;
     const onFocus = () => undefined;
     const onMount = () => undefined;
+    const getDOMElement = () => {
+        isFocused = true;
+        return document.createElement("div");
+    };
 
     const context = {
         id: "1",
@@ -23,9 +28,8 @@ describe("<AutoUpdate/>", () => {
         value: 1,
 
         onAttributeChange: () => isTriggered = true,
-        onChange, onFocus, onBlur, onMount,
+        onChange, onFocus, onBlur, onMount, getDOMElement
     };
-
 
     beforeEach(() => {
         wrapper = mount(
@@ -39,6 +43,7 @@ describe("<AutoUpdate/>", () => {
     afterEach(() => {
         wrapper.unmount();
         isTriggered = false;
+        isFocused = false;
     });
 
     it("Should trigger `onAttributeChange` on `childContext().onBlur`", async () => {
@@ -47,6 +52,14 @@ describe("<AutoUpdate/>", () => {
         await node.getChildContext().onBlur();
 
         expect(isTriggered).to.be.true;
+    });
+
+    it("Should trigger `getDomElement` on `childContext().onBlur`", async () => {
+        const node = wrapper.getNode() as any;
+
+        await node.getChildContext().onBlur();
+
+        expect(isFocused).to.be.true;
     });
 
 });
