@@ -10,4 +10,3 @@ dist
 tests/output/
 build/
 .nyc_output/
-/package-lock.json
