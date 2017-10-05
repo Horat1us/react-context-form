@@ -10,7 +10,6 @@ import {ModelError} from "../Model";
 export class AutoValidate extends React.Component<AutoValidateProps, undefined> {
     public static readonly propTypes = AutoValidatePropTypes;
     public static readonly defaultProps = AutoValidateDefaultProps;
-
     public static readonly childContextTypes = AutoValidateContextTypes;
 
     public static readonly contextTypes = {

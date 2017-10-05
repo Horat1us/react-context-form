@@ -5,9 +5,9 @@ import {HintDefaultProps} from "./HintProps"
 import {HintContext, HintContextTypes} from "./HintContext";
 
 export class Hint extends React.Component<React.HTMLProps<HTMLSpanElement>, any> {
-    public static defaultProps = HintDefaultProps;
+    public static readonly defaultProps = HintDefaultProps;
+    public static readonly contextTypes = HintContextTypes;
 
-    public static contextTypes = HintContextTypes;
     public context: HintContext;
 
     public get error() {
