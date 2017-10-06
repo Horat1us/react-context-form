@@ -9,11 +9,11 @@ export interface SubmitButtonState {
 }
 
 export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButtonState> {
-    public static propTypes = SubmitButtonPropTypes;
-    public static contextTypes = SubmitButtonContextTypes;
+    public static readonly propTypes = SubmitButtonPropTypes;
+    public static readonly defaultProps = SubmitButtonDefaultProps;
+    public static readonly contextTypes = SubmitButtonContextTypes;
 
     public context: SubmitButtonContext;
-    public defaultProps = SubmitButtonDefaultProps;
 
     public state: SubmitButtonState = {
         width: undefined,

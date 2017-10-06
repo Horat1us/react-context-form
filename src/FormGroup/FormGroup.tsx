@@ -11,17 +11,15 @@ export interface FormGroupState {
 }
 
 export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
-    public static propTypes = FormGroupPropTypes;
-    public static defaulProps = FormGroupDefaultProps;
+    public static readonly propTypes = FormGroupPropTypes;
+    public static readonly defaulProps = FormGroupDefaultProps;
+    public static readonly childContextTypes = FormGroupContextTypes;
+    public static readonly contextTypes = FormContextTypes;
 
-    public static childContextTypes = FormGroupContextTypes;
-    public static contextTypes = FormContextTypes;
     public context: FormContext;
-
     public state: FormGroupState = {
         isFocused: false,
     };
-
     public id: string;
 
     constructor(props) {

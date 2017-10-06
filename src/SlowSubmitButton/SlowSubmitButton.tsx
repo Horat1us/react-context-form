@@ -11,10 +11,11 @@ export interface SlowSubmitButtonState {
 }
 
 export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, SlowSubmitButtonState> {
-    public static childContextTypes = SubmitButtonContextTypes;
-    public static contextTypes = SubmitButtonContextTypes;
-    public static propTypes = SlowSubmitButtonPropTypes;
-    public static defaultProps = SlowSubmitButtonDefaultProps;
+    public static readonly childContextTypes = SubmitButtonContextTypes;
+    public static readonly contextTypes = SubmitButtonContextTypes;
+    public static readonly propTypes = SlowSubmitButtonPropTypes;
+    public static readonly defaultProps = SlowSubmitButtonDefaultProps;
+
     public context: SubmitButtonContext;
     public state: SlowSubmitButtonState = {
         isLoading: false,

@@ -7,8 +7,9 @@ import {TransformTypes} from "./TransformTypes";
 
 export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputProps<T>, undefined> {
     public static contextTypes = InputContextTypes;
+    public static defaultProps: BaseInputProps<HTMLElement> = BaseInputDefaultProps;
+
     public context: InputContext;
-    public defaultProps: BaseInputProps<T> = BaseInputDefaultProps;
 
     protected get childProps(): BaseInputProps<T> {
         const {transform, ...childProps} = this.props;
