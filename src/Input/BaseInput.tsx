@@ -37,7 +37,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
             switch (this.props.transform) {
                 case TransformTypes.capitalize: {
                     value = value
-                        .split(" ")
+                        .split(/[^0-9a-zA-ZА-Яа-яЄЇІєїіыЫёЁъЪ`']/g)
                         .map((char) => char.charAt(0).toUpperCase() + char.toString().substring(1).toLowerCase())
                         .join(" ");
                     break;
