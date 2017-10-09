@@ -20,7 +20,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
             ref: this.context.onMount,
 
             name: this.context.name,
-            value: this.context.value,
+            value: this.context.value || "", // Must be init value (controlled input)
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
@@ -37,10 +37,9 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
 
             switch (this.props.transform) {
                 case TransformTypes.capitalize: {
-                    value = value
-                        .split(/[^0-9a-zA-ZА-Яа-яЄЇІєїіыЫёЁъЪ`']/g)
-                        .map((char) => char.charAt(0).toUpperCase() + char.toString().substring(1).toLowerCase())
-                        .join(" ");
+                    value = value.replace(/[А-Яа-яЄЇІєїіыЫёЁъЪ`'\w]*/g, (subString) => {
+                        return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
+                    });
                     break;
                 }
                 case TransformTypes.upperCase: {
