@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import {InputContext, InputContextTypes} from "./InputContext";
 import {BaseInputDefaultProps, BaseInputProps} from "./BaseInputProps";
 import {TransformTypes} from "./TransformTypes";
+import {cursorPositionController} from "../helpers/cursorPositionController";
 
 export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputProps<T>, undefined> {
     public static contextTypes = InputContextTypes;
@@ -37,8 +38,10 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
 
             switch (this.props.transform) {
                 case TransformTypes.capitalize: {
-                    value = value.replace(/[А-Яа-яЄЇІєїіыЫёЁъЪ`'\w]*/g, (subString) => {
-                        return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
+                    cursorPositionController(event.currentTarget, () => {
+                        value = value.replace(/[А-Яа-яЄЇІєїіыЫёЁъЪ`'\w]*/g, (subString) => {
+                            return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
+                        });
                     });
                     break;
                 }
