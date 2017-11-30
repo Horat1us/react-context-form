@@ -97,8 +97,7 @@ describe("Model", () => {
 
             model.password = "week";
             errors = await model.validate("password");
-            expect(errors).to.have.length(modelPropertiesCount);
-            expect(errors[1].attribute).to.be.equal("email");
+            expect(errors).to.have.length(1);
             expect(errors[0].attribute).to.be.equal("password");
         });
     });
