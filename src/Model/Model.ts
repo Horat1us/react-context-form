@@ -64,10 +64,14 @@ export abstract class Model implements ModelInterface {
             ? []
             : this.errors.filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
 
-        return this.errors = [
+        this.errors = [
             ...newErrors,
             ...oldErrors
         ];
+
+        return group === undefined
+            ? this.errors
+            : newErrors;
     }
 
     public groups(): { [key: string]: string[] } {

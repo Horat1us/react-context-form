@@ -42,7 +42,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
                         value = value.replace(/[А-Яа-яЄЇІєїіыЫёЁъЪ`'\w]*/g, (subString) => {
                             return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
                         });
-                        // fix double update issue
+                        // fix double update
                         event.currentTarget.value = value;
                     });
                     break;
