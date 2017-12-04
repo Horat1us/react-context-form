@@ -26,7 +26,7 @@ describe("<AutoValidate/>", () => {
     };
 
     let onBlurTriggered = false;
-    const onBlur = async () => {
+    const onBlur = () => {
         onBlurTriggered = true;
         return undefined;
     };

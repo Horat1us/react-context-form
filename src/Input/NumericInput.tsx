@@ -17,13 +17,13 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
         return <input {...childProps} />;
     }
 
-    protected handleInputChange = async (event: any) => {
+    protected handleInputChange = (event: any) => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
             const parsedValue = event.currentTarget.value.replace(/\D/g, "");
             event.currentTarget.value = parsedValue;
 
-            await this.context.onChange(parsedValue);
+            this.context.onChange(parsedValue);
         }
     };
 }

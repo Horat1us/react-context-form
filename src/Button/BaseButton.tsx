@@ -24,17 +24,17 @@ export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLBut
 
     protected abstract handleClick: (args: any) => any;
 
-    protected handleBlur = async (event: any) => {
+    protected handleBlur = (event: any) => {
         this.props.onBlur && this.props.onBlur(event);
         if (!event.defaultPrevented) {
-            await this.context.onBlur();
+            this.context.onBlur();
         }
     };
 
-    protected handleFocus = async (event: any) => {
+    protected handleFocus = (event: any) => {
         this.props.onFocus && this.props.onFocus(event);
         if (!event.defaultPrevented) {
-            await this.context.onFocus();
+            this.context.onFocus();
         }
     };
 }

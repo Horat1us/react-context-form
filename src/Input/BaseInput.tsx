@@ -31,7 +31,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
         };
     }
 
-    protected handleChange = async (event: any) => {
+    protected handleChange = (event: any) => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
             let value = event.currentTarget.value;
@@ -53,21 +53,21 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
                 }
             }
 
-            await this.context.onChange(value);
+            this.context.onChange(value);
         }
     };
 
-    protected handleBlur = async (event: any) => {
+    protected handleBlur = (event: any) => {
         this.props.onBlur && this.props.onBlur(event);
         if (!event.defaultPrevented) {
-            await this.context.onBlur();
+            this.context.onBlur();
         }
     };
 
-    protected handleFocus = async (event: any) => {
+    protected handleFocus = (event: any) => {
         this.props.onFocus && this.props.onFocus(event);
         if (!event.defaultPrevented) {
-            await this.context.onFocus();
+            this.context.onFocus();
         }
     };
 }

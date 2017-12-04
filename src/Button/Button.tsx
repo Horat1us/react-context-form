@@ -28,7 +28,7 @@ export class Button extends BaseButton {
         );
     }
 
-    protected handleClick = async () => await this.context.onChange(this.props.action);
+    protected handleClick = () => this.context.onChange(this.props.action);
 
     protected get className(): string {
         const additionalClassName = this.context.value === this.props.action ? ` ${this.props.activeClassName}` : "";

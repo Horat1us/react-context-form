@@ -28,10 +28,10 @@ export class Checkbox extends BaseButton {
         );
     }
 
-    protected handleClick = async (event: any) => {
+    protected handleClick = (event: any) => {
         this.props.onClick && this.props.onClick(event);
         if (!event.defaultPrevented) {
-            await this.context.onChange(!this.context.value);
+            this.context.onChange(!this.context.value);
         }
     };
 
