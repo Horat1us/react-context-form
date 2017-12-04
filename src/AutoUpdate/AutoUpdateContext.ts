@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 
 export interface AutoUpdateContext {
-    onBlur: () => Promise<void>,
+    onBlur: () => void,
 }
 
 export const AutoUpdateContextTypes = {

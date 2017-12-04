@@ -1,10 +1,11 @@
 import * as React from "react";
 import {expect} from "chai";
 import {mount, ReactWrapper} from "enzyme";
-import {AutoFocus, AutoFocusProps, AutoFocusContext} from "../src/AutoFocus";
+import {AutoFocus, AutoFocusProps} from "../src/AutoFocus";
 import {Child} from "./helpers/Child";
 import * as sinon from "sinon";
-
+import {InputContextTypes} from "../src/Input/InputContext";
+import {FormContextTypes} from "../src/Form/FormContext";
 
 describe("<AutoFocus/>", () => {
     let wrapper: ReactWrapper<AutoFocusProps, void>;
@@ -12,17 +13,26 @@ describe("<AutoFocus/>", () => {
 
     const inputElement = document.createElement("input");
     const getDOMElement = (): HTMLInputElement => inputElement;
+    const commonHandler = () => undefined;
 
     beforeEach(() => {
-        const context: AutoFocusContext = {
-            getDOMElement
+        const context = {
+            getDOMElement,
+            id: "id",
+            name: "name",
+            onChange: commonHandler,
+            onAttributeChange: commonHandler,
+            onFocus: commonHandler,
+            onBlur: commonHandler,
+            onMount: commonHandler,
+            validate: commonHandler
         };
 
         wrapper = mount(
             <AutoFocus groupName="test" to="testFocus">
                 <Child/>
             </AutoFocus>,
-            {context}
+            {context, childContextTypes: {...InputContextTypes, ...{validate: FormContextTypes.validate}}}
         );
 
         node = wrapper.getNode() as any;

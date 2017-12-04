@@ -28,8 +28,8 @@ export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
         return this.props.children;
     }
 
-    protected handleUpdate = async () => {
-        await this.context.onAttributeChange(this.props.attribute, this.props.value(this.context.value));
+    protected handleUpdate = () => {
+        this.context.onAttributeChange(this.props.attribute, this.props.value(this.context.value));
 
         const element = this.context.getDOMElement(this.props.attribute);
         if (element instanceof HTMLElement) {
@@ -38,6 +38,6 @@ export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
             element.blur();
         }
 
-        await this.context.onBlur();
+        this.context.onBlur();
     }
 }

@@ -34,22 +34,22 @@ export class AutoValidate extends React.Component<AutoValidateProps, undefined> 
         return this.props.children;
     }
 
-    protected handleChange = async (value: any): Promise<void> => {
-        const onChange = await this.context.onChange(value);
+    protected handleChange = (value: any): void => {
+        const onChange = this.context.onChange(value);
         if (
             this.props.always
             || this.props.onChange
             || ("string" === typeof value && value.length >= this.props.onLength)
             || this.props.on && this.props.on(value)
         ) {
-            await this.validate();
+            this.validate();
         }
         return onChange;
     };
 
-    protected handleBlur = async (): Promise<void> => {
-        await this.validate();
-        return await this.context.onBlur();
+    protected handleBlur = (): void => {
+        this.validate();
+        return this.context.onBlur();
     };
 
     protected async validate(): Promise<void> {

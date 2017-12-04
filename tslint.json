@@ -21,7 +21,7 @@
     "curly": true,
     "await-promise": true,
     "no-empty": true,
-    "no-floating-promises": true,
+    "no-floating-promises": false,
     "no-invalid-this": true,
     "no-null-keyword": true,
     "no-var-keyword": true,
