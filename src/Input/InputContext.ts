@@ -1,12 +1,12 @@
 import * as PropTypes from "prop-types";
 
-export interface InputContext {
+export interface InputContext<TValue = any> {
     id: string;
 
     name: string;
-    value: any;
+    value: TValue;
 
-    onChange: (value: any) => void;
+    onChange: (value: TValue) => void;
     onAttributeChange: (attribute: string, value: any) => void;
     onFocus: () => void;
     onBlur: () => void;

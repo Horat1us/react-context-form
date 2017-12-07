@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -80,7 +80,7 @@
   "peerDependencies": {
     "class-validator": "^0.7.2",
     "prop-types": "^15.5.10",
-    "react": "^15.6.1"
+    "react": ">=15.6.1"
   },
   "nyc": {
     "extension": [
