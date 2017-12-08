@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "1.8.1",
+  "version": "1.9.0-rc1",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -38,7 +38,7 @@
     "@types/enzyme": "^2.8.5",
     "@types/mocha": "^2.2.41",
     "@types/prop-types": "^15.5.1",
-    "@types/react": "^16.0.0",
+    "@types/react": "^16.0.28",
     "@types/sinon": "^2.3.3",
     "awesome-typescript-loader": "^3.2.2",
     "babel-core": "^6.25.0",
@@ -53,6 +53,7 @@
     "cheerio": "^1.0.0-rc.2",
     "circular-dependency-plugin": "^4.2.0",
     "class-validator": "^0.7.2",
+    "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.16",
     "codecov": "^2.3.0",
     "cross-env": "^5.0.5",
@@ -80,7 +81,8 @@
   "peerDependencies": {
     "class-validator": "^0.7.2",
     "prop-types": "^15.5.10",
-    "react": ">=15.6.1"
+    "react": ">=15.6.1",
+    "classnames": "^2.2.5"
   },
   "nyc": {
     "extension": [

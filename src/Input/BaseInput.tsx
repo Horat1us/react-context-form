@@ -1,19 +1,21 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {InputContext, InputContextTypes} from "./InputContext";
-import {BaseInputDefaultProps, BaseInputProps} from "./BaseInputProps";
-import {TransformTypes} from "./TransformTypes";
-import {cursorPositionController} from "../helpers/cursorPositionController";
+import { InputContext, InputContextTypes } from "./InputContext";
+import { BaseInputDefaultProps, BaseInputProps } from "./BaseInputProps";
+import { TransformTypes } from "./TransformTypes";
+import { cursorPositionController } from "../helpers/cursorPositionController";
 
-export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputProps<T>, undefined> {
+export abstract class BaseInput<T extends HTMLElement, TValue = string | number> extends React.Component<BaseInputProps<T>, undefined> {
     public static contextTypes = InputContextTypes;
     public static defaultProps: BaseInputProps<HTMLElement> = BaseInputDefaultProps;
 
-    public context: InputContext;
+    public context: InputContext<TValue>;
+
+    public abstract render(): JSX.Element;
 
     protected get childProps(): BaseInputProps<T> {
-        const {transform, ...childProps} = this.props;
+        const { transform, ...childProps } = this.props;
         return {
             ...childProps,
 
@@ -21,13 +23,13 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
             ref: this.context.onMount,
 
             name: this.context.name,
-            value: this.context.value || "", // Must be init value (controlled input)
+            value: this.context.value as any || "", // Must be init value (controlled input)
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
 
-            className: this.props.className || "form-control",
+            className: this.props.className,
         };
     }
 

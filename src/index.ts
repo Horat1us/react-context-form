@@ -12,3 +12,5 @@ export * from "./InputRange";
 export * from "./AutoValidate";
 export * from "./AutoFocus";
 export * from "./AutoUpdate";
+export * from "./CheckBox";
+export * from "./RadioButton";
