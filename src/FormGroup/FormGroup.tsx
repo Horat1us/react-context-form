@@ -25,7 +25,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     constructor(props) {
         super(props);
 
-        this.id = Date.now().toString();
+        this.id = window.performance.now().toString().replace(".", "").substring(0, 13);
     }
 
     public getChildContext(): FormGroupContext {
