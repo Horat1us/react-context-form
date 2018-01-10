@@ -1,13 +1,13 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {AutoValidateDefaultProps, AutoValidateProps, AutoValidatePropTypes} from "./AutoValidateProps";
-import {InputContextTypes} from "../Input";
-import {AutoValidateContext, AutoValidateContextTypes} from "./AutoValidateContext";
-import {InputContext} from "../Input/InputContext";
-import {ModelError} from "../Model";
+import { AutoValidateDefaultProps, AutoValidateProps, AutoValidatePropTypes } from "./AutoValidateProps";
+import { AutoValidateContext, AutoValidateContextTypes } from "./AutoValidateContext";
+import { InputContext } from "../Input/InputContext";
+import { InputContextTypes } from "../Input";
+import { ModelError } from "../Model";
 
-export class AutoValidate extends React.Component<AutoValidateProps, undefined> {
+export class AutoValidate extends React.Component<AutoValidateProps> {
     public static readonly propTypes = AutoValidatePropTypes;
     public static readonly defaultProps = AutoValidateDefaultProps;
     public static readonly childContextTypes = AutoValidateContextTypes;

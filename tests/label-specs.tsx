@@ -1,8 +1,9 @@
 import * as React from "react";
-import {Label} from "../src";
-import {expect} from "chai";
-import {mount, ReactWrapper} from "enzyme";
-import {LabelContext} from "../src/Label/LabelContext";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { LabelContext } from "../src/Label/LabelContext";
+import { Label } from "../src";
 
 describe("<Label />", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLSpanElement>, void>;
@@ -20,6 +21,6 @@ describe("<Label />", () => {
     });
 
     it("Should add `htmlFor` from `context.id`", () => {
-        expect(wrapper).to.containMatchingElement(<label htmlFor={context.id}>Name: </label>);
+        expect(wrapper.contains(<label htmlFor={context.id}>Name: </label>)).to.be.true;
     });
 });

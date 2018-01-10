@@ -6,12 +6,12 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
     activeClassName?: string
 }
 
-export const ButtonPropTypes = {
+export const ButtonPropTypes: {[P in keyof ButtonProps]: PropTypes.Validator<any>} = {
     action: PropTypes.any.isRequired,
     activeClassName: PropTypes.string
 };
 
-export const ButtonDefaultProps = {
+export const ButtonDefaultProps: {[P in keyof ButtonProps]?: ButtonProps[P]} = {
     className: "btn",
     activeClassName: "is-active"
 };

@@ -1,9 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
+import { expect } from "chai";
 
-import {Button, ButtonProps} from "../src/Button";
-import {mount, ReactWrapper} from "enzyme";
-import {InputContext} from "../src/Input";
+import { Button, ButtonProps } from "../src/Button";
+import { mount, ReactWrapper } from "enzyme";
+import { InputContext } from "../src/Input";
 
 describe("<Button/>", () => {
     let wrapper: ReactWrapper<ButtonProps, any>;
@@ -43,10 +43,10 @@ describe("<Button/>", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Button action={true}/>,
-            {context}
+            <Button action={true} />,
+            { context }
         );
-        node = wrapper.getDOMNode() as any;
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => {

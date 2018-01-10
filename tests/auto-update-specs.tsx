@@ -1,8 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
-import {mount, ReactWrapper} from "enzyme";
-import {AutoUpdate} from "../src";
-import {AutoUpdateProps} from "../src/AutoUpdate";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { AutoUpdate } from "../src";
+import { AutoUpdateProps } from "../src/AutoUpdate";
 
 describe("<AutoUpdate/>", () => {
     let wrapper: ReactWrapper<AutoUpdateProps, void>;
@@ -34,9 +35,9 @@ describe("<AutoUpdate/>", () => {
     beforeEach(() => {
         wrapper = mount(
             <AutoUpdate attribute={attr} value={value}>
-                <div/>
+                <div />
             </AutoUpdate>,
-            {context}
+            { context }
         );
     });
 
@@ -47,7 +48,7 @@ describe("<AutoUpdate/>", () => {
     });
 
     it("Should trigger `onAttributeChange` on `childContext().onBlur`", async () => {
-        const node = wrapper.getNode() as any;
+        const node = wrapper.instance() as any;
 
         await node.getChildContext().onBlur();
 
@@ -55,7 +56,7 @@ describe("<AutoUpdate/>", () => {
     });
 
     it("Should trigger `getDomElement` on `childContext().onBlur`", async () => {
-        const node = wrapper.getNode() as any;
+        const node = wrapper.instance() as any;
 
         await node.getChildContext().onBlur();
 

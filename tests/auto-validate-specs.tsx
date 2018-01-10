@@ -1,10 +1,12 @@
 import * as React from "react";
-import {expect} from "chai";
-import {mount, ReactWrapper} from "enzyme";
-import {AutoValidate, AutoValidateProps} from "../src/AutoValidate";
-import {Child} from "./helpers/Child";
-import {InputContext} from "../src/Input";
-import {ModelError} from "../src/Model/Model";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { Child } from "./helpers/Child";
+
+import { InputContext } from "../src/Input";
+import { ModelError } from "../src/Model/Model";
+import { AutoValidate, AutoValidateProps } from "../src/AutoValidate";
 
 describe("<AutoValidate/>", () => {
     let wrapper: ReactWrapper<AutoValidateProps, void>;
@@ -56,12 +58,12 @@ describe("<AutoValidate/>", () => {
 
         wrapper = mount(
             <AutoValidate groupName="test">
-                <Child/>
+                <Child />
             </AutoValidate>,
-            {context}
+            { context }
         );
 
-        node = wrapper.getNode() as any;
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => {

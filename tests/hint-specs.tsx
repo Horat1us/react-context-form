@@ -1,7 +1,8 @@
 import * as React from "react";
-import {expect} from "chai";
-import {mount, ReactWrapper} from "enzyme";
-import {Hint} from "../src";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { Hint } from "../src";
 
 describe("<Hint/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLSpanElement>, void>;

@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {BaseButton} from "./BaseButton";
-import {CheckboxDefaultProps, CheckboxProps, CheckboxPropTypes} from "./CheckboxProps";
+import { BaseButton } from "./BaseButton";
+import { CheckboxDefaultProps, CheckboxProps, CheckboxPropTypes } from "./CheckboxProps";
 
 export class Checkbox extends BaseButton {
     public static readonly propTypes = CheckboxPropTypes;
@@ -10,8 +10,8 @@ export class Checkbox extends BaseButton {
 
     public props: CheckboxProps;
 
-    public render() {
-        const {activeClassName, ...HTMLProps} = this.props;
+    public render(): JSX.Element {
+        const { activeClassName, ...HTMLProps } = this.props;
 
         const childProps = {
             ...this.childProps,
@@ -28,7 +28,7 @@ export class Checkbox extends BaseButton {
         );
     }
 
-    protected handleClick = (event: any) => {
+    protected handleClick = (event: any): void => {
         this.props.onClick && this.props.onClick(event);
         if (!event.defaultPrevented) {
             this.context.onChange(!this.context.value);

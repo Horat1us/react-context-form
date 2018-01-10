@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {Model, ModelError} from "../Model";
-import {FormContext, FormContextTypes} from "./FormContext";
-import {FormProps, FormPropTypes} from "./FormProps";
+import { Model, ModelError } from "../Model";
+import { FormProps, FormPropTypes } from "./FormProps";
+import { FormContext, FormContextTypes } from "./FormContext";
 
 export interface FormState<M> {
     model: M,
@@ -62,7 +62,7 @@ export class Form<M extends Model>
         }
     }
 
-    public handleSubmit = async (event?: Event) => {
+    public handleSubmit = async (event?: Event): Promise<void> => {
         event && event.preventDefault();
 
         this.state.isLoading = true;
@@ -86,7 +86,7 @@ export class Form<M extends Model>
     };
 
     public render(): JSX.Element {
-        const {instantiate, onSubmit, method, storageKey, ...childProps} = this.props;
+        const { instantiate, onSubmit, method, storageKey, ...childProps } = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
@@ -111,7 +111,7 @@ export class Form<M extends Model>
             this.state.model.attributes()
                 .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
                 .forEach(
-                    (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
+                (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
                 );
             return true;
         }
@@ -126,10 +126,10 @@ export class Form<M extends Model>
             .forEach((attribute: string) => localStorageValue[attribute] = this.state.model[attribute]);
 
         window.localStorage
-        && window.localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
+            && window.localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
     }
 
-    protected handleChange = (attribute: string, value: any) => {
+    protected handleChange = (attribute: string, value: any): void => {
         if (this.state.model[attribute] === value) {
             return;
         }
@@ -146,7 +146,7 @@ export class Form<M extends Model>
             this.forceUpdate();
         };
 
-    protected handleUnmount = (attribute: string) => {
+    protected handleUnmount = (attribute: string): void => {
         if (this.state.mounted[attribute] === undefined) {
             return;
         }
@@ -167,7 +167,7 @@ export class Form<M extends Model>
         return errors;
     };
 
-    protected handleErrorAdded = (newError: ModelError) => {
+    protected handleErrorAdded = (newError: ModelError): void => {
         this.state.model.addError(newError);
         this.forceUpdate();
     }

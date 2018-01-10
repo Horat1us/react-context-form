@@ -1,21 +1,24 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {InputContext, InputContextTypes} from "./InputContext";
-import {BaseInputDefaultProps, BaseInputProps} from "./BaseInputProps";
-import {TransformTypes} from "./TransformTypes";
-import {cursorPositionController} from "../helpers/cursorPositionController";
+import { cursorPositionController } from "../helpers/cursorPositionController";
 
-export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputProps<T>, undefined> {
-    public static contextTypes = InputContextTypes;
-    public static defaultProps: BaseInputProps<HTMLElement> = BaseInputDefaultProps;
+import { BaseInputDefaultProps, BaseInputProps, BaseInputPropTypes } from "./BaseInputProps";
+import { InputContext, InputContextTypes } from "./InputContext";
+import { TransformTypes } from "./TransformTypes";
+
+export class BaseInput<T> extends React.Component<BaseInputProps & T> {
+    public static readonly contextTypes = InputContextTypes;
+    public static readonly defaultProps = BaseInputDefaultProps;
+    public static readonly propTypes = BaseInputPropTypes;
 
     public context: InputContext;
 
-    protected get childProps(): BaseInputProps<T> {
-        const {transform, ...childProps} = this.props;
+    protected get childProps(): React.HTMLProps<HTMLInputElement> & T {
+        const { transform, ...TProps } = this.props as any; // https://github.com/Microsoft/TypeScript/issues/16780
+
         return {
-            ...childProps,
+            ...TProps,
 
             id: this.context.id,
             ref: this.context.onMount,
@@ -25,9 +28,7 @@ export class BaseInput<T extends HTMLElement> extends React.Component<BaseInputP
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
-            onFocus: this.handleFocus,
-
-            className: this.props.className || "form-control",
+            onFocus: this.handleFocus
         };
     }
 

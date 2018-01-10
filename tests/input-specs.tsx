@@ -1,13 +1,14 @@
 import * as React from "react";
-import {expect} from "chai";
-import {Input} from "../src/Input";
-import {mount, ReactWrapper} from "enzyme";
-import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
-import {TransformTypes} from "../src/Input/TransformTypes";
-import {BaseInputProps} from "../src/Input/BaseInputProps";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { FormGroupContext } from "../src/FormGroup/FormGroupContext";
+import { TransformTypes } from "../src/Input/TransformTypes";
+import { BaseInputProps } from "../src/Input/BaseInputProps";
+import { Input } from "../src/Input";
 
 describe("<Input />", () => {
-    let wrapper: ReactWrapper<BaseInputProps<HTMLInputElement>, any>;
+    let wrapper: ReactWrapper<BaseInputProps, any>;
 
     let node: HTMLInputElement;
     let previousContext: FormGroupContext;
@@ -27,7 +28,7 @@ describe("<Input />", () => {
 
     const id = "prefix-" + (new Date());
 
-    const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
+    const optionsTrigger = ({ action, value, field, contextExpect, propsExpect }) => {
         let contextTriggered = false;
         let propsTriggered = false;
 
@@ -64,10 +65,10 @@ describe("<Input />", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Input transform={TransformTypes.capitalize}/>,
-            {context}
+            <Input transform={TransformTypes.capitalize} />,
+            { context }
         );
-        node = wrapper.getDOMNode() as any;
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => {
@@ -148,19 +149,19 @@ describe("<Input />", () => {
     });
 
     it("Should have ID from context", () => {
-        expect(wrapper).to.have.id(id);
+        expect(wrapper.getDOMNode().id).to.equals(id);
     });
 
     it("Should add additional html props to DOM", () => {
         const placeholder = "Some text";
-        wrapper.setProps({placeholder});
+        wrapper.setProps({ placeholder });
         expect(wrapper.getDOMNode().getAttribute("placeholder")).to.be.equal(placeholder);
     });
 
     it("Should capitalize value onChange", () => {
         const value = "sTRING";
 
-        (wrapper.getNode() as any).handleChange({currentTarget: {value}});
+        (wrapper.instance() as any).handleChange({ currentTarget: { value } });
 
         expect(testValue).to.equal("String");
     });
@@ -172,7 +173,7 @@ describe("<Input />", () => {
             transform: TransformTypes.upperCase,
         });
 
-        (wrapper.getNode() as any).handleChange({currentTarget: {value}});
+        (wrapper.instance() as any).handleChange({ currentTarget: { value } });
 
         expect(testValue).to.equal("STRING");
     });

@@ -1,9 +1,13 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton} from "../SubmitButton";
+import { SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton } from "../SubmitButton";
 
-import {SlowSubmitButtonDefaultProps, SlowSubmitButtonProps, SlowSubmitButtonPropTypes} from "./SlowSubmitButtonProps";
+import {
+    SlowSubmitButtonDefaultProps,
+    SlowSubmitButtonPropTypes,
+    SlowSubmitButtonProps
+} from "./SlowSubmitButtonProps";
 
 export interface SlowSubmitButtonState {
     isLoading: boolean,
@@ -59,9 +63,9 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
     }
 
     public render(): JSX.Element {
-        const childProps: any = {...this.props};
+        const childProps: any = { ...this.props };
         delete childProps.duration;
 
-        return <SubmitButton {...childProps}/>;
+        return <SubmitButton {...childProps} />;
     }
 }

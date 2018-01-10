@@ -13,7 +13,7 @@ export interface InputContext<TValue = any> {
     onMount: (ref: HTMLElement) => void;
 }
 
-export const InputContextTypes = {
+export const InputContextTypes: {[P in keyof InputContext]: PropTypes.Validator<any>} = {
     id: PropTypes.string.isRequired,
 
     name: PropTypes.string.isRequired,

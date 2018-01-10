@@ -1,9 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
+import { expect } from "chai";
 
-import {Checkbox, CheckboxProps} from "../src/Button";
-import {mount, ReactWrapper} from "enzyme";
-import {InputContext} from "../src/Input";
+import { Checkbox, CheckboxProps } from "../src/Button";
+import { mount, ReactWrapper } from "enzyme";
+import { InputContext } from "../src/Input";
 
 describe("<Chekbox/>", () => {
     let wrapper: ReactWrapper<CheckboxProps, any>;
@@ -43,10 +43,10 @@ describe("<Chekbox/>", () => {
             value: initialValue,
         };
         wrapper = mount(
-            <Checkbox/>,
-        {context}
-    );
-        node = wrapper.getDOMNode() as any;
+            <Checkbox />,
+            { context }
+        );
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => {

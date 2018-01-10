@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {FormContext, FormContextTypes} from "../Form/FormContext";
-import {ModelValue} from "../Model";
-import {FormGroupContext, FormGroupContextTypes} from "./FormGroupContext";
-import {FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes} from "./FormGroupProps";
+import { ModelValue } from "../Model";
+import { FormContext, FormContextTypes } from "../Form/FormContext";
+import { FormGroupContext, FormGroupContextTypes } from "./FormGroupContext";
+import { FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes } from "./FormGroupProps";
 
 export interface FormGroupState {
     isFocused: boolean;
@@ -50,11 +50,11 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
         this.context.onUnmount(this.props.name);
     }
 
-    public handleChange = (value: any) => this.context.onChange(this.props.name, value);
-    public handleBlur = () => this.setState({isFocused: false});
-    public handleFocus = () => this.setState({isFocused: true});
+    public handleChange = (value: any): void => this.context.onChange(this.props.name, value);
+    public handleBlur = (): void => this.setState({ isFocused: false });
+    public handleFocus = (): void => this.setState({ isFocused: true });
 
-    public handleMount = (ref: HTMLElement) => this.context.onMount(this.props.name, ref);
+    public handleMount = (ref: HTMLElement): void => this.context.onMount(this.props.name, ref);
 
     public get value(): ModelValue | undefined {
         return this.context.values.find(
@@ -63,7 +63,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public render(): JSX.Element {
-        const {name, className, idPrefix, errorClassName, focusClassName, ...childProps} = this.props;
+        const { name, className, idPrefix, errorClassName, focusClassName, ...childProps } = this.props;
 
         return (
             <div className={this.className} data-name={this.props.name} {...childProps}>

@@ -1,19 +1,19 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {AutoFocusProps, AutoFocusPropTypes} from "./AutoFocusProps";
-import {AutoValidate} from "../AutoValidate/AutoValidate";
-import {AutoFocusContext, AutoFocusContextTypes} from "./AutoFocusContext";
+import { AutoValidate } from "../AutoValidate/AutoValidate";
+import { AutoFocusProps, AutoFocusPropTypes } from "./AutoFocusProps";
+import { AutoFocusContext, AutoFocusContextTypes } from "./AutoFocusContext";
 
-export class AutoFocus extends React.Component<AutoFocusProps, undefined> {
+export class AutoFocus extends React.Component<AutoFocusProps> {
     public static readonly propTypes = AutoFocusPropTypes;
     public static readonly contextTypes = AutoFocusContextTypes;
 
     public props: AutoFocusProps;
     public context: AutoFocusContext;
 
-    public render() {
-        const {to, ...childProps} = this.props;
+    public render(): JSX.Element {
+        const { to, ...childProps } = this.props;
         childProps.onValidated = this.changeFocus;
 
         return (
@@ -23,7 +23,7 @@ export class AutoFocus extends React.Component<AutoFocusProps, undefined> {
         );
     }
 
-    protected changeFocus = (isGroupValid: boolean) => {
+    protected changeFocus = (isGroupValid: boolean): void => {
         if (!isGroupValid) {
             return;
         }

@@ -1,12 +1,12 @@
 import * as React from "react";
+import { expect } from "chai";
+import { mount, shallow } from "enzyme";
 
-import {expect} from "chai";
-import {mount, shallow} from "enzyme";
+import { Loading } from "./helpers/Loading";
+import { Child } from "./helpers/Child";
 
-import {SubmitButton} from "../src/SubmitButton";
-import {SubmitButtonContext} from "../src/SubmitButton/SubmitButtonContext";
-import {Child} from "./helpers/Child";
-import {Loading} from "./helpers/Loading";
+import { SubmitButton } from "../src/SubmitButton";
+import { SubmitButtonContext } from "../src/SubmitButton/SubmitButtonContext";
 
 describe("<SubmitButton />", () => {
     let wrapper;
@@ -16,10 +16,10 @@ describe("<SubmitButton />", () => {
             isLoading: false,
         };
         wrapper = mount(
-            <SubmitButton loadingComponent={<Loading/>}>
-                <Child/>
+            <SubmitButton loadingComponent={<Loading />}>
+                <Child />
             </SubmitButton>,
-            {context}
+            { context }
         );
     });
 
@@ -31,22 +31,22 @@ describe("<SubmitButton />", () => {
         wrapper.setContext({
             isLoading: false,
         });
-        expect(wrapper.contains(<Child/>)).to.be.true;
+        expect(wrapper.contains(<Child />)).to.be.true;
     });
 
     it("should render `props.loadingComponent` instead of child when `context.isLoading`", () => {
         wrapper.setContext({
             isLoading: true,
         });
-        expect(wrapper.contains(<Child/>)).to.be.false;
-        expect(wrapper.contains(<Loading/>)).to.be.true;
+        expect(wrapper.contains(<Child />)).to.be.false;
+        expect(wrapper.contains(<Loading />)).to.be.true;
     });
 
     it("should add `is-loading` className when `context.isLoading`", () => {
         wrapper.setContext({
             isLoading: true,
         });
-        expect(wrapper.hasClass("is-loading")).to.be.true;
+        expect(wrapper.getDOMNode().className).to.contain("is-loading");
     });
 
     it("should add `width` attribute (saved with children) when `context.isLoading`", () => {

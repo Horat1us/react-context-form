@@ -1,22 +1,22 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {HintDefaultProps} from "./HintProps"
-import {HintContext, HintContextTypes} from "./HintContext";
+import { HintDefaultProps } from "./HintProps"
+import { HintContext, HintContextTypes } from "./HintContext";
 
-export class Hint extends React.Component<React.HTMLProps<HTMLSpanElement>, any> {
+export class Hint extends React.Component<React.HTMLProps<HTMLSpanElement>> {
     public static readonly defaultProps = HintDefaultProps;
     public static readonly contextTypes = HintContextTypes;
 
     public context: HintContext;
 
-    public get error() {
+    public get error(): string {
         return this.context.error;
     }
 
-    public render() {
+    public render(): JSX.Element {
         if (!this.error && !this.props.children) {
-            return false;
+            return null;
         }
 
         return (

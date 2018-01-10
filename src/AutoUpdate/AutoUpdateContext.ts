@@ -4,6 +4,6 @@ export interface AutoUpdateContext {
     onBlur: () => void,
 }
 
-export const AutoUpdateContextTypes = {
+export const AutoUpdateContextTypes: {[P in keyof AutoUpdateContext]: PropTypes.Validator<any>} = {
     onBlur: PropTypes.func.isRequired,
 };
