@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import {BaseInput} from "./BaseInput";
+import { BaseInput } from "./BaseInput";
 
-export class NumericInput extends BaseInput<HTMLInputElement> {
+export class NumericInput extends BaseInput<React.HTMLProps<HTMLInputElement>> {
 
-    public render() {
+    public render(): JSX.Element {
         const childProps = {
             ...this.childProps,
             ...{
@@ -17,7 +17,7 @@ export class NumericInput extends BaseInput<HTMLInputElement> {
         return <input {...childProps} />;
     }
 
-    protected handleInputChange = (event: any) => {
+    protected handleInputChange = (event: any): void => {
         this.props.onChange && this.props.onChange(event);
         if (!event.defaultPrevented) {
             const parsedValue = event.currentTarget.value.replace(/\D/g, "");

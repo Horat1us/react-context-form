@@ -5,7 +5,7 @@ export interface AutoValidateContext {
     onBlur: () => void,
 }
 
-export const AutoValidateContextTypes = {
+export const AutoValidateContextTypes: {[P in keyof AutoValidateContext]: PropTypes.Validator<any>} = {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
 };

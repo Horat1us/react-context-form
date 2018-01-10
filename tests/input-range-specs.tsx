@@ -1,8 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
-import {InputRange} from "../src/InputRange";
-import {mount, ReactWrapper} from "enzyme";
-import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { InputRange } from "../src/InputRange";
+import { FormGroupContext } from "../src/FormGroup/FormGroupContext";
 
 describe("<InputRange/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
@@ -37,12 +38,12 @@ describe("<InputRange/>", () => {
 
         wrapper = mount(
             <InputRange {...props}>
-                <div/>
+                <div />
             </InputRange>,
-            {context}
+            { context }
         );
 
-        node = wrapper.getNode() as any;
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => wrapper.unmount());
@@ -53,7 +54,7 @@ describe("<InputRange/>", () => {
 
             wrapper.setContext({
                 ...context,
-                ...{value: controlValue}
+                ...{ value: controlValue }
             });
 
             expect(wrapper.context().value).to.equal(i);
@@ -68,7 +69,7 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         const expectedValue = Number(controlValue.toString().substring(0, maxLength));
@@ -83,7 +84,7 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         expect(wrapper.context().value).to.equal(props.max);
@@ -93,14 +94,14 @@ describe("<InputRange/>", () => {
         for (let i = props.min; i < props.max; i++) {
             wrapper.setContext({
                 ...context,
-                ...{value: i}
+                ...{ value: i }
             });
 
             node.getChildContext().onBlur();
 
             wrapper.setContext({
                 ...context,
-                ...{value: controlValue}
+                ...{ value: controlValue }
             });
 
             expect(wrapper.context().value).to.equal(i);
@@ -112,14 +113,14 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: newValue}
+            ...{ value: newValue }
         });
 
         node.getChildContext().onBlur();
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         expect(wrapper.context().value).to.equal(props.max);
@@ -131,14 +132,14 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: newValue}
+            ...{ value: newValue }
         });
 
         node.getChildContext().onBlur();
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         expect(wrapper.context().value).to.equal(props.min);
@@ -151,7 +152,7 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         expect(wrapper.context().value).to.equal("");
@@ -161,14 +162,14 @@ describe("<InputRange/>", () => {
 
         wrapper.setContext({
             ...context,
-            ...{value: ""}
+            ...{ value: "" }
         });
 
         node.getChildContext().onBlur();
 
         wrapper.setContext({
             ...context,
-            ...{value: controlValue}
+            ...{ value: controlValue }
         });
 
         expect(wrapper.context().value).to.equal(props.min);

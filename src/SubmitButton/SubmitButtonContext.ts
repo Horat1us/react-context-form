@@ -4,6 +4,6 @@ export interface SubmitButtonContext {
     isLoading: boolean;
 }
 
-export const SubmitButtonContextTypes = {
+export const SubmitButtonContextTypes: {[P in keyof SubmitButtonContext]: PropTypes.Validator<any>} = {
     isLoading: PropTypes.bool,
 };

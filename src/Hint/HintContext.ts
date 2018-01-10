@@ -4,6 +4,6 @@ export interface HintContext {
     error?: string;
 }
 
-export const HintContextTypes = {
+export const HintContextTypes: {[P in keyof HintContext]: PropTypes.Validator<any>} = {
     error: PropTypes.string,
 };

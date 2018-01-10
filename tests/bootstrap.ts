@@ -1,5 +1,5 @@
-import * as chai from 'chai';
-import * as chaiEnzyme from 'chai-enzyme';
+import * as Enzyme from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 
 if ("performance" in window === false) {
     (window as any).performance = {
@@ -7,4 +7,4 @@ if ("performance" in window === false) {
     };
 }
 
-chai.use(chaiEnzyme());
+Enzyme.configure({ adapter: new Adapter() });

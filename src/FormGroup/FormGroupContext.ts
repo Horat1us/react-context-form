@@ -1,12 +1,12 @@
 import * as PropTypes from "prop-types"
 
-import {LabelContext, LabelContextTypes} from "../Label";
-import {HintContext, HintContextTypes} from "../Hint";
-import {InputContext, InputContextTypes} from "../Input/InputContext";
+import { HintContext, HintContextTypes } from "../Hint";
+import { LabelContext, LabelContextTypes } from "../Label";
+import { InputContext, InputContextTypes } from "../Input/InputContext";
 
-export interface FormGroupContext extends LabelContext, HintContext, InputContext {}
+export interface FormGroupContext extends LabelContext, HintContext, InputContext { }
 
-export const FormGroupContextTypes = {
+export const FormGroupContextTypes: {[P in keyof FormGroupContext]: PropTypes.Validator<any>} = {
     ...LabelContextTypes,
     ...HintContextTypes,
     ...InputContextTypes,

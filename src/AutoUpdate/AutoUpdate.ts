@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {AutoUpdateProps, AutoUpdatePropTypes} from "./AutoUpdateProps";
-import {InputContextTypes, InputContext} from "../Input";
-import {AutoUpdateContext, AutoUpdateContextTypes} from "./AutoUpdateContext";
+import { InputContextTypes, InputContext } from "../Input";
+import { AutoUpdateProps, AutoUpdatePropTypes } from "./AutoUpdateProps";
+import { AutoUpdateContext, AutoUpdateContextTypes } from "./AutoUpdateContext";
 
-export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
+export class AutoUpdate extends React.Component<AutoUpdateProps> {
     public static propTypes = AutoUpdatePropTypes;
     public static contextTypes = {
         ...InputContextTypes,
@@ -28,7 +28,7 @@ export class AutoUpdate extends React.Component<AutoUpdateProps, undefined> {
         return this.props.children;
     }
 
-    protected handleUpdate = () => {
+    protected handleUpdate = (): void => {
         this.context.onAttributeChange(this.props.attribute, this.props.value(this.context.value));
 
         const element = this.context.getDOMElement(this.props.attribute);

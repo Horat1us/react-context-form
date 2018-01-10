@@ -5,11 +5,11 @@ export interface CheckboxProps extends React.HTMLProps<HTMLButtonElement> {
     activeClassName?: string
 }
 
-export const CheckboxPropTypes = {
+export const CheckboxPropTypes: {[P in keyof CheckboxProps]: PropTypes.Validator<any>} = {
     activeClassName: PropTypes.string
 };
 
-export const CheckboxDefaultProps = {
+export const CheckboxDefaultProps: {[P in keyof CheckboxProps]?: CheckboxProps[P]} = {
     className: "checkbox",
     activeClassName: "is-active"
 };

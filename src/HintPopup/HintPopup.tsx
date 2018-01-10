@@ -1,11 +1,12 @@
 import * as React from "react";
-import {Hint} from "../Hint";
+
+import { Hint } from "../Hint";
 
 export class HintPopup extends Hint {
 
-    public render() {
+    public render(): JSX.Element {
         if (!this.error && !this.props.children) {
-            return false;
+            return null;
         }
 
         return (

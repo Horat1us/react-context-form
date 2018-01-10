@@ -1,8 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
-import {NumericInput} from "../src/Input";
-import {mount, ReactWrapper} from "enzyme";
-import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { NumericInput } from "../src/Input";
+import { FormGroupContext } from "../src/FormGroup/FormGroupContext";
 
 describe("<NumericInput/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
@@ -22,7 +23,7 @@ describe("<NumericInput/>", () => {
 
     const id = "prefix-" + (new Date());
 
-    const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
+    const optionsTrigger = ({ action, value, field, contextExpect, propsExpect }) => {
         let contextTriggered = false;
         let propsTriggered = false;
 
@@ -59,7 +60,7 @@ describe("<NumericInput/>", () => {
             value: initialValue,
         };
 
-        wrapper = mount(<NumericInput/>, {context});
+        wrapper = mount(<NumericInput />, { context });
     });
 
     afterEach(() => {

@@ -1,6 +1,7 @@
-import {expect} from "chai";
-import {ExampleModel} from "./helpers/ExampleModel";
-import {EmptyeModel} from "./helpers/EmptyModel";
+import { expect } from "chai";
+
+import { ExampleModel } from "./helpers/ExampleModel";
+import { EmptyeModel } from "./helpers/EmptyModel";
 
 describe("Model", () => {
     let model: ExampleModel;
@@ -65,7 +66,7 @@ describe("Model", () => {
             emptyModel.attributes().forEach((field) => {
                 expect(emptyModel[field]).to.exist;
                 expect(typeof emptyModel[field]).to.equal("function");
-                });
+            });
         });
     });
 

@@ -6,7 +6,7 @@ export interface AutoUpdateProps {
     children: JSX.Element
 }
 
-export const AutoUpdatePropTypes = {
+export const AutoUpdatePropTypes: {[P in keyof AutoUpdateProps]: PropTypes.Validator<any>} = {
     value: PropTypes.func.isRequired,
     attribute: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,

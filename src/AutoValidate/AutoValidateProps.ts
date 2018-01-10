@@ -14,7 +14,7 @@ export interface AutoValidateProps {
     on?: (nextValue: string) => boolean
 }
 
-export const AutoValidatePropTypes = {
+export const AutoValidatePropTypes: {[P in keyof AutoValidateProps]: PropTypes.Validator<any>} = {
     groupName: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
 
@@ -27,7 +27,7 @@ export const AutoValidatePropTypes = {
     on: PropTypes.func
 };
 
-export const AutoValidateDefaultProps = {
+export const AutoValidateDefaultProps: {[P in keyof AutoValidateProps]?: AutoValidateProps[P]} = {
     onBlur: true,
     onChange: false,
     always: false,

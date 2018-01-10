@@ -1,11 +1,13 @@
 import * as React from "react";
-import {ReactWrapper, mount} from "enzyme";
-import {expect} from "chai";
-import {FormGroup, FormGroupProps} from "../src/FormGroup";
-import {Input} from "../src/Input/Input";
-import {FormContext} from "../src/Form/FormContext";
-import {ExampleModel} from "./helpers/ExampleModel";
-import {FormGroupDefaultProps} from "../src/FormGroup/FormGroupProps";
+import { expect } from "chai";
+import { ReactWrapper, mount } from "enzyme";
+
+import { ExampleModel } from "./helpers/ExampleModel";
+
+import { Input } from "../src/Input/Input";
+import { FormContext } from "../src/Form/FormContext";
+import { FormGroup, FormGroupProps } from "../src/FormGroup";
+import { FormGroupDefaultProps } from "../src/FormGroup/FormGroupProps";
 
 describe("<FormGroup />", () => {
 
@@ -46,11 +48,11 @@ describe("<FormGroup />", () => {
                 {...FormGroupDefaultProps}
                 name={name}
             >
-                <Input/>
+                <Input />
             </FormGroup>,
-            {context}
+            { context }
         );
-        node = wrapper.getNode() as any;
+        node = wrapper.instance() as any;
     });
 
     afterEach(() => {
@@ -58,24 +60,24 @@ describe("<FormGroup />", () => {
     });
 
     it("Should render input inside itself", () => {
-        expect(wrapper).to.containMatchingElement(<Input/>);
+        expect(wrapper.contains(<Input />)).to.be.true;
     });
 
     it("Should add class `has-focus` when `context.onFocus` triggered", () => {
-        expect(wrapper).not.to.have.className("has-focus");
+        expect(wrapper.getDOMNode().className).not.to.contain("has-focus");
         node.getChildContext().onFocus();
-        expect(wrapper).to.have.className("has-focus");
+        expect(wrapper.getDOMNode().className).to.contain("has-focus");
     });
 
     it("Should remove class `has-focus` when `context.onBlur` triggered", () => {
         node.getChildContext().onFocus();
-        expect(wrapper).to.have.className("has-focus");
+        expect(wrapper.getDOMNode().className).to.contain("has-focus");
         node.getChildContext().onBlur();
-        expect(wrapper).not.to.have.className("has-focus");
+        expect(wrapper.getDOMNode().className).not.to.contain("has-focus");
     });
 
     it("Should have class `has-error` when value with error provided", () => {
-        expect(wrapper).not.to.have.className("has-error");
+        expect(wrapper.getDOMNode().className).not.to.contain("has-error");
         wrapper.setContext({
             ...previousContext,
             values: [
@@ -87,7 +89,7 @@ describe("<FormGroup />", () => {
                 }
             ],
         });
-        expect(wrapper).to.have.className("has-error");
+        expect(wrapper.getDOMNode().className).to.contain("has-error");
     });
 
     it("Should trigger `context.handleChange` when `childContext.onChange` is triggered", () => {

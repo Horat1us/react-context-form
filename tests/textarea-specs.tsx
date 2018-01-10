@@ -1,8 +1,9 @@
 import * as React from "react";
-import {expect} from "chai";
-import {TextArea} from "../src/Input";
-import {mount, ReactWrapper} from "enzyme";
-import {FormGroupContext} from "../src/FormGroup/FormGroupContext";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { TextArea } from "../src/Input";
+import { FormGroupContext } from "../src/FormGroup/FormGroupContext";
 
 describe("<TextArea/>", () => {
     let wrapper: ReactWrapper<React.HTMLProps<HTMLInputElement>, any>;
@@ -20,7 +21,7 @@ describe("<TextArea/>", () => {
 
     const id = "prefix-" + (new Date());
 
-    const optionsTrigger = ({action, value, field, contextExpect, propsExpect}) => {
+    const optionsTrigger = ({ action, value, field, contextExpect, propsExpect }) => {
         let contextTriggered = false;
         let propsTriggered = false;
 
@@ -57,7 +58,7 @@ describe("<TextArea/>", () => {
             value: initialValue,
         };
 
-        wrapper = mount(<TextArea/>, {context});
+        wrapper = mount(<TextArea />, { context });
     });
 
     afterEach(() => wrapper.unmount());
@@ -135,6 +136,6 @@ describe("<TextArea/>", () => {
     });
 
     it("Should have ID from context", () => {
-        expect(wrapper).to.have.id(id);
+        expect(wrapper.getDOMNode().id).to.equals(id);
     });
 });

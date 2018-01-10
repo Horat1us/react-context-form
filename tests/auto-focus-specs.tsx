@@ -1,11 +1,13 @@
 import * as React from "react";
-import {expect} from "chai";
-import {mount, ReactWrapper} from "enzyme";
-import {AutoFocus, AutoFocusProps} from "../src/AutoFocus";
-import {Child} from "./helpers/Child";
 import * as sinon from "sinon";
-import {InputContextTypes} from "../src/Input/InputContext";
-import {FormContextTypes} from "../src/Form/FormContext";
+import { expect } from "chai";
+import { mount, ReactWrapper } from "enzyme";
+
+import { Child } from "./helpers/Child";
+
+import { InputContextTypes } from "../src/Input/InputContext";
+import { AutoFocus, AutoFocusProps } from "../src/AutoFocus";
+import { FormContextTypes } from "../src/Form/FormContext";
 
 describe("<AutoFocus/>", () => {
     let wrapper: ReactWrapper<AutoFocusProps, void>;
@@ -30,12 +32,12 @@ describe("<AutoFocus/>", () => {
 
         wrapper = mount(
             <AutoFocus groupName="test" to="testFocus">
-                <Child/>
+                <Child />
             </AutoFocus>,
-            {context, childContextTypes: {...InputContextTypes, ...{validate: FormContextTypes.validate}}}
+            { context, childContextTypes: { ...InputContextTypes, ...{ validate: FormContextTypes.validate } } }
         );
 
-        node = wrapper.getNode() as any;
+        node = wrapper.instance() as any;
         sinon.spy(inputElement, "focus");
     });
 

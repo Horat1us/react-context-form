@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import {SubmitButtonContext, SubmitButtonContextTypes} from "./SubmitButtonContext";
-import {SubmitButtonDefaultProps, SubmitButtonProps, SubmitButtonPropTypes} from "./SubmitButtonProps";
+import { SubmitButtonContext, SubmitButtonContextTypes } from "./SubmitButtonContext";
+import { SubmitButtonDefaultProps, SubmitButtonProps, SubmitButtonPropTypes } from "./SubmitButtonProps";
 
 export interface SubmitButtonState {
     width?: number,
@@ -27,7 +27,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     }
 
     public render(): JSX.Element {
-        const {loadingComponent, ...childProps} = this.props;
+        const { loadingComponent, ...childProps } = this.props;
         if (this.context.isLoading) {
             Object.assign(childProps, {
                 className: (childProps.className || "") + " is-loading",
@@ -42,7 +42,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
         );
     }
 
-    protected registerButton = (button: HTMLButtonElement) => {
+    protected registerButton = (button: HTMLButtonElement): void => {
         if (!button) {
             return;
         }

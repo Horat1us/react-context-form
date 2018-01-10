@@ -2,14 +2,15 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import {TransformTypes} from "./TransformTypes";
 
-export interface BaseInputProps<T extends HTMLElement> extends React.HTMLProps<T> {
-    transform?: TransformTypes
+export interface BaseInputProps extends React.HTMLProps<HTMLInputElement> {
+    transform?: TransformTypes;
 }
 
-export const BaseInputPropTypes = {
+export const BaseInputPropTypes: {[P in keyof BaseInputProps]: PropTypes.Validator<any>} = {
     transform: PropTypes.oneOf(Object.keys(TransformTypes))
 };
 
-export const BaseInputDefaultProps = {
-    transform: TransformTypes.none
+export const BaseInputDefaultProps: {[P in keyof BaseInputProps]?: BaseInputProps[P]} = {
+    transform: TransformTypes.none,
+    className: "form-control"
 };
