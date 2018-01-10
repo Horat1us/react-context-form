@@ -51,27 +51,44 @@ const config = {
                     {
                         loader: "babel-loader",
                         query: {
-                            presets: ['es2015', 'react', 'stage-0', 'stage-1',],
-                        },
+                            presets: [
+                                'react',
+                                ['env', {
+                                    "targets": {
+                                        "node": "6"
+                                    }
+                                }]
+                            ],
+                            "plugins": ["transform-object-rest-spread"]
+                        }
                     },
-                    "awesome-typescript-loader",
-                ],
-            }
-            ,
+                    "awesome-typescript-loader"
+                ]
+            },
             {
                 test: /\.jsx?$/,
-                exclude: [/node_modules/],
-                loader: "babel-loader",
+                exclude:
+                    [/node_modules/],
+                loader:
+                    "babel-loader",
                 query: {
-                    presets: ['es2015', 'react', 'stage-0', 'stage-1',]
-                },
+                    presets: [
+                        'react',
+                        ['env', {
+                            "targets": {
+                                "node": "6"
+                            }
+                        }]
+                    ],
+                    "plugins": ["transform-object-rest-spread"]
+                }
             },
             {
                 enforce: "pre",
                 test: /\.js$/,
-                loader: "source-map-loader",
-            },
-        ],
+                loader: "source-map-loader"
+            }
+        ]
     },
 
     plugins: [
