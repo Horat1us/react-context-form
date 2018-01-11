@@ -49,11 +49,11 @@ export class Form<M extends Model>
     }
 
     public async componentWillMount() {
-        await this.state.model.get();
-
         if (this.props.storageKey) {
             this.loadFromStorage();
         }
+
+        await this.state.model.get();
     }
 
     public async componentWillUnmount() {
