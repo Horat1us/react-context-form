@@ -15,4 +15,5 @@ export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<an
     instantiate: PropTypes.func.isRequired,
     method: PropTypes.string,
     onSubmit: PropTypes.func,
+    storageKey: PropTypes.string
 };

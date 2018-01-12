@@ -1,0 +1,38 @@
+{
+    "mocha.options": {
+      "compilers": {
+        "ts": "ts-node/register"
+      },
+      "reporter": "dot",
+      "fullTrace": true
+    },
+    "mocha.reporters": "dot",
+    "mocha.requires": [
+      "jsdom-global/register",
+      "ts-node/register",
+      "source-map-support/register",
+      "tests/unit/bootstrap.ts",
+    ],
+    // Mocha: Glob to search for test files
+    "mocha.files.glob": "tests/unit/**/*.ts*",
+    // Mocha: Globs to ignore when searching for test files
+    "mocha.files.ignore": [
+      "**/.git/**/*",
+      "**/node_modules/**/*"
+    ],
+    //Mocha: run tests on each save
+    "mocha.runTestsOnSave": {
+      "default": "false",
+    },
+    // Mocha: Environment variables to run your tests
+    "mocha.env": {
+      "TS_NODE_PROJECT": "tsconfig.json"
+    },
+    "mocha.sideBarOptions": {
+      "default": {
+        "lens": true, // -> enable/disable lens
+        "decoration": true, // -> enable/disable decoration
+        "autoUpdateTime": 20000000 // -> set timeout between each decorations and lens updates during test writing 
+      }
+    }
+  }

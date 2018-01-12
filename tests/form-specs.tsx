@@ -114,8 +114,7 @@ describe("<Form/>", () => {
         (window as any).localStorage = {
             setItem: (key: string, newValue: any) => {
                 localStorageEmulator[key] = newValue;
-            },
-            getItem: () => undefined,
+            }
         };
         const changedPassword = (Math.random().toString() as any).repeat(10);
         const storageKey = "form";
@@ -139,6 +138,8 @@ describe("<Form/>", () => {
             getItem: (key: string) => key === storedFormName ? JSON.stringify(storedForm) : undefined,
         };
         wrapper.setProps({ storageKey: storedFormName });
+        wrapper.unmount();
+        wrapper.mount();
 
         // Can not emulate onMount (componentWillMount wont be called)
         (wrapper.instance() as Form<ExampleModel>).loadFromStorage();
@@ -148,6 +149,11 @@ describe("<Form/>", () => {
 
     it("Should return false on loadFromStorage is local storage is empty (0)", () => {
         (window as any).localStorage = { getItem: () => 0 };
+        expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
+    });
+
+    it("Should return false on loadFromStorage on JSON.parse exception", () => {
+        (window as any).localStorage = { getItem: () => "" };
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
     });
 
