@@ -24,11 +24,12 @@ describe("<FormGroup />", () => {
     const handleUnmount = (...args) => unmountHandler(...args);
 
     beforeEach(() => {
-        handler = () => undefined;
+        handler = (() => undefined)();
         mountHandler = () => undefined;
         unmountHandler = () => undefined;
         const commonHandle = () => undefined;
 
+        commonHandle();
         const context: FormContext = previousContext = {
             values: [],
             addError: commonHandle,

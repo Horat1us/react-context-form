@@ -49,6 +49,7 @@ describe("<AutoValidate/>", () => {
     const id = "prefix-" + (new Date());
 
     beforeEach(() => {
+        commonHandler();
         const context: ContextType = {
             id,
             name,

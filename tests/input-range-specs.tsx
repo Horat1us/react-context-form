@@ -13,12 +13,13 @@ describe("<InputRange/>", () => {
 
     const name = "fieldName";
     let controlValue = 12;
+    const commonHandler = () => undefined;
 
     const onChange = (value: any) => controlValue = value;
-    const onBlur = () => onChange(wrapper.context().value);
-    const onFocus = (...args) => undefined;
-    const onMount = (...args) => undefined;
-    const onAttributeChange = (...args) => undefined;
+    const onBlur = commonHandler;
+    const onFocus = commonHandler;
+    const onMount = commonHandler;
+    const onAttributeChange = commonHandler
 
     const id = "prefix-" + (new Date());
 
@@ -35,7 +36,7 @@ describe("<InputRange/>", () => {
     };
 
     beforeEach(() => {
-
+        commonHandler();
         wrapper = mount(
             <InputRange {...props}>
                 <div />

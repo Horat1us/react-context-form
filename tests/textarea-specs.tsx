@@ -12,12 +12,13 @@ describe("<TextArea/>", () => {
 
     const name = "fieldName";
     const initialValue = "undefined";
+    const commonHandler = () => undefined;
 
-    const onChange = (...args) => undefined;
-    const onBlur = (...args) => undefined;
-    const onFocus = (...args) => undefined;
-    const onMount = (...args) => undefined;
-    const onAttributeChange = (...args) => undefined;
+    const onChange = commonHandler;
+    const onBlur = commonHandler;
+    const onFocus = commonHandler;
+    const onMount = commonHandler;
+    const onAttributeChange = commonHandler;
 
     const id = "prefix-" + (new Date());
 
@@ -51,6 +52,7 @@ describe("<TextArea/>", () => {
     };
 
     beforeEach(() => {
+        commonHandler();
         const context: FormGroupContext = previousContext = {
             id,
             name,

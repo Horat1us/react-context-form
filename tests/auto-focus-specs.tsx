@@ -29,6 +29,7 @@ describe("<AutoFocus/>", () => {
             onMount: commonHandler,
             validate: commonHandler
         };
+        commonHandler();
 
         wrapper = mount(
             <AutoFocus groupName="test" to="testFocus">
