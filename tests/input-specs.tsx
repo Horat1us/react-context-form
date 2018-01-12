@@ -12,6 +12,7 @@ describe("<Input />", () => {
 
     let node: HTMLInputElement;
     let previousContext: FormGroupContext;
+    const commonHandler = () => undefined;
 
     const name = "fieldName";
     const initialValue = "undefined";
@@ -21,10 +22,10 @@ describe("<Input />", () => {
         testValue = value;
         return undefined
     };
-    const onBlur = (...args) => undefined;
-    const onFocus = (...args) => undefined;
-    const onMount = (...args) => undefined;
-    const onAttributeChange = (...args) => undefined;
+    const onBlur = commonHandler;
+    const onFocus = commonHandler;
+    const onMount = commonHandler;
+    const onAttributeChange = commonHandler;
 
     const id = "prefix-" + (new Date());
 
@@ -58,6 +59,7 @@ describe("<Input />", () => {
     };
 
     beforeEach(() => {
+        commonHandler();
         const context: FormGroupContext = previousContext = {
             id,
             name,

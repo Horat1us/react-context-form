@@ -135,7 +135,7 @@ describe("<Form/>", () => {
         const storedFormName = "storedForm";
         (window as any).localStorage = {
             setItem: () => undefined,
-            getItem: (key: string) => key === storedFormName ? JSON.stringify(storedForm) : undefined,
+            getItem: (key: string) => key === storedFormName && JSON.stringify(storedForm),
         };
         wrapper.setProps({ storageKey: storedFormName });
         wrapper.unmount();

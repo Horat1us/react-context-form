@@ -12,14 +12,15 @@ describe("<NumericInput/>", () => {
 
     const name = "fieldName";
     const initialValue = "undefined";
+    const commonHandler = () => undefined;
 
     let testValue = "undefined";
 
     const onChange = (arg: any) => testValue = arg;
-    const onBlur = (...args) => undefined;
-    const onFocus = (...args) => undefined;
-    const onMount = (...args) => undefined;
-    const onAttributeChange = (...args) => undefined;
+    const onBlur = commonHandler;
+    const onFocus = commonHandler;
+    const onMount = commonHandler;
+    const onAttributeChange = commonHandler;
 
     const id = "prefix-" + (new Date());
 
@@ -53,6 +54,7 @@ describe("<NumericInput/>", () => {
     };
 
     beforeEach(() => {
+        commonHandler();
         const context: FormGroupContext = previousContext = {
             id,
             name,
