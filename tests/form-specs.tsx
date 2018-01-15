@@ -204,4 +204,25 @@ describe("<Form/>", () => {
         await node.handleSubmit();
         expect(isFocused).to.be.true;
     });
+
+    it("Should set satate `isLoading` to false when `onSubmit` from props throw error", async () => {
+        const handleSubmit = () => {
+            throw Error();
+        }
+
+        wrapper = mount(
+            <ExampleForm {...props} onSubmit={handleSubmit}>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </ExampleForm>
+        );
+
+        try {
+            await (wrapper.instance() as any).handleSubmit();
+        } catch (error) {
+            expect(wrapper.state().isLoading).to.be.false;
+        }
+
+    });
 });
