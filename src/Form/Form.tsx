@@ -72,10 +72,17 @@ export class Form<M extends Model>
 
         if (!this.state.model.hasErrors()) {
             const action = this.state.model[this.props.method];
-            if ("function" === typeof action) {
-                await action();
-            } else {
-                this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
+            try {
+                if ("function" === typeof action) {
+                    await action();
+                } else {
+                    this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
+                }
+            } catch (error) {
+                this.state.isLoading = false;
+                this.forceUpdate();
+
+                throw error;
             }
         } else {
             this.getDOMElement(this.state.model.getErrors()[0].attribute).focus();
