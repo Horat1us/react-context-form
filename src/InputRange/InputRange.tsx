@@ -33,7 +33,7 @@ export class InputRange extends React.Component<InputRangeProps> {
 
         // simulate maxLength for input
         if (currentLength > maxLength) {
-            value = Number(value.toString().substring(0, maxLength));
+            return;
         }
 
         if (value > this.props.max) {
@@ -50,6 +50,9 @@ export class InputRange extends React.Component<InputRangeProps> {
             value = this.props.max;
         } else if (value < this.props.min) {
             value = this.props.min;
+        } else {
+            // dont call onChange if anything ok
+            return;
         }
 
         this.context.onChange(value || "");

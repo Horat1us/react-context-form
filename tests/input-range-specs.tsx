@@ -13,9 +13,13 @@ describe("<InputRange/>", () => {
 
     const name = "fieldName";
     let controlValue = 12;
+    let onChangeTriggered = false;
     const commonHandler = () => undefined;
 
-    const onChange = (value: any) => controlValue = value;
+    const onChange = (value: any) => {
+        controlValue = value;
+        onChangeTriggered = true;
+    };
     const onBlur = commonHandler;
     const onFocus = commonHandler;
     const onMount = commonHandler;
@@ -47,7 +51,10 @@ describe("<InputRange/>", () => {
         node = wrapper.instance() as any;
     });
 
-    afterEach(() => wrapper.unmount());
+    afterEach(() => {
+        wrapper.unmount();
+        onChangeTriggered = false;
+    });
 
     it("Should update value from context on change", () => {
         for (let i = props.min; i < props.max; i++) {
@@ -91,21 +98,15 @@ describe("<InputRange/>", () => {
         expect(wrapper.context().value).to.equal(props.max);
     });
 
-    it("Should update value from context on blur", () => {
+    it("Should not update value from context on blur if it un range", () => {
         for (let i = props.min; i < props.max; i++) {
             wrapper.setContext({
                 ...context,
-                ...{ value: i }
+                value: i
             });
 
             node.getChildContext().onBlur();
-
-            wrapper.setContext({
-                ...context,
-                ...{ value: controlValue }
-            });
-
-            expect(wrapper.context().value).to.equal(i);
+            expect(onChangeTriggered).to.be.false;
         }
     });
 
