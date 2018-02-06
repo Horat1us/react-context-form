@@ -51,7 +51,7 @@ export class InputRange extends React.Component<InputRangeProps> {
         } else if (value < this.props.min) {
             value = this.props.min;
         } else {
-            // dont call onChange if anything ok
+            // dont call onChange if nothing changed
             return;
         }
 
