@@ -11,7 +11,7 @@ export interface AutoValidateProps {
 
     onValidated?: (isValid: boolean) => void,
 
-    on?: (nextValue: string) => boolean
+    on?: (nextValue: string, previousValue: string) => boolean
 }
 
 export const AutoValidatePropTypes: {[P in keyof AutoValidateProps]: PropTypes.Validator<any>} = {
