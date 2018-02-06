@@ -34,13 +34,14 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
         return this.props.children;
     }
 
-    protected handleChange = (value: any): void => {
-        const onChange = this.context.onChange(value);
+    protected handleChange = (nextValue: any): void => {
+        const previousValue = this.context.value;
+        const onChange = this.context.onChange(nextValue);
         if (
             this.props.always
             || this.props.onChange
-            || ("string" === typeof value && value.length >= this.props.onLength)
-            || this.props.on && this.props.on(value)
+            || ("string" === typeof nextValue && nextValue.length >= this.props.onLength)
+            || this.props.on && this.props.on(nextValue, previousValue)
         ) {
             this.validate();
         }
