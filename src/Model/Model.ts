@@ -34,7 +34,16 @@ export interface ModelValue {
 }
 
 export abstract class Model implements ModelInterface {
+    public defaults: {[i: string]: any} = {};
+
     protected errors: ModelError[] = [];
+
+    public constructor(defaults?: Model["defaults"]) {
+        if (defaults) {
+            this.defaults = {...this.defaults as any, ...defaults};
+        }
+        this.reset();
+    }
 
     // We can setup models without initial
     public get = async (): Promise<void> => undefined;
@@ -80,7 +89,7 @@ export abstract class Model implements ModelInterface {
 
     public attributes(): string[] {
         return Object.keys(this)
-            .filter((key) => key !== "errors" && key !== "get");
+            .filter((key) => this.hasOwnProperty(key) && key !== "errors" && key !== "get" && key !== "defaults");
     }
 
     public get values(): ModelValue[] {
@@ -125,5 +134,9 @@ export abstract class Model implements ModelInterface {
         return this.errors.length -
             (this.errors = this.errors.filter((error: ModelError) => error.attribute !== attribute))
                 .length;
+    }
+
+    public reset(): void {
+        Object.assign(this, this.defaults);
     }
 }
