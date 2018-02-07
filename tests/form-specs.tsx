@@ -225,4 +225,21 @@ describe("<Form/>", () => {
         }
 
     });
+
+    it("Should reset form after submit when `resetAfterSubmit` property is set", async () => {
+        wrapper = mount(
+            <ExampleForm {...props} resetAfterSubmit>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </ExampleForm>
+        );
+        let checker = false;
+        model.reset = () => {
+            checker = true;
+        };
+        await (wrapper.instance() as any).handleSubmit();
+
+        expect(checker).to.equal(true);
+    })
 });
