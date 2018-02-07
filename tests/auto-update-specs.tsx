@@ -104,4 +104,28 @@ describe("<AutoUpdate/>", () => {
         expect(isBlurTriggered).to.be.false;
     });
 
+    it("Should update on input change when property onChange is passed", async () => {
+        wrapper.setProps({
+            onChange: true,
+        });
+
+        const node = wrapper.instance() as any;
+        let isFocusTriggered = false;
+        let isBlurTriggered = false;
+
+        wrapper.setContext({
+            getDOMElement: () => {
+                const element = document.createElement("div");
+                element.focus = () => isFocusTriggered = true;
+                element.blur = () => isBlurTriggered = true;
+
+                return element;
+            }
+        });
+
+        node.getChildContext().onChange("");
+
+        expect(isFocusTriggered).to.be.true;
+        expect(isBlurTriggered).to.be.true;
+    });
 });
