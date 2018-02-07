@@ -9,11 +9,13 @@ export interface FormProps<M extends ModelInterface> {
     method?: string, /* Name of method of model, which will be called on form submit */
     onSubmit?: (model: M, childContext: FormContext) => Promise<void>, // will be called if no method provided
     storageKey?: string, /* If provided Model will be saved to localStorage on unmount and loaded on mount */
+    resetAfterSubmit?: boolean,
 }
 
 export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<any>} = {
     instantiate: PropTypes.func.isRequired,
     method: PropTypes.string,
     onSubmit: PropTypes.func,
-    storageKey: PropTypes.string
+    storageKey: PropTypes.string,
+    resetAfterSubmit: PropTypes.bool,
 };

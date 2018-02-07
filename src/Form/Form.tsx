@@ -78,6 +78,7 @@ export class Form<M extends Model>
                 } else {
                     this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
                 }
+                this.props.resetAfterSubmit && this.state.model.reset();
             } catch (error) {
                 this.state.isLoading = false;
                 this.forceUpdate();
@@ -93,7 +94,7 @@ export class Form<M extends Model>
     };
 
     public render(): JSX.Element {
-        const { instantiate, onSubmit, method, storageKey, ...childProps } = this.props;
+        const { instantiate, onSubmit, method, storageKey, resetAfterSubmit, ...childProps } = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
