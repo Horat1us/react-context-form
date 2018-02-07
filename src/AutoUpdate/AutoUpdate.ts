@@ -2,12 +2,13 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import { InputContextTypes, InputContext } from "../Input";
-import { AutoUpdateProps, AutoUpdatePropTypes } from "./AutoUpdateProps";
+import { AutoUpdateProps, AutoUpdatePropTypes, AutoUpdateDefaultProps } from "./AutoUpdateProps";
 import { AutoUpdateContext, AutoUpdateContextTypes } from "./AutoUpdateContext";
 
 export class AutoUpdate extends React.Component<AutoUpdateProps> {
-    public static propTypes = AutoUpdatePropTypes;
-    public static contextTypes = {
+    public static readonly propTypes = AutoUpdatePropTypes;
+    public static readonly defaultProps = AutoUpdateDefaultProps;
+    public static readonly contextTypes = {
         ...InputContextTypes,
         getDOMElement: PropTypes.func.isRequired
     };
@@ -41,15 +42,13 @@ export class AutoUpdate extends React.Component<AutoUpdateProps> {
     }
 
     protected handleBlur = (): void => {
-        this.handleUpdate();
+        this.props.onBlur && this.handleUpdate();
 
         this.context.onBlur();
     }
 
     protected handleChange = (value: any): void => {
-        if (this.props.onChange) {
-            this.handleUpdate();
-        }
+        this.props.onChange && this.context.onAttributeChange(this.props.attribute, this.props.value(value));
 
         this.context.onChange(value);
     }
