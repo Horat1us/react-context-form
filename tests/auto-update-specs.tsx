@@ -110,22 +110,14 @@ describe("<AutoUpdate/>", () => {
         });
 
         const node = wrapper.instance() as any;
-        let isFocusTriggered = false;
-        let isBlurTriggered = false;
+        let attributeChanged = false;
 
         wrapper.setContext({
-            getDOMElement: () => {
-                const element = document.createElement("div");
-                element.focus = () => isFocusTriggered = true;
-                element.blur = () => isBlurTriggered = true;
-
-                return element;
-            }
+            onAttributeChange: () => attributeChanged = true,
         });
 
         node.getChildContext().onChange("");
 
-        expect(isFocusTriggered).to.be.true;
-        expect(isBlurTriggered).to.be.true;
+        expect(attributeChanged).to.be.true;
     });
 });

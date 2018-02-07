@@ -48,7 +48,7 @@ export class AutoUpdate extends React.Component<AutoUpdateProps> {
 
     protected handleChange = (value: any): void => {
         if (this.props.onChange) {
-            this.handleUpdate();
+            this.context.onAttributeChange(this.props.attribute, this.props.value(value));
         }
 
         this.context.onChange(value);
