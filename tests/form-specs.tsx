@@ -234,12 +234,12 @@ describe("<Form/>", () => {
                 </FormGroup>
             </ExampleForm>
         );
-        let checker = false;
+        let isResetCalled = false;
         model.reset = () => {
-            checker = true;
+            isResetCalled = true;
         };
         await (wrapper.instance() as any).handleSubmit();
 
-        expect(checker).to.equal(true);
+        expect(isResetCalled).to.equal(true);
     })
 });
