@@ -11,9 +11,10 @@ describe("<AutoUpdate/>", () => {
     const attr = "phone";
     let isTriggered = false;
     let isFocused = false;
+    let targetValue = null;
     const commonHandler = () => undefined;
 
-    const value = commonHandler;
+    const processValue = (value) => targetValue = value;
     const onChange = commonHandler;
     const onBlur = commonHandler;
     const onFocus = commonHandler;
@@ -36,7 +37,7 @@ describe("<AutoUpdate/>", () => {
     beforeEach(() => {
         commonHandler();
         wrapper = mount(
-            <AutoUpdate attribute={attr} value={value}>
+            <AutoUpdate attribute={attr} value={processValue}>
                 <div />
             </AutoUpdate>,
             { context }
@@ -110,14 +111,10 @@ describe("<AutoUpdate/>", () => {
         });
 
         const node = wrapper.instance() as any;
-        let attributeChanged = false;
+        const value = "testValue";
 
-        wrapper.setContext({
-            onAttributeChange: () => attributeChanged = true,
-        });
+        node.getChildContext().onChange(value);
 
-        node.getChildContext().onChange("");
-
-        expect(attributeChanged).to.be.true;
+        expect(targetValue).to.be.equal(value);
     });
 });
