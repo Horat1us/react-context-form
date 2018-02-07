@@ -1,5 +1,6 @@
 import { expect } from "chai";
 
+import { Model } from "../src/Model";
 import { ExampleModel } from "./helpers/ExampleModel";
 import { EmptyeModel } from "./helpers/EmptyModel";
 
@@ -65,7 +66,6 @@ describe("Model", () => {
         it("Should return Model public fields list", () => {
             emptyModel.attributes().forEach((field) => {
                 expect(emptyModel[field]).to.exist;
-                expect(typeof emptyModel[field]).to.equal("function");
             });
         });
     });
@@ -188,6 +188,39 @@ describe("Model", () => {
 
             expect(model.getErrors()[0].attribute).to.equal("email");
             expect(model.getErrors()[1].attribute).to.equal("password");
+        });
+    });
+
+    describe("Defaults", () => {
+        it("Should correctly set defaults in constructor", async () => {
+            const field = "testField";
+            const value = "testFieldValue";
+            const modelWithDefaults = new class extends Model {
+
+            }({[field]: value});
+
+            expect(modelWithDefaults).to.haveOwnProperty(field);
+            expect(modelWithDefaults[field]).to.equal(value);
+
+            modelWithDefaults[field] = value.repeat(2);
+            modelWithDefaults.reset();
+            expect(modelWithDefaults[field]).to.equal(value);
+        });
+
+        it("Should correctly reset model attributes", async () => {
+            const defaultFieldValue = "test";
+            const modelWithDefaults = new class extends Model {
+                public defaultField: string = defaultFieldValue;
+
+                public defaults = {
+                    defaultField: defaultFieldValue
+                };
+            };
+
+            modelWithDefaults.defaultField = defaultFieldValue.repeat(2);
+            modelWithDefaults.reset();
+
+            expect(modelWithDefaults.defaultField).to.be.equal(defaultFieldValue);
         });
     });
 });
