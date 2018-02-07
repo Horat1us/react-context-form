@@ -20,7 +20,8 @@ export class AutoUpdate extends React.Component<AutoUpdateProps> {
 
     public getChildContext(): AutoUpdateContext {
         return {
-            onBlur: this.handleUpdate
+            onBlur: this.handleBlur,
+            onChange: this.handleChange,
         }
     }
 
@@ -37,7 +38,19 @@ export class AutoUpdate extends React.Component<AutoUpdateProps> {
             element.focus();
             element.blur();
         }
+    }
+
+    protected handleBlur = (): void => {
+        this.handleUpdate();
 
         this.context.onBlur();
+    }
+
+    protected handleChange = (value: any): void => {
+        if (this.props.onChange) {
+            this.handleUpdate();
+        }
+
+        this.context.onChange(value);
     }
 }
