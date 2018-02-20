@@ -6,15 +6,21 @@ import { BaseInput } from "./BaseInput";
 export interface PasswordInputProps extends React.HTMLProps<HTMLInputElement> {
     hoverToShow?: boolean;
     clickToShow?: boolean;
+    buttonProps?: React.HTMLProps<HTMLButtonElement>
 }
 
 export const PasswordInputPropTypes: {[P in keyof PasswordInputProps]: PropTypes.Validator<any>} = {
     hoverToShow: PropTypes.bool,
-    clickToShow: PropTypes.bool
+    clickToShow: PropTypes.bool,
+    buttonProps: PropTypes.object
 };
 
 export const PasswordInputDefaultProps: {[P in keyof PasswordInputProps]?: PasswordInputProps[P]} = {
-    clickToShow: true
+    clickToShow: true,
+    buttonProps: {
+        type: "button",
+        className: "btn btn_view"
+    }
 };
 
 export interface PasswordInputState {
@@ -30,17 +36,14 @@ export class PasswordInput extends BaseInput<PasswordInputProps> {
     }
 
     public render(): JSX.Element {
-        const { hoverToShow, clickToShow, children, ...rest } = this.childProps;
+        const { hoverToShow, clickToShow, children, buttonProps, ...rest } = this.childProps;
 
         const childProps = {
             ...rest,
             type: this.state.isHidden ? "password" : "text"
         };
 
-        const controlTypeProps: React.HTMLProps<HTMLButtonElement> = {
-            type: "button",
-            className: "btn btn_view"
-        };
+        const controlTypeProps = buttonProps;
 
         if (this.props.hoverToShow) {
             controlTypeProps.onMouseOver = this.handleChangeVisibility(false);
