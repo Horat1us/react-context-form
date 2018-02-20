@@ -22,7 +22,7 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
         const { transform, ...TProps } = this.props as any; // https://github.com/Microsoft/TypeScript/issues/16780
 
         let passwordInputProps = {};
-        if (this.context.isHidden !== undefined && this.context.isHidden) {
+        if (this.context.isHidden) {
             passwordInputProps = {
                 type: "password"
             };
