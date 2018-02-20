@@ -12,3 +12,5 @@ export * from "./InputRange";
 export * from "./AutoValidate";
 export * from "./AutoFocus";
 export * from "./AutoUpdate";
+export * from "./ShowPasswordButton";
+export * from "./PasswordGroup";

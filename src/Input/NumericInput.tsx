@@ -6,11 +6,11 @@ export class NumericInput extends BaseInput<React.HTMLProps<HTMLInputElement>> {
 
     public render(): JSX.Element {
         const childProps = {
+            type: "tel",
             ...this.childProps,
             ...{
                 onInput: this.handleInputChange,
                 onChange: () => undefined,
-                type: "tel"
             }
         };
 
