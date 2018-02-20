@@ -4,33 +4,37 @@ import * as PropTypes from "prop-types";
 import { BaseInput } from "./BaseInput";
 
 export interface PasswordInputProps extends React.HTMLProps<HTMLInputElement> {
-    hoverToChange?: boolean;
-    clickToChange?: boolean;
+    hoverToShow?: boolean;
+    clickToShow?: boolean;
 }
 
 export const PasswordInputPropTypes: {[P in keyof PasswordInputProps]: PropTypes.Validator<any>} = {
-    hoverToChange: PropTypes.bool,
-    clickToChange: PropTypes.bool
+    hoverToShow: PropTypes.bool,
+    clickToShow: PropTypes.bool
 };
 
 export const PasswordInputDefaultProps: {[P in keyof PasswordInputProps]?: PasswordInputProps[P]} = {
-    clickToChange: true
+    clickToShow: true
 };
+
+export interface PasswordInputState {
+    isHidden: boolean;
+}
 
 export class PasswordInput extends BaseInput<PasswordInputProps> {
     public static readonly propTypes = PasswordInputPropTypes;
     public static readonly defaultProps = PasswordInputDefaultProps;
 
-    public state: React.HTMLProps<HTMLInputElement> = {
-        type: "password"
+    public state: PasswordInputState = {
+        isHidden: true
     }
 
     public render(): JSX.Element {
-        const { hoverToChange, clickToChange, children, ...rest } = this.childProps;
+        const { hoverToShow, clickToShow, children, ...rest } = this.childProps;
 
         const childProps = {
-            ...this.state,
-            ...rest
+            ...rest,
+            type: this.state.isHidden ? "password" : "text"
         };
 
         const controlTypeProps: React.HTMLProps<HTMLButtonElement> = {
@@ -38,11 +42,11 @@ export class PasswordInput extends BaseInput<PasswordInputProps> {
             className: "btn btn_view"
         };
 
-        if (this.props.hoverToChange) {
-            controlTypeProps.onMouseOver = this.handleChangeType("text");
-            controlTypeProps.onMouseLeave = this.handleChangeType("password");
-        } else if (this.props.clickToChange) {
-            controlTypeProps.onClick = this.handleChangeType("auto");
+        if (this.props.hoverToShow) {
+            controlTypeProps.onMouseOver = this.handleChangeVisibility(false);
+            controlTypeProps.onMouseLeave = this.handleChangeVisibility(true);
+        } else if (this.props.clickToShow) {
+            controlTypeProps.onClick = this.handleChangeVisibility();
         }
 
         return (
@@ -55,17 +59,17 @@ export class PasswordInput extends BaseInput<PasswordInputProps> {
         );
     }
 
-    protected handleChangeType = (type: "password" | "text" | "auto") => (): void => {
-        if (type === "auto") {
-            return this.setState((prevState: React.HTMLProps<HTMLInputElement>) => ({
-                type: prevState.type === "password" ? "text" : "password"
+    protected handleChangeVisibility = (state?: boolean) => (): void => {
+        if (state === undefined) {
+            return this.setState((prevState: PasswordInputState) => ({
+                isHidden: !prevState.isHidden
             }));
         }
 
-        if (this.state.type === type) {
+        if (this.state.isHidden === state) {
             return;
         }
 
-        this.setState({ type });
+        this.setState({ isHidden: state });
     }
 }

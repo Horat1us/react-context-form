@@ -40,21 +40,24 @@ describe("<PasswordInput/>", () => {
 
     it("Should change input type on click" , () => {
         wrapper.find(".btn_view").simulate("click");
-        expect(wrapper.state().type).to.equal("text");
+        expect(wrapper.state().isHidden).to.be.false;
 
         wrapper.find(".btn_view").simulate("click");
-        expect(wrapper.state().type).to.equal("password");
+        expect(wrapper.state().isHidden).to.be.true;
     });
 
     it("Should change input type on hover if according prop passed" , () => {
         wrapper.setProps({
-            hoverToChange: true
+            hoverToShow: true
         });
 
         wrapper.find(".btn_view").simulate("mouseOver");
-        expect(wrapper.state().type).to.equal("text");
+        expect(wrapper.state().isHidden).to.be.false;
+
+        wrapper.find(".btn_view").simulate("mouseOver");
+        expect(wrapper.state().isHidden).to.be.false;
 
         wrapper.find(".btn_view").simulate("mouseLeave");
-        expect(wrapper.state().type).to.equal("password");
+        expect(wrapper.state().isHidden).to.be.true;
     });
 });
