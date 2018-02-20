@@ -3,19 +3,30 @@ import * as PropTypes from "prop-types";
 
 import { cursorPositionController } from "../helpers/cursorPositionController";
 
+import { PasswordGroupContextTypes, PasswordGroupContext } from "../PasswordGroup";
 import { BaseInputDefaultProps, BaseInputProps, BaseInputPropTypes } from "./BaseInputProps";
 import { InputContext, InputContextTypes } from "./InputContext";
 import { TransformTypes } from "./TransformTypes";
 
 export class BaseInput<T> extends React.Component<BaseInputProps & T> {
-    public static readonly contextTypes = InputContextTypes;
+    public static readonly contextTypes = {
+        ...InputContextTypes,
+        ...PasswordGroupContextTypes
+    };    
     public static readonly defaultProps = BaseInputDefaultProps;
     public static readonly propTypes = BaseInputPropTypes;
 
-    public context: InputContext;
+    public context: InputContext & PasswordGroupContext;
 
     protected get childProps(): React.HTMLProps<HTMLInputElement> & T {
         const { transform, ...TProps } = this.props as any; // https://github.com/Microsoft/TypeScript/issues/16780
+
+        let passwordInputProps = {};
+        if (this.context.isHidden !== undefined && this.context.isHidden) {
+           passwordInputProps = {
+               type: "password"
+           };
+        }
 
         return {
             ...TProps,
@@ -28,7 +39,8 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
 
             onChange: this.handleChange,
             onBlur: this.handleBlur,
-            onFocus: this.handleFocus
+            onFocus: this.handleFocus,
+            ...passwordInputProps
         };
     }
 
