@@ -12,7 +12,7 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
     public static readonly contextTypes = {
         ...InputContextTypes,
         ...PasswordGroupContextTypes
-    };    
+    };
     public static readonly defaultProps = BaseInputDefaultProps;
     public static readonly propTypes = BaseInputPropTypes;
 
@@ -23,9 +23,9 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
 
         let passwordInputProps = {};
         if (this.context.isHidden !== undefined && this.context.isHidden) {
-           passwordInputProps = {
-               type: "password"
-           };
+            passwordInputProps = {
+                type: "password"
+            };
         }
 
         return {

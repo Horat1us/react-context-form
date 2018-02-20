@@ -1,6 +1,10 @@
 import * as React from "react";
 
-import { ShowPasswordButtonProps, ShowPasswordButtonPropTypes, ShowPasswordButtonDefaultProps } from "./ShowPasswordButtonProps";
+import {
+    ShowPasswordButtonProps,
+    ShowPasswordButtonPropTypes,
+    ShowPasswordButtonDefaultProps
+} from "./ShowPasswordButtonProps";
 import { PasswordGroupContextTypes, PasswordGroupContext } from "../PasswordGroup";
 
 export class ShowPasswordButton extends React.Component<ShowPasswordButtonProps> {

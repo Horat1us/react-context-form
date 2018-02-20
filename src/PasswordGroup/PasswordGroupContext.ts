@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 
 export interface PasswordGroupContext {
-    onChangeVisibility?: (state?: boolean) => () => void;     
+    onChangeVisibility?: (state?: boolean) => () => void;
     isHidden?: boolean;
 }
 
