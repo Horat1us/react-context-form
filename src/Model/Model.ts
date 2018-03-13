@@ -137,6 +137,11 @@ export abstract class Model implements ModelInterface {
     }
 
     public reset(): void {
+        this.clear();
         Object.assign(this, this.defaults);
+    }
+
+    public clear(): void {
+        this.attributes().forEach((key) => this[key] = undefined);
     }
 }

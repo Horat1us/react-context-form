@@ -14,3 +14,4 @@ export * from "./AutoFocus";
 export * from "./AutoUpdate";
 export * from "./ShowPasswordButton";
 export * from "./PasswordGroup";
+export * from "./ResetButton";

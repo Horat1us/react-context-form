@@ -65,7 +65,7 @@ describe("Model", () => {
 
         it("Should return Model public fields list", () => {
             emptyModel.attributes().forEach((field) => {
-                expect(emptyModel[field]).to.exist;
+                expect(emptyModel[field]).to.be.undefined;
             });
         });
     });
