@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack",
     "dev": "./node_modules/.bin/webpack-dev-server",
     "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "./node_modules/.bin/tslint --project . --exclude ./node_modules/*",
+    "lint": "./node_modules/.bin/tslint --project .",
     "prepublishOnly": "npm run build"
   },
   "repository": {
