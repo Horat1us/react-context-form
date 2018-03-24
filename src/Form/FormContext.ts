@@ -10,12 +10,13 @@ export interface FormContext {
     onChange: (attribute: string, value: any) => any;
     onMount: (attribute: string, element: HTMLElement) => void;
     onUnmount: (attribute: string) => void;
+    onReset: () => void;
 
-    readonly validate: (group: string) => Promise<ModelError[]>,
+    readonly validate: (group: string) => Promise<ModelError[]>;
     readonly getDOMElement:
-    (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | undefined,
+    (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | undefined;
 
-    isLoading: boolean,
+    isLoading: boolean;
 }
 
 export const FormContextTypes: {[P in keyof FormContext]: PropTypes.Validator<any>} = {
@@ -26,6 +27,7 @@ export const FormContextTypes: {[P in keyof FormContext]: PropTypes.Validator<an
     onChange: PropTypes.func.isRequired,
     onMount: PropTypes.func.isRequired,
     onUnmount: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
 
     validate: PropTypes.func.isRequired,
     getDOMElement: PropTypes.func.isRequired,

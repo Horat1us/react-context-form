@@ -38,6 +38,7 @@ export class Form<M extends Model>
 
             onMount: this.handleMount,
             onUnmount: this.handleUnmount,
+            onReset: this.handleReset,
 
             validate: this.validate,
             getDOMElement: this.getDOMElement,
@@ -161,6 +162,12 @@ export class Form<M extends Model>
         delete this.state.mounted[attribute];
         this.forceUpdate();
     };
+
+    protected handleReset = (): void => {
+        this.state.model.reset();
+
+        this.forceUpdate();
+    }
 
     protected validate = async (group: string): Promise<ModelError[]> => {
         const errorsRemoved = (this.state.model.groups()[group] || [])

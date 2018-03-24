@@ -38,6 +38,7 @@ describe("<FormGroup />", () => {
             onChange: handleChange,
             onMount: handleMount,
             onUnmount: handleUnmount,
+            onReset: commonHandle,
 
             validate: commonHandle,
             getDOMElement: commonHandle,
