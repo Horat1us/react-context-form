@@ -28,7 +28,13 @@ export class Button extends BaseButton {
         );
     }
 
-    protected handleClick = () => this.context.onChange(this.props.action);
+    protected handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        this.props.onClick && this.props.onClick(event);
+
+        if (!event.defaultPrevented) {
+            this.context.onChange(this.props.action);
+        }
+    };
 
     protected get className(): string {
         const additionalClassName = this.context.value === this.props.action ? ` ${this.props.activeClassName}` : "";
