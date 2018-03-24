@@ -22,7 +22,7 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
     };
 
     public getChildContext(): AutoValidateContext {
-        const isOnChange = this.props.onLength || this.props.on || this.props.always;
+        const isOnChange = this.props.onChange || this.props.onLength || this.props.on || this.props.always;
         const isOnBlur = this.props.onBlur || this.props.always;
         return {
             onChange: isOnChange ? this.handleChange : this.context.onChange,
