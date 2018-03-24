@@ -14,10 +14,10 @@ export class Button extends BaseButton {
         const { action, activeClassName, ...HTMLProps } = this.props;
 
         const childProps = {
-            ...this.childProps,
             ...HTMLProps,
+            ...this.childProps,
             ...{
-                className: this.className
+                className: this.className,
             }
         };
 
