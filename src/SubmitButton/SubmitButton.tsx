@@ -32,6 +32,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
             Object.assign(childProps, {
                 className: (childProps.className || "") + " is-loading",
                 style: {
+                    ...(this.props.style || {}),
                     width: `${this.state.width}px`,
                 }
             });
