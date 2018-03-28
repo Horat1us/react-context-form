@@ -3,6 +3,7 @@ import { mount, ReactWrapper } from "enzyme";
 
 import { addError, Form } from "../src";
 import { ExampleModel } from "./helpers/ExampleModel";
+import { AxiosError } from "axios";
 
 describe("addError()", () => {
 
@@ -10,7 +11,7 @@ describe("addError()", () => {
         instantiate: () => new ExampleModel()
     }).getChildContext();
 
-    it("Should add error if status equals 400", () => {
+    it("Should add error if passed error valid", () => {
         const error = {
             response: {
                 data: {
@@ -27,17 +28,84 @@ describe("addError()", () => {
                 },
                 status: 400
             }
-        };
+        } as AxiosError;
 
         addError(context, error);
         expect(context.getError("email").details).to.equal("exist");
         expect(context.getError("password").details).to.equal("exist");
     });
 
-    it("Should throw error if status not equals 400", () => {
-        const error = "error))"
+    it("Should throw error if errors array is not valid", () => {
+        const error = {
+            response: {
+                data: {
+                    errors: [
+                        {
+                            attributeNotValid: "email",
+                            details: "exist"
+                        },
+                        {
+                            attribute: "password",
+                            detailsNotValid: "exist"
+                        }
+                    ]
+                },
+                status: 400
+            }
+        } as AxiosError;
 
-        expect(() => addError(context, error)).to.throw(error);
+        try {
+            addError(context, error)
+        } catch(error) {
+            expect(error).to.equal(error);
+        }
+    });
 
+    it("Should throw error when passed error not valid", () => {
+        let error = {
+            withoutResponse: "",
+        } as any;
+        try {
+            addError(context, error)
+        } catch(error) {
+            expect(error).to.equal(error);
+        }
+
+        error = {
+            response: {
+                status: 500
+            }
+        } as any;
+        try {
+            addError(context, error)
+        } catch(error) {
+            expect(error).to.equal(error);
+        }
+
+        error = {
+            response: {
+                status: 400,
+                data: undefined
+            }
+        } as any;
+        try {
+            addError(context, error)
+        } catch(error) {
+            expect(error).to.equal(error);
+        }
+
+        error = {
+            response: {
+                status: 400,
+                data: {
+                    errors: {}
+                }
+            }
+        } as any;
+        try {
+            addError(context, error)
+        } catch(error) {
+            expect(error).to.equal(error);
+        }
     });
 });
