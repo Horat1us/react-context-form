@@ -5,12 +5,14 @@ import { Model, ModelError } from "../Model";
 import { FormProps, FormPropTypes } from "./FormProps";
 import { FormContext, FormContextTypes } from "./FormContext";
 
+import { addError } from "../helpers";
+
 export interface FormState<M> {
-    model: M,
+    model: M;
     mounted: {
-        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
-    },
-    isLoading: boolean,
+        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    };
+    isLoading: boolean;
 }
 
 export class Form<M extends Model>
@@ -71,6 +73,7 @@ export class Form<M extends Model>
 
         await this.state.model.validate();
 
+        let submitError;
         if (!this.state.model.hasErrors()) {
             const action = this.state.model[this.props.method];
             try {
@@ -79,23 +82,28 @@ export class Form<M extends Model>
                 } else {
                     this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
                 }
-                this.props.resetAfterSubmit && this.state.model.reset();
             } catch (error) {
-                this.state.isLoading = false;
-                this.forceUpdate();
-
-                throw error;
+                submitError = error;
             }
         } else {
-            this.getDOMElement(this.state.model.getErrors()[0].attribute).focus();
+            const element = this.getDOMElement(this.state.model.getErrors()[0].attribute);
+            element && element.focus();
         }
 
         this.state.isLoading = false;
         this.forceUpdate();
+
+        if (submitError) {
+            addError(this.getChildContext(), submitError);
+        } else {
+            this.props.resetAfterSubmit && this.state.model.reset();
+        }
+
+        this.props.afterSubmit && this.props.afterSubmit(submitError);
     };
 
     public render(): JSX.Element {
-        const { instantiate, onSubmit, method, storageKey, resetAfterSubmit, ...childProps } = this.props;
+        const { instantiate, onSubmit, method, storageKey, resetAfterSubmit, afterSubmit, ...childProps } = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
@@ -120,7 +128,7 @@ export class Form<M extends Model>
             this.state.model.attributes()
                 .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
                 .forEach(
-                (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
+                    (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
                 );
             return true;
         }

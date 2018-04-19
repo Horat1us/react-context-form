@@ -5,8 +5,9 @@ export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
     name: string; /* field name (will be passed to input) */
     idPrefix?: string; /* id prefix for input and label */
 
-    errorClassName?: string, /* className, which will be appended when field have error */
-    focusClassName?: string, /* className, which will be appended when focus on input */
+    errorClassName?: string; /* className, which will be appended when field have error */
+    focusClassName?: string; /* className, which will be appended when focus on input */
+    valueClassName?: string;
     ref?: any; // https://github.com/Microsoft/TypeScript/issues/16019
 }
 
@@ -16,6 +17,7 @@ export const FormGroupPropTypes: {[P in keyof FormGroupProps]: PropTypes.Validat
 
     errorClassName: PropTypes.string,
     focusClassName: PropTypes.string,
+    valueClassName: PropTypes.string
 };
 
 export const FormGroupDefaultProps: {[P in keyof FormGroupProps]?: FormGroupProps[P]} = {
@@ -24,4 +26,5 @@ export const FormGroupDefaultProps: {[P in keyof FormGroupProps]?: FormGroupProp
 
     errorClassName: "has-error",
     focusClassName: "has-focus",
+    valueClassName: "has-value"
 };
