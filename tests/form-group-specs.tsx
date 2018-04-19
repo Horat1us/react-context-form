@@ -71,6 +71,14 @@ describe("<FormGroup />", () => {
         expect(wrapper.getDOMNode().className).to.contain("has-focus");
     });
 
+    it("Should add class `has-value` when value exist in context", () => {
+        expect(wrapper.getDOMNode().className).not.to.contain("has-value");
+        wrapper.setContext({
+            values: [{ attribute: name, value: "test", model: null }]
+        });
+        expect(wrapper.getDOMNode().className).to.contain("has-value");
+    });
+
     it("Should remove class `has-focus` when `context.onBlur` triggered", () => {
         node.getChildContext().onFocus();
         expect(wrapper.getDOMNode().className).to.contain("has-focus");

@@ -1,4 +1,4 @@
-import {validate, ValidationError, ValidationOptions} from "class-validator";
+import { validate, ValidationError, ValidationOptions } from "class-validator";
 
 export interface ModelError {
     attribute: string;
@@ -34,13 +34,15 @@ export interface ModelValue {
 }
 
 export abstract class Model implements ModelInterface {
-    public defaults: {[i: string]: any} = {};
+    public defaults: { [i: string]: any } = {};
+
+    public mounted: boolean = false;
 
     protected errors: ModelError[] = [];
 
     public constructor(defaults?: Model["defaults"]) {
         if (defaults) {
-            this.defaults = {...this.defaults as any, ...defaults};
+            this.defaults = { ...this.defaults as any, ...defaults };
         }
         this.reset();
     }
@@ -55,8 +57,8 @@ export abstract class Model implements ModelInterface {
                 skipMissingProperties: true,
                 ...options,
                 ...(group ? {
-                        groups: [group],
-                    } : {}
+                    groups: [group],
+                } : {}
                 )
             }
         ))
@@ -71,7 +73,7 @@ export abstract class Model implements ModelInterface {
 
         const oldErrors = group === undefined
             ? []
-            : this.errors.filter(({attribute}) => !(this.groups()[group] || []).includes(attribute));
+            : this.errors.filter(({ attribute }) => !(this.groups()[group] || []).includes(attribute));
 
         this.errors = [
             ...newErrors,

@@ -12,7 +12,7 @@ export interface FormGroupState {
 
 export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public static readonly propTypes = FormGroupPropTypes;
-    public static readonly defaulProps = FormGroupDefaultProps;
+    public static readonly defaultProps = FormGroupDefaultProps;
     public static readonly childContextTypes = FormGroupContextTypes;
     public static readonly contextTypes = FormContextTypes;
 
@@ -31,7 +31,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public getChildContext(): FormGroupContext {
         const value = this.value;
         return {
-            id: `${this.props.idPrefix || FormGroupDefaultProps.idPrefix}_${this.id}`,
+            id: `${this.props.idPrefix}_${this.id}`,
             name: this.props.name,
 
             value: value ? value.value : undefined,
@@ -63,7 +63,15 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public render(): JSX.Element {
-        const { name, className, idPrefix, errorClassName, focusClassName, ...childProps } = this.props;
+        const {
+            name,
+            idPrefix,
+            className,
+            errorClassName,
+            focusClassName,
+            valueClassName,
+            ...childProps
+        } = this.props;
 
         return (
             <div className={this.className} data-name={this.props.name} {...childProps}>
@@ -74,13 +82,16 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
 
     protected get className(): string {
         return [
-            this.props.className || FormGroupDefaultProps.className,
-            !!(this.value && this.value.error)
-                ? (this.props.errorClassName || FormGroupDefaultProps.errorClassName)
+            this.props.className,
+            (this.value && this.value.error)
+                ? this.props.errorClassName
                 : undefined,
             this.state.isFocused
-                ? (this.props.focusClassName || FormGroupDefaultProps.focusClassName)
+                ? this.props.focusClassName
                 : undefined,
+            (this.value && this.value.value)
+                ? this.props.valueClassName
+                : undefined
         ]
             .filter((className: string) => !!className)
             .join(" ")
