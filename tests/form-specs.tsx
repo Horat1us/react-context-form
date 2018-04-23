@@ -44,11 +44,11 @@ describe("<Form/>", () => {
     beforeEach(() => {
         isOnSubmitTriggered = false;
         wrapper = mount(
-            <ExampleForm {...props}>
+            <Form {...props}>
                 <FormGroup name="email">
                     <Input />
                 </FormGroup>
-            </ExampleForm>
+            </Form>
         );
         node = wrapper.instance() as any;
         sinon.spy(node, "forceUpdate");

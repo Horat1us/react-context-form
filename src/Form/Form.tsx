@@ -6,11 +6,11 @@ import { FormProps, FormPropTypes } from "./FormProps";
 import { FormContext, FormContextTypes } from "./FormContext";
 
 export interface FormState<M> {
-    model: M,
+    model: M;
     mounted: {
-        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
-    },
-    isLoading: boolean,
+        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    };
+    isLoading: boolean;
 }
 
 export class Form<M extends Model>
@@ -57,7 +57,12 @@ export class Form<M extends Model>
         await this.state.model.get();
     }
 
+    public componentDidMount() {
+        this.state.model.mounted = true;
+    }
+
     public async componentWillUnmount() {
+        this.state.model.mounted = false;
         if (this.props.storageKey) {
             this.pushToStorage();
         }
@@ -67,7 +72,7 @@ export class Form<M extends Model>
         event && event.preventDefault();
 
         this.state.isLoading = true;
-        this.forceUpdate();
+        this.safeUpdate();
 
         await this.state.model.validate();
 
@@ -82,16 +87,17 @@ export class Form<M extends Model>
                 this.props.resetAfterSubmit && this.state.model.reset();
             } catch (error) {
                 this.state.isLoading = false;
-                this.forceUpdate();
+                this.safeUpdate();
 
                 throw error;
             }
         } else {
-            this.getDOMElement(this.state.model.getErrors()[0].attribute).focus();
+            const element = this.getDOMElement(this.state.model.getErrors()[0].attribute);
+            element && element.focus();
         }
 
         this.state.isLoading = false;
-        this.forceUpdate();
+        this.safeUpdate();
     };
 
     public render(): JSX.Element {
@@ -120,7 +126,7 @@ export class Form<M extends Model>
             this.state.model.attributes()
                 .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
                 .forEach(
-                (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
+                    (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
                 );
             return true;
         }
@@ -143,7 +149,7 @@ export class Form<M extends Model>
             return;
         }
         this.state.model[attribute] = value;
-        this.forceUpdate();
+        this.safeUpdate();
     };
 
     protected handleMount =
@@ -152,7 +158,7 @@ export class Form<M extends Model>
                 return;
             }
             this.state.mounted[attribute] = element;
-            this.forceUpdate();
+            this.safeUpdate();
         };
 
     protected handleUnmount = (attribute: string): void => {
@@ -160,13 +166,13 @@ export class Form<M extends Model>
             return;
         }
         delete this.state.mounted[attribute];
-        this.forceUpdate();
+        this.safeUpdate();
     };
 
     protected handleReset = (): void => {
         this.state.model.reset();
 
-        this.forceUpdate();
+        this.safeUpdate();
     }
 
     protected validate = async (group: string): Promise<ModelError[]> => {
@@ -176,7 +182,7 @@ export class Form<M extends Model>
 
         const errors = await this.state.model.validate(group);
         if (errors.length > 0 || errorsRemoved > 0) {
-            this.forceUpdate();
+            this.safeUpdate();
         }
 
         return errors;
@@ -184,6 +190,10 @@ export class Form<M extends Model>
 
     protected handleErrorAdded = (newError: ModelError): void => {
         this.state.model.addError(newError);
-        this.forceUpdate();
+        this.safeUpdate();
+    }
+
+    private safeUpdate = (): void => {
+        this.state.model.mounted && this.forceUpdate();
     }
 }
