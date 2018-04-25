@@ -244,22 +244,9 @@ describe("<Form/>", () => {
     })
 
     it("Should call afterSubmit callback if it passed", async () => {
-        const error = {
-            response: {
-                status: 400,
-                data: {
-                    errors: [{
-                        attribute: "email",
-                        details: "test"
-                    }]
-                }
-            }
-        };
-
-        let afterSubmitError;
-
+        let afterSubmitTriggered = false;
         wrapper = mount(
-            <ExampleForm {...props} onSubmit={() => { throw error }} afterSubmit={(error) => afterSubmitError = error}>
+            <ExampleForm {...props} afterSubmit={() => afterSubmitTriggered = true}>
                 <FormGroup name="email">
                     <Input />
                 </FormGroup>
@@ -268,6 +255,6 @@ describe("<Form/>", () => {
 
         await (wrapper.instance() as any).handleSubmit();
 
-        expect(afterSubmitError).to.equal(error);
+        expect(afterSubmitTriggered).to.equal(true);
     });
 });

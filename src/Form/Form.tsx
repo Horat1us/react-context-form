@@ -88,18 +88,18 @@ export class Form<M extends Model>
         } else {
             const element = this.getDOMElement(this.state.model.getErrors()[0].attribute);
             element && element.focus();
+            return;
         }
 
         this.state.isLoading = false;
         this.forceUpdate();
 
         if (submitError) {
-            addError(this.getChildContext(), submitError);
-        } else {
-            this.props.resetAfterSubmit && this.state.model.reset();
+            return addError(this.getChildContext(), submitError);
         }
 
-        this.props.afterSubmit && this.props.afterSubmit(submitError);
+        this.props.resetAfterSubmit && this.state.model.reset();
+        this.props.afterSubmit && this.props.afterSubmit();
     };
 
     public render(): JSX.Element {
