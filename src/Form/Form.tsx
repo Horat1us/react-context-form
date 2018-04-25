@@ -88,6 +88,8 @@ export class Form<M extends Model>
         } else {
             const element = this.getDOMElement(this.state.model.getErrors()[0].attribute);
             element && element.focus();
+            this.state.isLoading = false;
+            this.forceUpdate();
             return;
         }
 
