@@ -2,8 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import { Model, ModelError } from "../Model";
-import { FormProps, FormPropTypes } from "./FormProps";
 import { FormContext, FormContextTypes } from "./FormContext";
+import { FormProps, FormPropTypes, LocalStorageRequiredInterface } from "./FormProps";
 
 import { addError } from "../helpers";
 
@@ -13,12 +13,14 @@ export interface FormState<M> {
     isLoading: boolean;
 }
 
+declare const localStorage: LocalStorageRequiredInterface | undefined;
 export class Form<M extends Model>
     extends React.Component<React.HTMLProps<HTMLFormElement> & FormProps<M>, FormState<M>> {
-    public static readonly propTypes = FormPropTypes;
     public static readonly childContextTypes = FormContextTypes;
+    public static readonly propTypes = FormPropTypes;
 
     public state: FormState<M>;
+    public localStorage = this.props.localStorage || localStorage;
 
     constructor(props: FormProps<M>) {
         super(props as any);
@@ -105,18 +107,18 @@ export class Form<M extends Model>
         );
     }
 
-    public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | void => (
-        this.state.mounted[attribute]
+    public getDOMElement = (attr: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | undefined => (
+        this.state.mounted[attr]
     );
 
     public loadFromStorage(): boolean {
-        if (!this.props.storageKey) {
+        if (!this.props.storageKey || !this.localStorage) {
             return false;
         }
 
         let localStorageValue;
         try {
-            const storage = localStorage.getItem(this.props.storageKey);
+            const storage = this.localStorage.getItem(this.props.storageKey);
             if (!storage) {
                 throw new Error();
             }
@@ -136,7 +138,7 @@ export class Form<M extends Model>
     }
 
     public pushToStorage(): void {
-        if (!this.props.storageKey) {
+        if (!this.props.storageKey || !this.localStorage) {
             return;
         }
 
@@ -145,7 +147,7 @@ export class Form<M extends Model>
             .filter((attribute: string) => this.state.model[attribute] !== undefined)
             .forEach((attribute: string) => localStorageValue[attribute] = this.state.model[attribute]);
 
-        localStorage && localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
+        this.localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
     }
 
     protected handleChange = (attribute: string, value: any): void => {
@@ -187,7 +189,6 @@ export class Form<M extends Model>
         if (errors.length > 0 || errorsRemoved > 0) {
             this.forceUpdate();
         }
-
         return errors;
     };
 

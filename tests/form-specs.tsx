@@ -114,12 +114,21 @@ describe("<Form/>", () => {
         (global as any).localStorage = {
             setItem: (key: string, newValue: any) => {
                 localStorageEmulator[key] = newValue;
-            }
+            },
+            getItem: () => ""
         };
         const changedPassword = (Math.random().toString() as any).repeat(10);
         const storageKey = "form";
-        wrapper.setProps({ storageKey });
-        node.getChildContext().onChange("password", changedPassword);
+        wrapper.unmount();
+        wrapper =  wrapper = mount(
+            <Form {...props} storageKey={storageKey} localStorage={localStorage}>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </Form>
+        );
+        
+        (wrapper.instance() as any).getChildContext().onChange("password", changedPassword);
         wrapper.unmount();
         expect(localStorageEmulator).to.have.key(storageKey);
         const storedForm = JSON.parse(localStorageEmulator[storageKey]);
@@ -161,7 +170,7 @@ describe("<Form/>", () => {
         (global as any).localStorage = { getItem: () => "" };
         wrapper.setProps({ storageKey: "key" });
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
-        wrapper.setProps({ storageKey: undefined });        
+        wrapper.setProps({ storageKey: undefined });
     });
 
     it("Should add error and call forceUpdate", () => {
