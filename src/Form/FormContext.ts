@@ -14,7 +14,7 @@ export interface FormContext {
 
     readonly validate: (group: string) => Promise<ModelError[]>;
     readonly getDOMElement:
-    (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | undefined;
+    (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | void;
 
     isLoading: boolean;
 }

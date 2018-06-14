@@ -9,9 +9,7 @@ import { addError } from "../helpers";
 
 export interface FormState<M> {
     model: M;
-    mounted: {
-        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-    };
+    mounted: { [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement; };
     isLoading: boolean;
 }
 
@@ -71,9 +69,11 @@ export class Form<M extends Model>
         if (!this.state.model.hasErrors()) {
             const action = this.props.method && this.state.model[this.props.method];
             try {
-                "function" === (typeof action).toLowerCase()
-                    ? await action()
-                    : this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
+                if ("function" === (typeof action).toLowerCase()) {
+                    await action()
+                } else if (this.props.onSubmit) {
+                    await this.props.onSubmit(this.state.model, this.getChildContext());
+                }
             } catch (error) {
                 submitError = error;
             }
@@ -105,7 +105,7 @@ export class Form<M extends Model>
         );
     }
 
-    public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => (
+    public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | void => (
         this.state.mounted[attribute]
     );
 
