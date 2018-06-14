@@ -35,7 +35,7 @@ describe("<Form/>", () => {
     let props = {
         instantiate: instantiateExampleModel,
         onSubmit,
-        method: undefined
+        method: undefined,
     };
     const field = "testField";
     const value = "testValue";
@@ -44,11 +44,11 @@ describe("<Form/>", () => {
     beforeEach(() => {
         isOnSubmitTriggered = false;
         wrapper = mount(
-            <ExampleForm {...props}>
+            <Form {...props}>
                 <FormGroup name="email">
                     <Input />
                 </FormGroup>
-            </ExampleForm>
+            </Form>
         );
         node = wrapper.instance() as any;
         sinon.spy(node, "forceUpdate");
@@ -62,7 +62,7 @@ describe("<Form/>", () => {
         props = {
             instantiate: instantiateExampleModel,
             onSubmit,
-            method: undefined
+            method: undefined,
         };
     });
 
@@ -242,4 +242,19 @@ describe("<Form/>", () => {
 
         expect(isResetCalled).to.equal(true);
     })
+
+    it("Should call afterSubmit callback if it passed", async () => {
+        let afterSubmitTriggered = false;
+        wrapper = mount(
+            <ExampleForm {...props} afterSubmit={() => afterSubmitTriggered = true}>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </ExampleForm>
+        );
+
+        await (wrapper.instance() as any).handleSubmit();
+
+        expect(afterSubmitTriggered).to.equal(true);
+    });
 });
