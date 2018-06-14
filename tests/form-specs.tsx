@@ -111,7 +111,7 @@ describe("<Form/>", () => {
 
     it("Should save values to localStorage if storageKey prop provided", () => {
         const localStorageEmulator = {};
-        (window as any).localStorage = {
+        (global as any).localStorage = {
             setItem: (key: string, newValue: any) => {
                 localStorageEmulator[key] = newValue;
             }
@@ -133,7 +133,7 @@ describe("<Form/>", () => {
             email: "person@example.com",
         };
         const storedFormName = "storedForm";
-        (window as any).localStorage = {
+        (global as any).localStorage = {
             setItem: () => undefined,
             getItem: (key: string) => key === storedFormName && JSON.stringify(storedForm),
         };
@@ -148,13 +148,20 @@ describe("<Form/>", () => {
     });
 
     it("Should return false on loadFromStorage is local storage is empty (0)", () => {
-        (window as any).localStorage = { getItem: () => 0 };
+        (global as any).localStorage = { getItem: () => 0 };
+        wrapper.setProps({ storageKey: "key" });
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
+        (global as any).localStorage = { getItem: () => "false" };
+        expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
+
+        wrapper.setProps({ storageKey: undefined });
     });
 
     it("Should return false on loadFromStorage on JSON.parse exception", () => {
-        (window as any).localStorage = { getItem: () => "" };
+        (global as any).localStorage = { getItem: () => "" };
+        wrapper.setProps({ storageKey: "key" });
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
+        wrapper.setProps({ storageKey: undefined });        
     });
 
     it("Should add error and call forceUpdate", () => {

@@ -8,7 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "declaration": true,
-    "declarationDir": "build"
+    "declarationDir": "build",
+    "strictNullChecks": true
   },
   "exclude": [
     "./node_modules/**/*",

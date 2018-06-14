@@ -10,11 +10,11 @@ export class Hint extends React.Component<React.HTMLProps<HTMLSpanElement>> {
 
     public context: HintContext;
 
-    public get error(): string {
+    public get error(): string | void {
         return this.context.error;
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         if (!this.error && !this.props.children) {
             return null;
         }

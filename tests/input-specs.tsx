@@ -179,4 +179,10 @@ describe("<Input />", () => {
 
         expect(testValue).to.equal("STRING");
     });
+
+    it("Should use 'name' from props if it passed", () => {
+        wrapper.setProps({ name: "test_name" });
+
+        expect(wrapper.getDOMNode().getAttribute("name")).to.equals("test_name");
+    });
 });

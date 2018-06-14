@@ -40,7 +40,7 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
         if (
             this.props.always
             || this.props.onChange
-            || ("string" === typeof nextValue && nextValue.length >= this.props.onLength)
+            || (this.props.onLength && "string" === typeof nextValue && nextValue.length >= this.props.onLength)
             || this.props.on && this.props.on(nextValue, previousValue)
         ) {
             this.validate();
@@ -55,6 +55,6 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
 
     protected async validate(): Promise<void> {
         const errors = await this.context.validate(this.props.groupName);
-        this.props.onValidated(errors.length === 0);
+        this.props.onValidated && this.props.onValidated(errors.length === 0);
     }
 }

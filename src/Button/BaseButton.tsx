@@ -11,7 +11,7 @@ export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLBut
     public get childProps(): React.HTMLProps<HTMLButtonElement> {
         return {
             id: this.context.id,
-            ref: this.context.onMount,
+            ref: this.context.onMount as any,
             name: this.context.name,
 
             onFocus: this.handleFocus,
