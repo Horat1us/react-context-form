@@ -4,13 +4,13 @@ import * as PropTypes from "prop-types";
 import { ModelInterface } from "../Model";
 import { FormContext } from "./FormContext";
 
-export interface LocalStorageRequiredInterface {
+export interface StorageRequiredInterface {
     getItem: (key: string) => string;
     setItem: (key: string, value: any) => void;
 }
 
-export const LocalStorageRequiredInterfaceTypes:
-    {[P in keyof LocalStorageRequiredInterface]: PropTypes.Validator<any>} = {
+export const StorageRequiredInterfaceTypes:
+    {[P in keyof StorageRequiredInterface]: PropTypes.Validator<any>} = {
         getItem: PropTypes.func.isRequired,
         setItem: PropTypes.func.isRequired
     };
@@ -22,7 +22,7 @@ export interface FormProps<M extends ModelInterface> {
     storageKey?: string; /* If provided Model will be saved to localStorage on unmount and loaded on mount */
     resetAfterSubmit?: boolean;
     afterSubmit?: () => void;
-    localStorage?: LocalStorageRequiredInterface;
+    storage?: StorageRequiredInterface;
 }
 
 export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<any>} = {
@@ -32,5 +32,5 @@ export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<an
     storageKey: PropTypes.string,
     resetAfterSubmit: PropTypes.bool,
     afterSubmit: PropTypes.func,
-    localStorage: PropTypes.shape(LocalStorageRequiredInterfaceTypes)
+    storage: PropTypes.shape(StorageRequiredInterfaceTypes)
 };

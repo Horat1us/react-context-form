@@ -111,7 +111,7 @@ describe("<Form/>", () => {
 
     it("Should save values to localStorage if storageKey prop provided", () => {
         const localStorageEmulator = {};
-        (global as any).localStorage = {
+        const localStorage = {
             setItem: (key: string, newValue: any) => {
                 localStorageEmulator[key] = newValue;
             },
@@ -120,14 +120,14 @@ describe("<Form/>", () => {
         const changedPassword = (Math.random().toString() as any).repeat(10);
         const storageKey = "form";
         wrapper.unmount();
-        wrapper =  wrapper = mount(
-            <Form {...props} storageKey={storageKey} localStorage={localStorage}>
+        wrapper = wrapper = mount(
+            <Form {...props} storageKey={storageKey} storage={localStorage}>
                 <FormGroup name="email">
                     <Input />
                 </FormGroup>
             </Form>
         );
-        
+
         (wrapper.instance() as any).getChildContext().onChange("password", changedPassword);
         wrapper.unmount();
         expect(localStorageEmulator).to.have.key(storageKey);
@@ -142,11 +142,11 @@ describe("<Form/>", () => {
             email: "person@example.com",
         };
         const storedFormName = "storedForm";
-        (global as any).localStorage = {
+        const localStorage = {
             setItem: () => undefined,
             getItem: (key: string) => key === storedFormName && JSON.stringify(storedForm),
         };
-        wrapper.setProps({ storageKey: storedFormName });
+        wrapper.setProps({ storageKey: storedFormName, storage: localStorage });
         wrapper.unmount();
         wrapper.mount();
 
@@ -157,18 +157,25 @@ describe("<Form/>", () => {
     });
 
     it("Should return false on loadFromStorage is local storage is empty (0)", () => {
-        (global as any).localStorage = { getItem: () => 0 };
-        wrapper.setProps({ storageKey: "key" });
+        let localStorage = {
+            getItem: () => 0 as any,
+        };
+        wrapper.setProps({ storageKey: "key", storage: localStorage as any });
+        wrapper.unmount();
+        wrapper.mount();
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
-        (global as any).localStorage = { getItem: () => "false" };
+        (wrapper.instance() as any).storage = {
+            getItem: () => "false",
+        };
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
-
         wrapper.setProps({ storageKey: undefined });
     });
 
     it("Should return false on loadFromStorage on JSON.parse exception", () => {
-        (global as any).localStorage = { getItem: () => "" };
         wrapper.setProps({ storageKey: "key" });
+        (wrapper.instance() as any).storage = {
+            getItem: () => "",
+        };
         expect((wrapper.instance() as Form<ExampleModel>).loadFromStorage()).to.be.false;
         wrapper.setProps({ storageKey: undefined });
     });
