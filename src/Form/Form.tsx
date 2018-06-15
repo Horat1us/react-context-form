@@ -2,26 +2,25 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import { Model, ModelError } from "../Model";
-import { FormProps, FormPropTypes } from "./FormProps";
 import { FormContext, FormContextTypes } from "./FormContext";
+import { FormProps, FormPropTypes, StorageRequiredInterface } from "./FormProps";
 
 import { addError } from "../helpers";
 
 export interface FormState<M> {
     model: M;
-    mounted: {
-        [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-    };
+    mounted: { [key: string]: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement; };
     isLoading: boolean;
 }
 
+declare const localStorage: StorageRequiredInterface | undefined;
 export class Form<M extends Model>
     extends React.Component<React.HTMLProps<HTMLFormElement> & FormProps<M>, FormState<M>> {
-
-    public static propTypes = FormPropTypes;
-    public static childContextTypes = FormContextTypes;
+    public static readonly childContextTypes = FormContextTypes;
+    public static readonly propTypes = FormPropTypes;
 
     public state: FormState<M>;
+    public storage = this.props.storage || localStorage;
 
     constructor(props: FormProps<M>) {
         super(props as any);
@@ -52,17 +51,12 @@ export class Form<M extends Model>
     }
 
     public async componentWillMount() {
-        if (this.props.storageKey) {
-            this.loadFromStorage();
-        }
-
+        this.loadFromStorage();
         await this.state.model.get();
     }
 
     public async componentWillUnmount() {
-        if (this.props.storageKey) {
-            this.pushToStorage();
-        }
+        this.pushToStorage();
     }
 
     public handleSubmit = async (event?: Event): Promise<void> => {
@@ -75,12 +69,12 @@ export class Form<M extends Model>
 
         let submitError;
         if (!this.state.model.hasErrors()) {
-            const action = this.state.model[this.props.method];
+            const action = this.props.method && this.state.model[this.props.method];
             try {
-                if ("function" === typeof action) {
-                    await action();
-                } else {
-                    this.props.onSubmit && await this.props.onSubmit(this.state.model, this.getChildContext());
+                if ("function" === (typeof action).toLowerCase()) {
+                    await action()
+                } else if (this.props.onSubmit) {
+                    await this.props.onSubmit(this.state.model, this.getChildContext());
                 }
             } catch (error) {
                 submitError = error;
@@ -89,8 +83,7 @@ export class Form<M extends Model>
             const element = this.getDOMElement(this.state.model.getErrors()[0].attribute);
             element && element.focus();
             this.state.isLoading = false;
-            this.forceUpdate();
-            return;
+            return this.forceUpdate();
         }
 
         this.state.isLoading = false;
@@ -114,14 +107,22 @@ export class Form<M extends Model>
         );
     }
 
-    public getDOMElement = (attribute: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
-        return this.state.mounted[attribute];
-    };
+    public getDOMElement = (attr: string): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | undefined => (
+        this.state.mounted[attr]
+    );
 
     public loadFromStorage(): boolean {
+        if (!this.props.storageKey || !this.storage) {
+            return false;
+        }
+
         let localStorageValue;
         try {
-            localStorageValue = JSON.parse(window.localStorage.getItem(this.props.storageKey));
+            const storage = this.storage.getItem(this.props.storageKey);
+            if (!storage) {
+                throw new Error();
+            }
+            localStorageValue = JSON.parse(storage);
         } catch (exception) {
             return false;
         }
@@ -129,9 +130,7 @@ export class Form<M extends Model>
         if (localStorageValue) {
             this.state.model.attributes()
                 .filter((attribute: string) => localStorageValue.hasOwnProperty(attribute))
-                .forEach(
-                    (attribute: string) => this.handleChange(attribute, localStorageValue[attribute])
-                );
+                .forEach((attribute: string) => this.handleChange(attribute, localStorageValue[attribute]));
             return true;
         }
 
@@ -139,13 +138,16 @@ export class Form<M extends Model>
     }
 
     public pushToStorage(): void {
+        if (!this.props.storageKey || !this.storage) {
+            return;
+        }
+
         const localStorageValue = {};
         this.state.model.attributes()
             .filter((attribute: string) => this.state.model[attribute] !== undefined)
             .forEach((attribute: string) => localStorageValue[attribute] = this.state.model[attribute]);
 
-        window.localStorage
-            && window.localStorage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
+        this.storage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
     }
 
     protected handleChange = (attribute: string, value: any): void => {
@@ -175,7 +177,6 @@ export class Form<M extends Model>
 
     protected handleReset = (): void => {
         this.state.model.reset();
-
         this.forceUpdate();
     }
 
@@ -188,7 +189,6 @@ export class Form<M extends Model>
         if (errors.length > 0 || errorsRemoved > 0) {
             this.forceUpdate();
         }
-
         return errors;
     };
 

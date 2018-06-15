@@ -4,7 +4,7 @@ import { Hint } from "../Hint";
 
 export class HintPopup extends Hint {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         if (!this.error && !this.props.children) {
             return null;
         }

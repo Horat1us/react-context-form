@@ -34,7 +34,7 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
             id: this.context.id,
             ref: this.context.onMount,
 
-            name: this.context.name,
+            name: TProps.name || this.context.name,
             value: this.context.value || "", // Must be init value (controlled input)
 
             onChange: this.handleChange,
