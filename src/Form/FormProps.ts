@@ -4,10 +4,7 @@ import * as PropTypes from "prop-types";
 import { ModelInterface } from "../Model";
 import { FormContext } from "./FormContext";
 
-export interface StorageRequiredInterface {
-    getItem: (key: string) => string;
-    setItem: (key: string, value: any) => void;
-}
+export type StorageRequiredInterface = Pick<Storage, "setItem" | "getItem">;
 
 export const StorageRequiredInterfaceTypes:
     {[P in keyof StorageRequiredInterface]: PropTypes.Validator<any>} = {
