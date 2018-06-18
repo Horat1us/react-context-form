@@ -10,6 +10,7 @@
       true,
       "never"
     ],
+    "array-type": [true, "generic"],
     "jsx-key": true,
     "jsx-no-bind": true,
     "jsx-no-lambda": true,

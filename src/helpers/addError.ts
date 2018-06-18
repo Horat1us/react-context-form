@@ -14,7 +14,7 @@ export function addError(context: FormContext, error: AxiosError): void {
         throw error;
     }
 
-    const validErrors: ModelError[] = error.response.data.errors
+    const validErrors: Array<ModelError> = error.response.data.errors
         .filter((validError: ModelError) => validError.details && validError.attribute);
 
     if (!validErrors.length) {

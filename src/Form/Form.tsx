@@ -180,7 +180,7 @@ export class Form<M extends Model>
         this.forceUpdate();
     }
 
-    protected validate = async (group: string): Promise<ModelError[]> => {
+    protected validate = async (group: string): Promise<Array<ModelError>> => {
         const errorsRemoved = (this.state.model.groups()[group] || [])
             .map((attribute: string) => this.state.model.removeErrors(attribute))
             .reduce((carry: number, attributeErrorsCount: number) => carry + attributeErrorsCount, 0);
