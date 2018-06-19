@@ -18,7 +18,7 @@ describe("<OnValidate />", () => {
 
     beforeEach(() => {
         wrapper = mount(
-            <OnValidate onValidated={handleValidated}>
+            <OnValidate onValid={handleValidated}>
                 <FormGroup name="password">
                     <AutoValidate groupName="password" always>
                         <Input name="password" />

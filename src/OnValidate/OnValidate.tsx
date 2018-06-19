@@ -5,11 +5,13 @@ import { ModelError } from "../Model";
 import { OnValidateContextTypes, OnValidateContext } from "./OnValidateContext";
 
 export interface OnValidateProps {
-    onValidated: () => void;
+    onValid?: () => void;
+    onInvalid?: (errors: Array<ModelError>) => void;
 }
 
 export const OnValidatePropTypes: {[P in keyof OnValidateProps]: PropTypes.Validator<any>} = {
-    onValidated: PropTypes.func.isRequired
+    onInvalid: PropTypes.func,
+    onValid: PropTypes.func
 };
 
 export interface OnValidateState {
@@ -45,10 +47,12 @@ export class OnValidate extends React.Component<OnValidateProps, OnValidateState
     protected validate = async (group: string): Promise<Array<ModelError>> => {
         const errors = await this.context.validate(group);
         this.state.validateGroups.set(group, !errors.length);
-        this.forceUpdate();
 
-        const isAllValid = !Array.from(this.state.validateGroups.values()).some((validated) => !validated);
-        isAllValid && this.props.onValidated();
+        if (!Array.from(this.state.validateGroups.values()).some((validated) => !validated)) {
+            this.props.onValid && this.props.onValid();
+        } else {
+            this.props.onInvalid && this.props.onInvalid(errors);
+        }
 
         return errors;
     }
