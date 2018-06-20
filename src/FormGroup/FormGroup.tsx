@@ -29,7 +29,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public getChildContext(): FormGroupContext {
-        const modelValue = this.modelValue;
+        const modelValue = this.value;
         return {
             id: `${this.props.idPrefix}_${this.id}`,
             name: this.props.name,
@@ -56,7 +56,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
 
     public handleMount = (ref: HTMLElement): void => this.context.onMount(this.props.name, ref);
 
-    public get modelValue(): ModelValue | undefined {
+    public get value(): ModelValue | undefined {
         return this.context.values.find(
             (value: ModelValue) => value.attribute === this.props.name
         );
@@ -83,13 +83,13 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     protected get className(): string {
         return [
             this.props.className,
-            (this.modelValue && this.modelValue.error)
+            (this.value && this.value.error)
                 ? this.props.errorClassName
                 : undefined,
             this.state.isFocused
                 ? this.props.focusClassName
                 : undefined,
-            (this.modelValue && this.modelValue.value)
+            (this.value && this.value.value)
                 ? this.props.valueClassName
                 : undefined
         ]

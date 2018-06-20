@@ -33,6 +33,10 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
         this.context.registerValidateGroup && this.context.registerValidateGroup(this.props.groupName);
     }
 
+    public componentWillUnmount() {
+        this.context.unregisterValidateGroup && this.context.unregisterValidateGroup(this.props.groupName);
+    }
+
     public render(): JSX.Element {
         return this.props.children;
     }

@@ -60,4 +60,8 @@ export class OnValidate extends React.Component<OnValidateProps, OnValidateState
     protected registerValidateGroup = (group: string): void => {
         this.state.validateGroups.set(group, false);
     }
+
+    protected unregisterValidateGroup = (group: string): void => {
+        this.state.validateGroups.delete(group);
+    }
 }
