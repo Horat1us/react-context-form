@@ -9,11 +9,12 @@ export class OnValidate extends React.Component<OnValidateProps> {
     public static readonly propTypes = OnValidatePropTypes;
     public static readonly contextTypes = {
         validate: PropTypes.func.isRequired,
-        getError: PropTypes.func.isRequired
+        getError: PropTypes.func.isRequired,
+        values: PropTypes.arrayOf(PropTypes.object).isRequired,
     };
     public static readonly childContextTypes = { validate: PropTypes.func.isRequired };
 
-    public readonly context: Pick<FormContext, "validate" | "getError">;
+    public readonly context: Pick<FormContext, "validate" | "getError" | "values">;
 
     public getChildContext(): Pick<FormContext, "validate"> {
         return {
@@ -29,7 +30,11 @@ export class OnValidate extends React.Component<OnValidateProps> {
         const errors = await this.context.validate(group);
 
         if (this.props.groups.find((groupName) => groupName === group)) {
-            this.props.onValidate(this.props.groups.some((groupName) => !!this.context.getError(groupName)));
+            const isValid = !this.context.values
+                .filter(({ attribute }) => this.props.groups.includes(attribute))
+                .some(({ value, attribute }) => value === undefined || !!this.context.getError(attribute));
+
+            this.props.onValidate(isValid);
         }
 
         return errors;
