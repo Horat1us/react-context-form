@@ -11,10 +11,10 @@ export interface FormGroupState {
 }
 
 export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
-    public static readonly propTypes = FormGroupPropTypes;
-    public static readonly defaultProps = FormGroupDefaultProps;
     public static readonly childContextTypes = FormGroupContextTypes;
+    public static readonly defaultProps = FormGroupDefaultProps;
     public static readonly contextTypes = FormContextTypes;
+    public static readonly propTypes = FormGroupPropTypes;
 
     public context: FormContext;
     public state: FormGroupState = {
@@ -29,12 +29,12 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public getChildContext(): FormGroupContext {
-        const value = this.value;
+        const modelValue = this.value;
         return {
             id: `${this.props.idPrefix}_${this.id}`,
             name: this.props.name,
 
-            value: value ? value.value : undefined,
+            value: modelValue ? modelValue.value : undefined,
 
             onChange: this.handleChange,
             onAttributeChange: this.context.onChange,
@@ -42,7 +42,7 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
             onFocus: this.handleFocus,
             onMount: this.handleMount,
 
-            error: value ? value.error : undefined,
+            error: modelValue ? modelValue.error : undefined,
         };
     }
 

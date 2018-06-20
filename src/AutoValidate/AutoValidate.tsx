@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import { AutoValidateDefaultProps, AutoValidateProps, AutoValidatePropTypes } from "./AutoValidateProps";
 import { AutoValidateContext, AutoValidateContextTypes } from "./AutoValidateContext";
+import { OnValidateContext, OnValidateContextTypes } from "../OnValidate";
 import { InputContext } from "../Input/InputContext";
 import { InputContextTypes } from "../Input";
 import { ModelError } from "../Model";
@@ -13,13 +14,11 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
     public static readonly childContextTypes = AutoValidateContextTypes;
 
     public static readonly contextTypes = {
-        ...InputContextTypes,
-        validate: PropTypes.func.isRequired,
+        ...OnValidateContextTypes,
+        ...InputContextTypes
     };
 
-    public context: InputContext & {
-        readonly validate: (group: string) => Promise<ModelError[]>;
-    };
+    public context: InputContext & OnValidateContext;
 
     public getChildContext(): AutoValidateContext {
         const isOnChange = this.props.onChange || this.props.onLength || this.props.on || this.props.always;
@@ -28,6 +27,14 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
             onChange: isOnChange ? this.handleChange : this.context.onChange,
             onBlur: isOnBlur ? this.handleBlur : this.context.onBlur,
         };
+    }
+
+    public componentDidMount() {
+        this.context.registerValidateGroup && this.context.registerValidateGroup(this.props.groupName);
+    }
+
+    public componentWillUnmount() {
+        this.context.unregisterValidateGroup && this.context.unregisterValidateGroup(this.props.groupName);
     }
 
     public render(): JSX.Element {

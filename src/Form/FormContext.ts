@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 import { ModelValue, ModelInterface, ModelError } from "../Model";
 
 export interface FormContext {
-    values: ModelValue[];
+    values: Array<ModelValue>;
     addError: (newError: ModelError) => void,
     getError: (attribute: string) => ModelError | undefined,
 
@@ -12,7 +12,7 @@ export interface FormContext {
     onUnmount: (attribute: string) => void;
     onReset: () => void;
 
-    readonly validate: (group: string) => Promise<ModelError[]>;
+    readonly validate: (group: string) => Promise<Array<ModelError>>;
     readonly getDOMElement:
     (attribute: string) => HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | void;
 

@@ -16,7 +16,7 @@ describe("<AutoValidate/>", () => {
     const initialValue = "undefined";
 
     interface ContextType extends InputContext {
-        readonly validate: (group: string) => Promise<ModelError[]>;
+        readonly validate: (group: string) => Promise<Array<ModelError>>;
     }
 
     const commonHandler = () => undefined;

@@ -7,23 +7,23 @@ export interface ModelError {
 }
 
 export interface ModelGroups {
-    [key: string]: string[],
+    [key: string]: Array<string>,
 }
 
 export interface ModelInterface {
-    readonly values: ModelValue[];
+    readonly values: Array<ModelValue>;
 
     get: () => void;
-    validate: (group?: string) => Promise<ModelError[]>;
+    validate: (group?: string) => Promise<Array<ModelError>>;
 
     hasErrors: () => boolean;
     getError: (attribute: string) => ModelError | undefined;
-    getErrors: () => ModelError[];
+    getErrors: () => Array<ModelError>;
     removeErrors: (attribute: string) => number,
 
     getValue: (attribute: string) => ModelValue | undefined;
 
-    groups: () => { [key: string]: string[] };
+    groups: () => { [key: string]: Array<string> };
 }
 
 export interface ModelValue {
@@ -36,7 +36,7 @@ export interface ModelValue {
 export abstract class Model implements ModelInterface {
     public defaults: { [i: string]: any } = {};
 
-    protected errors: ModelError[] = [];
+    protected errors: Array<ModelError> = [];
 
     public constructor(defaults?: Model["defaults"]) {
         if (defaults) {
@@ -48,7 +48,7 @@ export abstract class Model implements ModelInterface {
     // We can setup models without initial
     public get = async (): Promise<void> => undefined;
 
-    public async validate(group?: string, options: ValidationOptions = {}): Promise<ModelError[]> {
+    public async validate(group?: string, options: ValidationOptions = {}): Promise<Array<ModelError>> {
         const newErrors = (await validate(
             this as any,
             {
@@ -83,16 +83,16 @@ export abstract class Model implements ModelInterface {
             : newErrors;
     }
 
-    public groups(): { [key: string]: string[] } {
+    public groups(): { [key: string]: Array<string> } {
         return {};
     }
 
-    public attributes(): string[] {
+    public attributes(): Array<string> {
         return Object.keys(this)
             .filter((key) => this.hasOwnProperty(key) && key !== "errors" && key !== "get" && key !== "defaults");
     }
 
-    public get values(): ModelValue[] {
+    public get values(): Array<ModelValue> {
         return this.attributes()
             .map(this.getValue.bind(this));
     }
@@ -101,7 +101,7 @@ export abstract class Model implements ModelInterface {
         return this.errors.find((error: ModelError) => error.attribute === attribute);
     };
 
-    public getErrors = (): ModelError[] => this.errors;
+    public getErrors = (): Array<ModelError> => this.errors;
 
     public addError = (newError: ModelError) => {
         const oldErrors = this.errors.filter((error: ModelError) => error.attribute !== newError.attribute);
