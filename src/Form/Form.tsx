@@ -65,7 +65,7 @@ export class Form<M extends Model>
         this.state.isLoading = true;
         this.forceUpdate();
 
-        await this.state.model.validate();
+        await this.validate();
 
         let submitError;
         if (!this.state.model.hasErrors()) {
@@ -98,7 +98,16 @@ export class Form<M extends Model>
     };
 
     public render(): JSX.Element {
-        const { instantiate, onSubmit, method, storageKey, resetAfterSubmit, afterSubmit, ...childProps } = this.props;
+        const {
+            resetAfterSubmit,
+            instantiate,
+            afterSubmit,
+            storageKey,
+            onValidate,
+            onSubmit,
+            method,
+            ...childProps
+        } = this.props;
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
@@ -180,14 +189,21 @@ export class Form<M extends Model>
         this.forceUpdate();
     }
 
-    protected validate = async (group: string): Promise<ModelError[]> => {
-        const errorsRemoved = (this.state.model.groups()[group] || [])
+    protected validate = async (group?: string): Promise<ModelError[]> => {
+        const errorsRemoved = ((group && this.state.model.groups()[group]) || [])
             .map((attribute: string) => this.state.model.removeErrors(attribute))
             .reduce((carry: number, attributeErrorsCount: number) => carry + attributeErrorsCount, 0);
 
         const errors = await this.state.model.validate(group);
         if (errors.length > 0 || errorsRemoved > 0) {
             this.forceUpdate();
+        }
+
+        if (this.props.onValidate) {
+            this.props.onValidate(this.state.model.values.map(({ attribute, error, value }) => ({
+                name: attribute,
+                isValid: !error && value !== undefined
+            })));
         }
         return errors;
     };
@@ -197,3 +213,4 @@ export class Form<M extends Model>
         this.forceUpdate();
     }
 }
+// tslint:disable-next-line

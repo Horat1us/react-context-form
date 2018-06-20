@@ -280,4 +280,19 @@ describe("<Form/>", () => {
 
         expect(afterSubmitTriggered).to.equal(true);
     });
+
+    it("Should call onValidate callback if it passed", async () => {
+        let onValidateTriggered = false;
+        wrapper = mount(
+            <ExampleForm {...props} onValidate={() => onValidateTriggered = true}>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </ExampleForm>
+        );
+
+        await (wrapper.instance() as any).handleSubmit();
+
+        expect(onValidateTriggered).to.equal(true);
+    });
 });
