@@ -35,6 +35,7 @@ export class OnValidate extends React.Component<OnValidateProps, OnValidateState
 
     public getChildContext(): OnValidateContext {
         return {
+            unregisterValidateGroup: this.unregisterValidateGroup,
             registerValidateGroup: this.registerValidateGroup,
             validate: this.validate
         };
