@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import { ModelInterface } from "../Model";
 import { FormContext } from "./FormContext";
+import { ModelInterface, ModelValue } from "../Model";
 
 export type StorageRequiredInterface = Pick<Storage, "setItem" | "getItem">;
 
@@ -20,6 +20,7 @@ export interface FormProps<M extends ModelInterface> {
     resetAfterSubmit?: boolean;
     afterSubmit?: () => void;
     storage?: StorageRequiredInterface;
+    onValidate?: (groups: Array<{ name: string, isValid: boolean }>) => void;
 }
 
 export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<any>} = {
@@ -29,5 +30,6 @@ export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<an
     storageKey: PropTypes.string,
     resetAfterSubmit: PropTypes.bool,
     afterSubmit: PropTypes.func,
-    storage: PropTypes.shape(StorageRequiredInterfaceTypes)
+    storage: PropTypes.shape(StorageRequiredInterfaceTypes),
+    onValidate: PropTypes.func
 };
