@@ -20,7 +20,7 @@ export class Form<M extends Model>
     public static readonly propTypes = FormPropTypes;
 
     public state: FormState<M>;
-    public storage = this.props.storage || localStorage;
+    public storage = this.props.storage || ((typeof window).toLowerCase() !== "undefined" ? localStorage : undefined);
 
     constructor(props: FormProps<M>) {
         super(props as any);
