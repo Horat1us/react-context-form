@@ -5,7 +5,7 @@ import { mount, ReactWrapper } from "enzyme";
 import { EventInterceptor, FormContext, Form, FormContextTypes, Event } from "../src";
 import { ExampleModel } from "./helpers/ExampleModel";
 
-describe("<Hint/>", () => {
+describe("<EventInterceptor/>", () => {
     let wrapper: ReactWrapper<{}>;
 
     const model = new ExampleModel();
@@ -29,7 +29,7 @@ describe("<Hint/>", () => {
 
     beforeEach(() => {
         wrapper = mount(
-            <EventInterceptor events={[Event.onBlur]} onEvent={handleOnEvent}>
+            <EventInterceptor events={[Event.onBlur, Event.onChange, Event.onFocus]} onEvent={handleOnEvent}>
                 <div />
             </EventInterceptor>,
             { context, childContextTypes: FormContextTypes }
@@ -49,11 +49,17 @@ describe("<Hint/>", () => {
     })
 
     it("Should call onEvent", () => {
-        (wrapper.instance() as any).getChildContext().onBlur("attribute", "value");
-
+        (wrapper.instance() as any).getChildContext().onBlur("attribute", "value blur");
         expect(eventValue.event).to.equals(Event.onBlur);
-        expect(eventValue.params.nextValue).to.equals("value");
-        expect(eventValue.params.prevValue).to.equals("");        
+        expect(eventValue.params.nextValue).to.equals("value blur");
+
+        (wrapper.instance() as any).getChildContext().onFocus("attribute", "value focus");
+        expect(eventValue.event).to.equals(Event.onFocus);
+        expect(eventValue.params.nextValue).to.equals("value focus");
+
+        (wrapper.instance() as any).getChildContext().onChange("attribute", "value change");
+        expect(eventValue.event).to.equals(Event.onChange);
+        expect(eventValue.params.nextValue).to.equals("value change");
     });
 
 });
