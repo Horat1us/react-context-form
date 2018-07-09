@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import { FormContextTypes, FormContext } from "../Form";
+import { ModelValue } from "../Model";
 
 export enum Event {
     onChange = "onChange",
@@ -10,25 +11,25 @@ export enum Event {
 }
 
 export interface EventInterceptorProps {
-    onEvent: (attribute: string, value: any) => void;
-    event: Event;
+    onEvent: (event: Event, params: { attribute: string, nextValue: string, prevValue: string }) => void;
+    events: Event[];
 }
 
 export const EventInterceptorPropTypes: {[P in keyof EventInterceptorProps]: PropTypes.Validator<any>} = {
-    event: PropTypes.oneOf(Object.keys(Event)).isRequired,
+    events: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(Event))).isRequired,
     onEvent: PropTypes.func.isRequired
 };
 
 export interface EventInterceptorContext {
-    [Event.onChange]: (attribute: string, value: any) => void;
-    [Event.onFocus]?: (attribute: string, value: any) => void;
-    [Event.onBlur]?: (attribute: string, value: any) => void;
+    onChange: (attribute: string, value: any) => void;
+    onFocus?: (attribute: string, value: any) => void;
+    onBlur?: (attribute: string, value: any) => void;
 }
 
 export const EventInterceptorContextTypes: {[P in keyof EventInterceptorContext]: PropTypes.Validator<any>} = {
-    [Event.onChange]: PropTypes.func.isRequired,
-    [Event.onFocus]: PropTypes.func,
-    [Event.onBlur]: PropTypes.func
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func
 }
 
 export class EventInterceptor extends React.Component<EventInterceptorProps> {
@@ -40,9 +41,9 @@ export class EventInterceptor extends React.Component<EventInterceptorProps> {
 
     public getChildContext(): EventInterceptorContext {
         return {
-            onChange: this.props.event === Event.onChange ? this.handleChange : this.context.onChange,
-            onFocus: this.props.event === Event.onFocus ? this.handleEvent : undefined,
-            onBlur: this.props.event === Event.onBlur ? this.handleEvent : undefined
+            onChange: this.props.events.includes(Event.onChange) ? this.handleChange : this.context.onChange,
+            onFocus: this.props.events.includes(Event.onFocus) ? this.handleEvent(Event.onFocus) : undefined,
+            onBlur: this.props.events.includes(Event.onBlur) ? this.handleEvent(Event.onBlur) : undefined
         };
     }
 
@@ -51,12 +52,19 @@ export class EventInterceptor extends React.Component<EventInterceptorProps> {
     }
 
     protected handleChange = (attribute: string, value: any): void => {
+        this.handleEvent(Event.onChange)(attribute, value);
         this.context.onChange(attribute, value);
-        !this.context.getError(attribute) && this.props.onEvent(attribute, value);
     }
 
-    protected handleEvent = (attribute: string, value: any): void => {
-        !this.context.getError(attribute) && this.props.onEvent(attribute, value);
+    protected handleEvent = (event: Event) => (attribute: string, value: any) => {
+        this.props.onEvent(event, { attribute, nextValue: String(value), prevValue: this.getValue(attribute) });
     }
 
+    protected getValue = (name: string): string => {
+        const founded = this.context.values.find((value: ModelValue) => value.attribute === name);
+
+        return founded
+            ? String(founded.value || "")
+            : "";
+    }
 }
