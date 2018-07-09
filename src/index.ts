@@ -17,3 +17,4 @@ export * from "./PasswordGroup";
 export * from "./ResetButton";
 export * from "./helpers";
 export * from "./OnValidate";
+export * from "./EventInterceptor";

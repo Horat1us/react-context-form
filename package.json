@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "2.8.0",
+  "version": "2.9.0-DEVELOP",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
