@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import { ModelValue } from "../Model";
 import { FormContext, FormContextTypes } from "../Form/FormContext";
 import { FormGroupContext, FormGroupContextTypes } from "./FormGroupContext";
+import { EventInterceptorContext, EventInterceptorContextTypes } from "../EventInterceptor";
 import { FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes } from "./FormGroupProps";
 
 export interface FormGroupState {
@@ -14,9 +15,12 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public static readonly propTypes = FormGroupPropTypes;
     public static readonly defaultProps = FormGroupDefaultProps;
     public static readonly childContextTypes = FormGroupContextTypes;
-    public static readonly contextTypes = FormContextTypes;
+    public static readonly contextTypes = {
+        ...FormContextTypes,
+        ...EventInterceptorContextTypes
+    };
 
-    public context: FormContext;
+    public context: FormContext & EventInterceptorContext;
     public state: FormGroupState = {
         isFocused: false,
     };
@@ -51,8 +55,16 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     }
 
     public handleChange = (value: any): void => this.context.onChange(this.props.name, value);
-    public handleBlur = (): void => this.setState({ isFocused: false });
-    public handleFocus = (): void => this.setState({ isFocused: true });
+    public handleBlur = (): void => {
+        this.setState({ isFocused: false });
+
+        this.context.onBlur && this.context.onBlur(this.props.name, this.value ? this.value.value : undefined);
+    };
+    public handleFocus = (): void => {
+        this.setState({ isFocused: true });
+
+        this.context.onFocus && this.context.onFocus(this.props.name, this.value ? this.value.value : undefined);
+    };
 
     public handleMount = (ref: HTMLElement): void => this.context.onMount(this.props.name, ref);
 

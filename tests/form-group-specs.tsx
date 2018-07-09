@@ -174,4 +174,39 @@ describe("<FormGroup />", () => {
         wrapper.unmount();
         expect(unmountTriggered).to.be.true;
     });
+
+    it("Should call context onBlur/onFocus handlers if they exist", () => {
+        let focus = false;
+        let blur = false;
+
+        const handleFocus = () => focus = true;
+        const handleBlur = () => blur = true;
+
+        wrapper.setContext({
+            onFocus: handleFocus,
+            onBlur: handleBlur
+        });
+
+        node.getChildContext().onFocus();
+        node.getChildContext().onBlur();
+
+        expect(focus).to.be.true;
+        expect(blur).to.be.true;
+
+        focus = false;
+        blur = false;
+
+        wrapper.setContext({
+            values: [{
+                attribute: name,
+                value: "test"
+            }]
+        });
+
+        node.getChildContext().onFocus();
+        node.getChildContext().onBlur();
+
+        expect(focus).to.be.true;
+        expect(blur).to.be.true;
+    });
 });
