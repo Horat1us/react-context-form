@@ -18,7 +18,7 @@ export interface EventInterceptorProps {
 }
 
 export const EventInterceptorPropTypes: {[P in keyof EventInterceptorProps]: PropTypes.Validator<any>} = {
-    events: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(Event))).isRequired,
+    events: PropTypes.arrayOf(PropTypes.oneOf(Object.values(Event))).isRequired,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func
