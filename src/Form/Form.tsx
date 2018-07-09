@@ -163,6 +163,7 @@ export class Form<M extends Model>
         if (this.state.model[attribute] === value) {
             return;
         }
+
         this.state.model[attribute] = value;
         this.forceUpdate();
     };

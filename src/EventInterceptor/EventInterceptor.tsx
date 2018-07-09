@@ -11,13 +11,17 @@ export enum Event {
 }
 
 export interface EventInterceptorProps {
-    onEvent: (event: Event, params: { attribute: string, nextValue: string, prevValue: string }) => void;
+    onBlur?: (attribute: string, value: string) => void;
+    onFocus?: (attribute: string, value: string) => void;
+    onChange?: (attribute: string, nextValue: string, prevValue: string) => void;
     events: Event[];
 }
 
 export const EventInterceptorPropTypes: {[P in keyof EventInterceptorProps]: PropTypes.Validator<any>} = {
     events: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(Event))).isRequired,
-    onEvent: PropTypes.func.isRequired
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func
 };
 
 export interface EventInterceptorContext {
@@ -42,8 +46,8 @@ export class EventInterceptor extends React.Component<EventInterceptorProps> {
     public getChildContext(): EventInterceptorContext {
         return {
             onChange: this.props.events.includes(Event.onChange) ? this.handleChange : this.context.onChange,
-            onFocus: this.props.events.includes(Event.onFocus) ? this.handleEvent(Event.onFocus) : undefined,
-            onBlur: this.props.events.includes(Event.onBlur) ? this.handleEvent(Event.onBlur) : undefined
+            onFocus: this.props.events.includes(Event.onFocus) ? this.props.onFocus : undefined,
+            onBlur: this.props.events.includes(Event.onBlur) ? this.props.onBlur : undefined
         };
     }
 
@@ -52,12 +56,8 @@ export class EventInterceptor extends React.Component<EventInterceptorProps> {
     }
 
     protected handleChange = (attribute: string, value: any): void => {
-        this.handleEvent(Event.onChange)(attribute, value);
+        this.props.onChange && this.props.onChange(attribute, value, this.getValue(attribute));
         this.context.onChange(attribute, value);
-    }
-
-    protected handleEvent = (event: Event) => (attribute: string, value: any) => {
-        this.props.onEvent(event, { attribute, nextValue: String(value), prevValue: this.getValue(attribute) });
     }
 
     protected getValue = (name: string): string => {
