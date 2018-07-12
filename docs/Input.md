@@ -1,6 +1,6 @@
-# <Input /> Component
-This component is represents input for [<Form />](./Form.md).
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
+# <Input \/> Component
+This component is represents input for [<Form \/>](./Form.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

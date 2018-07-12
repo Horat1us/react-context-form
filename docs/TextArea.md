@@ -1,6 +1,6 @@
-# <TextArea /> Component
-This component is represents textarea for [<Form />](./Form.md).
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
+# <TextArea \/> Component
+This component is represents textarea for [<Form \/>](./Form.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

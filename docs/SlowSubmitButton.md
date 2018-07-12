@@ -1,6 +1,6 @@
-# <SlowSubmitButton /> Component
-This component is represents button with type `submit` for [<Form />](./Form.md) with delay.
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>](./Form.md).
+# <SlowSubmitButton \/> Component
+This component is represents button with type `submit` for [<Form \/>](./Form.md) with delay.
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form \/>](./Form.md).
 
 ### Usage
 

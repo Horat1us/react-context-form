@@ -1,6 +1,6 @@
-# <ShowPasswordButton /> Component
-This component is represents control visibility button for password [<Input />](./Input.md).
-It requires [context](../src/PasswordGroup/PasswordGroupContext.ts) which is provided by [<PasswordGroup />](./PasswordGroup.md).
+# <ShowPasswordButton \/> Component
+This component is represents control visibility button for password [<Input \/>](./Input.md).
+It requires [context](../src/PasswordGroup/PasswordGroupContext.ts) which is provided by [<PasswordGroup \/>](./PasswordGroup.md).
 
 ### Usage
 

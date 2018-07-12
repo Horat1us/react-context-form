@@ -1,6 +1,6 @@
-# <EventInterceptor /> Component
-This component is responsible for catching events in [<Form/>](./Form.md).
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>](./Form.md)  
+# <EventInterceptor \/> Component
+This component is responsible for catching events in [<Form \/>](./Form.md).
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form \/>](./Form.md)  
 
 ### Usage
 
