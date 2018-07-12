@@ -1,6 +1,6 @@
-# <Button /> Component
-This component is represents button for [<Form />](./Form.md).
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
+# <Button \/> Component
+This component is represents button for [<Form \/>](./Form.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

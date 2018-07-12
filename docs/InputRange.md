@@ -1,6 +1,6 @@
-# <NumericRange /> Component
-This component is represents range for [<NumericInput />](./NumericInput.md).
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
+# <NumericRange \/> Component
+This component is represents range for [<NumericInput \/>](./NumericInput.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

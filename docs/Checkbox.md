@@ -1,6 +1,6 @@
-# <Checkbox /> Component
-This component is represents checkbox for [<Form />](./Form.md).
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
+# <Checkbox \/> Component
+This component is represents checkbox for [<Form \/>](./Form.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

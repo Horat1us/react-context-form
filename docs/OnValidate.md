@@ -1,6 +1,6 @@
-# <OnValidate /> Component
+# <OnValidate \/> Component
 This component is responsible for handling validation result for specific inputs.
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form />](./Form.md).
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form \/>](./Form.md).
 
 ### Usage
 

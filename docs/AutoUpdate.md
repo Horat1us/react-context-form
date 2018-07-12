@@ -1,6 +1,6 @@
-# <AutoUpdate /> Component
+# <AutoUpdate \/> Component
 This component is responsible for paste specific value to specific input.
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup />](./FormGroup.md).
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup \/>](./FormGroup.md).
 
 ### Usage
 

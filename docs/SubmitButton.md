@@ -1,6 +1,6 @@
-# <SubmitButton /> Component
-This component is represents button with type `submit` for [<Form />](./Form.md).
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>](./Form.md).
+# <SubmitButton \/> Component
+This component is represents button with type `submit` for [<Form \/>](./Form.md).
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form \/>](./Form.md).
 
 ### Usage
 

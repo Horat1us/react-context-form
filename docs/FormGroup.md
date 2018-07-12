@@ -1,6 +1,6 @@
-# <FormGroup /> Component
+# <FormGroup \/> Component
 This component is wrapper for input/textarea/select and hint/label.  
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>](./Form.md)  
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form \/>](./Form.md)  
 
 ### Usage
 
