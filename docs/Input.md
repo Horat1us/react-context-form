@@ -9,7 +9,7 @@ It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by
     <FormGroup {...FormGroupProps}>
         <Input 
             transform={TransformTypes.capitalize} 
-            {...HTMLInputProps}
+            {...HTMLInputElementProps}
         />
     </FormGroup>
 </Form>

@@ -7,7 +7,7 @@ It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by
 ```tsx
 <Form {...FormProps}>
     <FormGroup {...FormGroupProps}>
-        <NumericInput  {...HTMLInputProps} />
+        <NumericInput  {...HTMLInputElementProps} />
     </FormGroup>
 </Form>
 ```
