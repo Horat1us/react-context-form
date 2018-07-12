@@ -1,12 +1,14 @@
 # Model Class
 This class is representation of your forms data.
 It also contains validation rules.
+
+Implemented interface can be founded [here](../src/Model.ts).
   
 [class-validator](https://github.com/pleerock/class-validator) is used for setting validation rules.
 
-Example:
+### Usage
 
-```typescript
+```ts
 import {Model, ModelGroups} from "react-context-form";
 import {IsBoolean, IsNotEmpty, IsString, Length, MaxLength, MinLength} from "class-validator";
 
@@ -42,6 +44,22 @@ export class TaskModel extends Model {
     }
 }
 ```
-*You need to specify attributes list for correct empty fields validation*  
-*You need to specify attributes groups to correct work of `AutoValidate` component*
 
+*NOTE: You need to specify attributes list for correct empty fields validation*  
+*NOTE: You need to specify attributes groups to correct work of `AutoValidate` component*
+
+You can also specify default values:
+
+```ts
+const model = new TaskModel({
+    name: "default name",
+    completed: true
+});
+```
+
+Model instance can be reseted to defaults or cleared:
+
+```ts
+model.reset(); // Fills fields with default values
+model.clear(); // Clear all fields
+```
