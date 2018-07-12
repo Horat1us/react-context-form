@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 
 export interface AutoValidateProps {
-    groupName: string,
+    groupName?: string,
     children: JSX.Element,
 
     onBlur?: boolean,
@@ -15,8 +15,8 @@ export interface AutoValidateProps {
 }
 
 export const AutoValidatePropTypes: {[P in keyof AutoValidateProps]: PropTypes.Validator<any>} = {
-    groupName: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
+    groupName: PropTypes.string,
 
     onBlur: PropTypes.bool,
     onChange: PropTypes.bool,
