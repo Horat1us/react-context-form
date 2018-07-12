@@ -23,7 +23,7 @@ It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by
 ```
 
 where:
-- `groupName` - field model name, that must validated. Required.
+- `groupName` - field model name, that must validated. Optinal. Default - value from `FormGroup` context.
 - `onBlur` - validate when input emit `blur` event. Optional. Default - `true`.
 - `onChange` - validate when input emit `change` event. Optional. Default - `false`.
 - `onLength` - validate when input value have specific length. Optional.
