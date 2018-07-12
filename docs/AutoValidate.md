@@ -1,6 +1,6 @@
 # <AutoValidate /> Component
 This component is responsible for validating inputs on specified events.
-It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md)
+It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by [<FormGroup/>](./FormGroup.md).
 
 ### Usage
 
