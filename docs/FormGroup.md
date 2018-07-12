@@ -5,16 +5,18 @@ It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>]
 ### Usage
 
 ```tsx
-<FormGroup
-    name="phone"
-    errorClassName="has-error"
-    focusClassName="has-focus"
-    valueClassName="has-value"
-    idPrefix="custom-phone-input"
-    {...HTMLDivElementProps}
->
-    // ...
-</FormGroup>
+<Form {...FormProps}>
+    <FormGroup
+        name="phone"
+        errorClassName="has-error"
+        focusClassName="has-focus"
+        valueClassName="has-value"
+        idPrefix="custom-phone-input"
+        {...HTMLDivElementProps}
+    >
+        // ...
+    </FormGroup>
+</Form>
 ```
 
 where:
