@@ -1,27 +1,25 @@
-## <FormGroup \/> Component
+# <FormGroup /> Component
 This component is wrapper for input/textarea/select and hint/label.  
-It requires [context](../src/Form/FormContext.ts) which is provided by [<Form\/>](./Form.md)  
-[Props](../src/FormGroup/FormGroupProps.ts)
+It requires [context](../src/Form/FormContext.ts) which is provided by [<Form/>](./Form.md)  
 
+### Usage
 
-Example
-```typescript jsx
-import {FormGroup, Input, Label, Hint} from "react-context-form";
-
-export function CustomGroup() {
-    return (
-        <FormGroup name="name">
-            <Label>Who will done this</Label>
-            <Input maxLength={10} placeholder="Worker" required/>
-        </FormGroup>
-    );  
-};
+```tsx
+<FormGroup
+    name="phone"
+    errorClassName="has-error"
+    focusClassName="has-focus"
+    valueClassName="has-value"
+    idPrefix="custom-phone-input"
+    {...HTMLDivElementProps}
+>
+    // ...
+</FormGroup>
 ```
 
-It will render
-```html
-<div class="form-group">
-    <label for="rcf-20170403">Who will done this</label>
-    <input maxlength="10" placeholder="Worker" name="name" id="rcf-20170403"/>
-</div>
-```
+where:
+- `name` - field model name (will be passed to input). Required.
+- `idPrefix` - id prefix for input and label. Optional.
+- `errorClassName` - className, that attaching to `FormGroup` when input does not passed validation. Optional. Default - `has-error`.
+- `focusClassName` - className, that attaching to `FormGroup` when input emit `focus` event. Optional. Default - `has-focus`.
+- `valueClassName` - className, that attaching to `FormGroup` when input has value. Optional. Default - `has-value`.
