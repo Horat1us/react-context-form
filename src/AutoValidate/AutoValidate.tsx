@@ -54,7 +54,7 @@ export class AutoValidate extends React.Component<AutoValidateProps> {
     };
 
     protected async validate(): Promise<void> {
-        const errors = await this.context.validate(this.props.groupName);
+        const errors = await this.context.validate(this.props.groupName || this.context.name);
         this.props.onValidated && this.props.onValidated(errors.length === 0);
     }
 }
