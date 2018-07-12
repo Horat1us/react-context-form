@@ -9,7 +9,7 @@ It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by
     <FormGroup {...FormGroupProps}>
         <TextArea 
             transform={TransformTypes.capitalize} 
-            {...HTMLInputProps}
+            {...HTMLTextAreaElementProps}
         />
     </FormGroup>
 </Form>
