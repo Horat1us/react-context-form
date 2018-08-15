@@ -295,4 +295,19 @@ describe("<Form/>", () => {
 
         expect(onValidateTriggered).to.equal(true);
     });
+
+    it("Should correctly set ref", () => {
+        let ref;
+
+        const handleRef = (node: HTMLFormElement) => ref = node;
+        wrapper = mount(
+            <ExampleForm {...props} formRef={handleRef}>
+                <FormGroup name="email">
+                    <Input />
+                </FormGroup>
+            </ExampleForm>
+        );
+
+        expect(ref).not.to.be.undefined;
+    });
 });
