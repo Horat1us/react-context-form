@@ -21,6 +21,7 @@ export interface FormProps<M extends ModelInterface> {
     afterSubmit?: () => void;
     storage?: StorageRequiredInterface;
     onValidate?: (groups: Array<{ name: string, isValid: boolean }>) => void;
+    formRef?: (node: HTMLFormElement) => void;
 }
 
 export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<any>} = {
@@ -31,5 +32,6 @@ export const FormPropTypes: {[P in keyof FormProps<any>]: PropTypes.Validator<an
     resetAfterSubmit: PropTypes.bool,
     afterSubmit: PropTypes.func,
     storage: PropTypes.shape(StorageRequiredInterfaceTypes),
-    onValidate: PropTypes.func
+    onValidate: PropTypes.func,
+    formRef: PropTypes.func,
 };
