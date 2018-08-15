@@ -109,6 +109,10 @@ export class Form<M extends Model>
             ...childProps
         } = this.props;
 
+        if (this.props.formRef) {
+            childProps.ref = this.props.formRef;
+        }
+
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
                 {this.props.children}
