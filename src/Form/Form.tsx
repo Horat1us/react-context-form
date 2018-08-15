@@ -106,12 +106,11 @@ export class Form<M extends Model>
             onValidate,
             onSubmit,
             method,
+            formRef,
             ...childProps
         } = this.props;
 
-        if (this.props.formRef) {
-            childProps.ref = this.props.formRef;
-        }
+        formRef && (childProps.ref = formRef);
 
         return (
             <form onSubmit={this.handleSubmit as any} {...childProps}>
