@@ -1,39 +1,27 @@
 import * as React from "react";
 
-import {
-    ShowPasswordButtonProps,
-    ShowPasswordButtonPropTypes,
-    ShowPasswordButtonDefaultProps
-} from "./ShowPasswordButtonProps";
-import { PasswordGroupContextTypes, PasswordGroupContext } from "../PasswordGroup";
+import { ShowPasswordButtonProps, ShowPasswordButtonDefaultProps } from "./ShowPasswordButtonProps";
+import { PasswordGroupContext, PasswordGroupContextValue } from "../PasswordGroup";
 
-export class ShowPasswordButton extends React.Component<ShowPasswordButtonProps> {
-    public static readonly defaultProps = ShowPasswordButtonDefaultProps;
-    public static readonly contextTypes = PasswordGroupContextTypes;
-    public static readonly propTypes = ShowPasswordButtonPropTypes;
+export const ShowPasswordButton = React.memo((props: ShowPasswordButtonProps) => (
+    <PasswordGroupContext.Consumer>
+        {(context: PasswordGroupContextValue) => {
+            const { hoverToShow, clickToShow, children, ...rest } = { ...ShowPasswordButtonDefaultProps, ...props};
 
-    public readonly context: PasswordGroupContext;
+            const childProps = { ...rest };
 
-    public render(): React.ReactNode {
-        if (!this.context.onChangeVisibility) {
-            return this.props.children;
-        }
+            if (hoverToShow) {
+                childProps.onMouseOver = context.onChangeVisibility(false);
+                childProps.onMouseLeave = context.onChangeVisibility(true);
+            } else if (clickToShow) {
+                childProps.onClick = context.onChangeVisibility();
+            }
 
-        const { hoverToShow, clickToShow, children, ...rest } = this.props;
-
-        const childProps = { ...rest };
-
-        if (hoverToShow) {
-            childProps.onMouseOver = this.context.onChangeVisibility(false);
-            childProps.onMouseLeave = this.context.onChangeVisibility(true);
-        } else if (clickToShow) {
-            childProps.onClick = this.context.onChangeVisibility();
-        }
-
-        return (
-            <button {...childProps}>
-                {children}
-            </button>
-        );
-    }
-}
+            return (
+                <button {...childProps}>
+                    {children}
+                </button>
+            );
+        }}
+    </PasswordGroupContext.Consumer>
+));

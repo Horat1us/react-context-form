@@ -1,16 +1,14 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { AutoValidate } from "../AutoValidate/AutoValidate";
-import { AutoFocusProps, AutoFocusPropTypes } from "./AutoFocusProps";
-import { AutoFocusContext, AutoFocusContextTypes } from "./AutoFocusContext";
+import { AutoValidate } from "../AutoValidate";
+import { AutoFocusProps } from "./AutoFocusProps";
+import { FormContext, FormContextValue } from "../Form";
 
-export class AutoFocus extends React.Component<AutoFocusProps> {
-    public static readonly propTypes = AutoFocusPropTypes;
-    public static readonly contextTypes = AutoFocusContextTypes;
+export class AutoFocus extends React.PureComponent<AutoFocusProps> {
+    public static readonly contextType = FormContext;
 
     public props: AutoFocusProps;
-    public context: AutoFocusContext;
+    public context: FormContextValue;
 
     public render(): JSX.Element {
         const { to, ...childProps } = this.props;

@@ -1,9 +1,9 @@
-import * as PropTypes from "prop-types";
+import * as React from "react";
 
-export interface ResetButtonContext {
+export interface ResetButtonContextValue {
     onReset: () => void;
 }
 
-export const ResetButtonContextTypes: {[P in keyof ResetButtonContext]: PropTypes.Validator<any>} = {
-    onReset: PropTypes.func.isRequired
-};
+export const ResetButtonContext = React.createContext<ResetButtonContextValue>({
+    onReset: () => undefined,
+});

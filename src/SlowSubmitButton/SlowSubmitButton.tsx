@@ -1,36 +1,22 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton } from "../SubmitButton";
-
-import {
-    SlowSubmitButtonDefaultProps,
-    SlowSubmitButtonPropTypes,
-    SlowSubmitButtonProps
-} from "./SlowSubmitButtonProps";
+import { SubmitButtonContext, SubmitButton, SubmitButtonContextValue } from "../SubmitButton";
+import { SlowSubmitButtonProps, SlowSubmitButtonDefaultProps } from "./SlowSubmitButtonProps";
 
 export interface SlowSubmitButtonState {
     isLoading: boolean,
     isDelayed: boolean,
 }
 
-export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, SlowSubmitButtonState> {
-    public static readonly childContextTypes = SubmitButtonContextTypes;
-    public static readonly contextTypes = SubmitButtonContextTypes;
-    public static readonly propTypes = SlowSubmitButtonPropTypes;
+export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps, SlowSubmitButtonState> {
+    public static readonly contextType = SubmitButtonContext;
     public static readonly defaultProps = SlowSubmitButtonDefaultProps;
 
-    public context: SubmitButtonContext;
+    public context: SubmitButtonContextValue;
     public state: SlowSubmitButtonState = {
         isLoading: false,
         isDelayed: true,
     };
-
-    public getChildContext(): SubmitButtonContext {
-        return {
-            isLoading: this.state.isLoading,
-        };
-    }
 
     public handleDelayEnd = (): void => {
         if (this.context.isLoading) {
@@ -66,6 +52,16 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
         const childProps: any = { ...this.props };
         delete childProps.duration;
 
-        return <SubmitButton {...childProps} />;
+        return (
+            <SubmitButtonContext.Provider value={this.childContextValue}>
+                <SubmitButton {...childProps} />
+            </SubmitButtonContext.Provider>
+        );
+    }
+
+    protected get childContextValue(): SubmitButtonContextValue {
+        return {
+            isLoading: this.state.isLoading,
+        };
     }
 }

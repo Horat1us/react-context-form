@@ -1,20 +1,9 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { LabelContext, LabelContextTypes } from "./LabelContext";
+import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
 
-export class Label extends React.Component<React.HTMLProps<HTMLLabelElement>> {
-    public static contextTypes = LabelContextTypes;
-    public context: LabelContext;
-
-    public render(): JSX.Element {
-        const childProps = {
-            ...this.props,
-            htmlFor: this.context.id,
-        };
-
-        return (
-            <label {...childProps} />
-        );
-    }
-}
+export const Label = React.memo((props: React.HTMLProps<HTMLLabelElement>) => (
+    <FormGroupContext.Consumer>
+        {(context: FormGroupContextValue) => <label {...props} htmlFor={context.id} />}
+    </FormGroupContext.Consumer>
+));

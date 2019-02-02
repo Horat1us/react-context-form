@@ -1,12 +1,11 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { ResetButtonContextTypes, ResetButtonContext } from "./ResetButtonContext";
+import { ResetButtonContext, ResetButtonContextValue } from "./ResetButtonContext";
 
-export class ResetButton extends React.Component<React.HTMLProps<HTMLButtonElement>> {
-    public static readonly contextTypes = ResetButtonContextTypes;
+export class ResetButton extends React.PureComponent<React.HTMLProps<HTMLButtonElement>> {
+    public static readonly contextType = ResetButtonContext;
 
-    public readonly context: ResetButtonContext;
+    public readonly context: ResetButtonContextValue;
 
     public render(): React.ReactNode {
         return (

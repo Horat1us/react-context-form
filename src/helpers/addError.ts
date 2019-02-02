@@ -1,10 +1,10 @@
 // tslint:disable-next-line
 import { AxiosError } from "axios";
 
-import { FormContext } from "../Form";
+import { FormContext, FormContextValue } from "../Form";
 import { ModelError } from "../Model";
 
-export function addError(context: FormContext, error: AxiosError): void {
+export function addError(context: FormContextValue, error: AxiosError): void {
     if (
         !error.response
         || error.response.status !== 400

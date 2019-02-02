@@ -1,9 +1,9 @@
-import * as  PropTypes from "prop-types";
+import * as React from "react";
 
-export interface SubmitButtonContext {
+export interface SubmitButtonContextValue {
     isLoading: boolean;
 }
 
-export const SubmitButtonContextTypes: {[P in keyof SubmitButtonContext]: PropTypes.Validator<any>} = {
-    isLoading: PropTypes.bool,
-};
+export const SubmitButtonContext = React.createContext<SubmitButtonContextValue>({
+    isLoading: false,
+});

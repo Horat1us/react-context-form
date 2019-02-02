@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
     name: string; /* field name (will be passed to input) */
@@ -10,15 +9,6 @@ export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
     valueClassName?: string;
     ref?: any; // https://github.com/Microsoft/TypeScript/issues/16019
 }
-
-export const FormGroupPropTypes: {[P in keyof FormGroupProps]: PropTypes.Validator<any>} = {
-    name: PropTypes.string.isRequired,
-    idPrefix: PropTypes.string,
-
-    errorClassName: PropTypes.string,
-    focusClassName: PropTypes.string,
-    valueClassName: PropTypes.string
-};
 
 export const FormGroupDefaultProps: {[P in keyof FormGroupProps]?: FormGroupProps[P]} = {
     className: "form-group",

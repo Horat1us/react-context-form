@@ -1,11 +1,9 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { BaseButton } from "./BaseButton";
-import { ButtonDefaultProps, ButtonProps, ButtonPropTypes } from "./ButtonProps";
+import { ButtonDefaultProps, ButtonProps } from "./ButtonProps";
 
 export class Button extends BaseButton {
-    public static readonly propTypes = ButtonPropTypes;
     public static readonly defaultProps = ButtonDefaultProps;
 
     public props: ButtonProps;

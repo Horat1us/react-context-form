@@ -1,9 +1,8 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { Model, ModelError } from "../Model";
-import { FormContext, FormContextTypes } from "./FormContext";
-import { FormProps, FormPropTypes, StorageRequiredInterface } from "./FormProps";
+import { FormContext, FormContextValue } from "./FormContext";
+import { FormProps, StorageRequiredInterface } from "./FormProps";
 
 import { addError } from "../helpers";
 
@@ -16,8 +15,6 @@ export interface FormState<M> {
 declare const localStorage: StorageRequiredInterface | undefined;
 export class Form<M extends Model>
     extends React.Component<React.HTMLProps<HTMLFormElement> & FormProps<M>, FormState<M>> {
-    public static readonly childContextTypes = FormContextTypes;
-    public static readonly propTypes = FormPropTypes;
 
     public state: FormState<M>;
     public storage = this.props.storage || ((typeof window).toLowerCase() !== "undefined" ? localStorage : undefined);
@@ -29,24 +26,6 @@ export class Form<M extends Model>
             model: this.props.instantiate(),
             mounted: {},
             isLoading: false,
-        };
-    }
-
-    public getChildContext(): FormContext {
-        return {
-            onChange: this.handleChange,
-            values: this.state.model.values,
-
-            onMount: this.handleMount,
-            onUnmount: this.handleUnmount,
-            onReset: this.handleReset,
-
-            validate: this.validate,
-            getDOMElement: this.getDOMElement,
-
-            isLoading: this.state.isLoading,
-            addError: this.handleErrorAdded,
-            getError: this.state.model.getError,
         };
     }
 
@@ -74,7 +53,7 @@ export class Form<M extends Model>
                 if ("function" === (typeof action).toLowerCase()) {
                     await action()
                 } else if (this.props.onSubmit) {
-                    await this.props.onSubmit(this.state.model, this.getChildContext());
+                    await this.props.onSubmit(this.state.model, this.childContextValue);
                 }
             } catch (error) {
                 submitError = error;
@@ -90,7 +69,7 @@ export class Form<M extends Model>
         this.forceUpdate();
 
         if (submitError) {
-            return addError(this.getChildContext(), submitError);
+            return addError(this.childContextValue, submitError);
         }
 
         this.props.resetAfterSubmit && this.state.model.reset();
@@ -114,9 +93,11 @@ export class Form<M extends Model>
         }
 
         return (
-            <form onSubmit={this.handleSubmit as any} {...childProps}>
-                {this.props.children}
-            </form>
+            <FormContext.Provider value={this.childContextValue}>
+                <form onSubmit={this.handleSubmit as any} {...childProps}>
+                    {this.props.children}
+                </form>
+            </FormContext.Provider>
         );
     }
 
@@ -161,6 +142,24 @@ export class Form<M extends Model>
             .forEach((attribute: string) => localStorageValue[attribute] = this.state.model[attribute]);
 
         this.storage.setItem(this.props.storageKey, JSON.stringify(localStorageValue));
+    }
+
+    protected get childContextValue(): FormContextValue {
+        return {
+            onChange: this.handleChange,
+            values: this.state.model.values,
+
+            onMount: this.handleMount,
+            onUnmount: this.handleUnmount,
+            onReset: this.handleReset,
+
+            validate: this.validate,
+            getDOMElement: this.getDOMElement,
+
+            isLoading: this.state.isLoading,
+            addError: this.handleErrorAdded,
+            getError: this.state.model.getError,
+        };
     }
 
     protected handleChange = (attribute: string, value: any): void => {

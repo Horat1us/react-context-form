@@ -1,8 +1,8 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { FormContextTypes, FormContext } from "../Form";
+import { FormContext, FormContextValue } from "../Form";
 import { ModelValue } from "../Model";
+import { EventInterceptorContext, EventInterceptorContextValue } from "./EventInterceptorContext";
 
 export enum Event {
     onChange = "onChange",
@@ -17,48 +17,37 @@ export interface EventInterceptorProps {
     events: Event[];
 }
 
-export const EventInterceptorPropTypes: {[P in keyof EventInterceptorProps]: PropTypes.Validator<any>} = {
-    events: PropTypes.arrayOf(PropTypes.oneOf(Object.values(Event))).isRequired,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func
-};
-
-export interface EventInterceptorContext {
-    onChange: (attribute: string, value: any) => void;
-    onFocus?: (attribute: string, value: any) => void;
-    onBlur?: (attribute: string, value: any) => void;
-}
-
-export const EventInterceptorContextTypes: {[P in keyof EventInterceptorContext]: PropTypes.Validator<any>} = {
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func
-}
-
 export class EventInterceptor extends React.Component<EventInterceptorProps> {
-    public static readonly childContextTypes = EventInterceptorContextTypes;
-    public static readonly propTypes = EventInterceptorPropTypes;
-    public static readonly contextTypes = FormContextTypes;
+    public static readonly contextType = FormContext;
 
-    public readonly context: FormContext;
+    public readonly context: FormContextValue;
 
-    public getChildContext(): EventInterceptorContext {
+    public render(): React.ReactNode {
+        return (
+            <FormContext.Provider value={this.formContextValue}>
+                <EventInterceptorContext.Provider value={this.childContextValue} children={this.props.children} />
+            </FormContext.Provider>
+        );
+    }
+
+    protected get formContextValue(): FormContextValue {
         return {
+            ...this.context,
             onChange: this.props.events.includes(Event.onChange) ? this.handleChange : this.context.onChange,
+        };
+    }
+
+    protected get childContextValue(): EventInterceptorContextValue {
+        return {
             onFocus: this.props.events.includes(Event.onFocus) ? this.props.onFocus : undefined,
             onBlur: this.props.events.includes(Event.onBlur) ? this.props.onBlur : undefined
         };
     }
 
-    public render(): React.ReactNode {
-        return this.props.children;
-    }
-
     protected handleChange = (attribute: string, value: any): void => {
         this.props.onChange && this.props.onChange(attribute, value, this.getValue(attribute));
         this.context.onChange(attribute, value);
-    }
+    };
 
     protected getValue = (name: string): string => {
         const founded = this.context.values.find((value: ModelValue) => value.attribute === name);

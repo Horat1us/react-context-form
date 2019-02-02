@@ -1,12 +1,10 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
 
-import { InputContext, InputContextTypes } from "../Input";
+export abstract class BaseButton<T = any> extends React.Component<React.HTMLProps<HTMLButtonElement> & T> {
+    public static contextType = FormGroupContext;
 
-export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElement>> {
-    public static contextTypes = InputContextTypes;
-
-    public context: InputContext;
+    public context: FormGroupContextValue;
 
     public get childProps(): React.HTMLProps<HTMLButtonElement> {
         return {

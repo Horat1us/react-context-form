@@ -1,11 +1,11 @@
-import * as PropTypes from "prop-types";
+import * as React from "react";
 
-export interface PasswordGroupContext {
-    onChangeVisibility?: (state?: boolean) => () => void;
-    isHidden?: boolean;
+export interface PasswordGroupContextValue {
+    onChangeVisibility: (state?: boolean) => () => void;
+    isHidden: boolean;
 }
 
-export const PasswordGroupContextTypes: {[P in keyof PasswordGroupContext]: PropTypes.Validator<any>} = {
-    onChangeVisibility: PropTypes.func,
-    isHidden: PropTypes.bool
-};
+export const PasswordGroupContext = React.createContext<PasswordGroupContextValue>({
+    onChangeVisibility: () => () => undefined,
+    isHidden: true,
+});

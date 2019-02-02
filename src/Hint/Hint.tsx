@@ -1,14 +1,13 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { HintDefaultProps } from "./HintProps"
-import { HintContext, HintContextTypes } from "./HintContext";
+import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
 
 export class Hint extends React.Component<React.HTMLProps<HTMLSpanElement>> {
     public static readonly defaultProps = HintDefaultProps;
-    public static readonly contextTypes = HintContextTypes;
+    public static readonly contextType = FormGroupContext;
 
-    public context: HintContext;
+    public context: FormGroupContextValue;
 
     public get error(): string | undefined {
         return this.context.error;
