@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { SubmitButtonContext, SubmitButton, SubmitButtonContextValue } from "../SubmitButton";
+import { SubmitButton } from "../SubmitButton";
 import { SlowSubmitButtonProps, SlowSubmitButtonDefaultProps } from "./SlowSubmitButtonProps";
+import { FormContext, FormContextValue } from "../Form";
 
 export interface SlowSubmitButtonState {
     isLoading: boolean,
@@ -9,10 +10,10 @@ export interface SlowSubmitButtonState {
 }
 
 export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps, SlowSubmitButtonState> {
-    public static readonly contextType = SubmitButtonContext;
+    public static readonly contextType = FormContext;
     public static readonly defaultProps = SlowSubmitButtonDefaultProps;
 
-    public context: SubmitButtonContextValue;
+    public context: FormContextValue;
     public state: SlowSubmitButtonState = {
         isLoading: false,
         isDelayed: true,
@@ -53,14 +54,15 @@ export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps,
         delete childProps.duration;
 
         return (
-            <SubmitButtonContext.Provider value={this.childContextValue}>
+            <FormContext.Provider value={this.childContextValue}>
                 <SubmitButton {...childProps} />
-            </SubmitButtonContext.Provider>
+            </FormContext.Provider>
         );
     }
 
-    protected get childContextValue(): SubmitButtonContextValue {
+    protected get childContextValue(): FormContextValue {
         return {
+            ...this.context,
             isLoading: this.state.isLoading,
         };
     }

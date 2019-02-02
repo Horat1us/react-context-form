@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { SubmitButtonContext, SubmitButtonContextValue } from "./SubmitButtonContext";
 import { SubmitButtonDefaultProps, SubmitButtonProps } from "./SubmitButtonProps";
+import { FormContext, FormContextValue } from "../Form";
 
 export interface SubmitButtonState {
     width?: number,
@@ -9,9 +9,9 @@ export interface SubmitButtonState {
 
 export class SubmitButton extends React.PureComponent<SubmitButtonProps, SubmitButtonState> {
     public static readonly defaultProps = SubmitButtonDefaultProps;
-    public static readonly contextType = SubmitButtonContext;
+    public static readonly contextType = FormContext;
 
-    public context: SubmitButtonContextValue;
+    public context: FormContextValue;
 
     public state: SubmitButtonState = { width: undefined };
     protected button: HTMLButtonElement | undefined;
