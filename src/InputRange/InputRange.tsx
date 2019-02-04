@@ -37,6 +37,8 @@ export class InputRange extends React.PureComponent<InputRangeProps> {
     };
 
     protected handleBlur = (): void => {
+        this.context.onBlur();
+
         let value = Number(this.context.value);
 
         if (value > this.props.max) {
