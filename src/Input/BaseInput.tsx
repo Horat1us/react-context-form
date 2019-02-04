@@ -1,10 +1,16 @@
 import * as React from "react";
-
 import { cursorPositionController } from "../helpers";
-
-import { BaseInputDefaultProps, BaseInputProps } from "./BaseInputProps";
 import { TransformTypes } from "./TransformTypes";
 import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
+
+export interface BaseInputProps extends React.HTMLProps<HTMLInputElement> {
+    transform?: TransformTypes;
+}
+
+export const BaseInputDefaultProps: {[P in keyof BaseInputProps]?: BaseInputProps[P]} = {
+    transform: TransformTypes.none,
+    className: "form-control"
+};
 
 export class BaseInput<T> extends React.PureComponent<BaseInputProps & T> {
     public static readonly contextType = FormGroupContext;

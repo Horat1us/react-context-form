@@ -1,8 +1,11 @@
 import * as React from "react";
 
-import { AutoValidate } from "../AutoValidate";
-import { AutoFocusProps } from "./AutoFocusProps";
+import { AutoValidate, AutoValidateProps } from "../AutoValidate";
 import { FormContext, FormContextValue } from "../Form";
+
+export interface AutoFocusProps extends AutoValidateProps {
+    to: string,
+}
 
 export class AutoFocus extends React.PureComponent<AutoFocusProps> {
     public static readonly contextType = FormContext;

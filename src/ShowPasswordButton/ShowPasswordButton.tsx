@@ -1,7 +1,16 @@
 import * as React from "react";
 
-import { ShowPasswordButtonProps, ShowPasswordButtonDefaultProps } from "./ShowPasswordButtonProps";
 import { PasswordGroupContext, PasswordGroupContextValue } from "../PasswordGroup";
+
+export interface ShowPasswordButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    hoverToShow?: boolean;
+    clickToShow?: boolean;
+}
+
+export const ShowPasswordButtonDefaultProps: {[P in keyof ShowPasswordButtonProps]?: ShowPasswordButtonProps[P]} = {
+    clickToShow: true,
+    type: "button"
+};
 
 export const ShowPasswordButton = React.memo((props: ShowPasswordButtonProps) => (
     <PasswordGroupContext.Consumer>

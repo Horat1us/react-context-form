@@ -2,7 +2,11 @@ import * as React from "react";
 
 import { ModelError } from "../Model";
 import { FormContext, FormContextValue } from "../Form";
-import { OnValidateProps } from "./OnValidateProps";
+
+export interface OnValidateProps {
+    onValidate: (result: boolean) => void;
+    groups: string[];
+}
 
 export class OnValidate extends React.PureComponent<OnValidateProps> {
     public static readonly contextType = FormContext;

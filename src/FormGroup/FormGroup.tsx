@@ -4,7 +4,25 @@ import { ModelValue } from "../Model";
 import { FormContext, FormContextValue } from "../Form";
 import { FormGroupContext, FormGroupContextValue } from "./FormGroupContext";
 import { EventInterceptorContext, EventInterceptorContextValue } from "../EventInterceptor";
-import { FormGroupDefaultProps, FormGroupProps } from "./FormGroupProps";
+
+export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
+    name: string; /* field name (will be passed to input) */
+    idPrefix?: string; /* id prefix for input and label */
+
+    errorClassName?: string; /* className, which will be appended when field have error */
+    focusClassName?: string; /* className, which will be appended when focus on input */
+    valueClassName?: string;
+    ref?: any; // https://github.com/Microsoft/TypeScript/issues/16019
+}
+
+export const FormGroupDefaultProps: {[P in keyof FormGroupProps]?: FormGroupProps[P]} = {
+    className: "form-group",
+    idPrefix: "rcf",
+
+    errorClassName: "has-error",
+    focusClassName: "has-focus",
+    valueClassName: "has-value"
+};
 
 export interface FormGroupState {
     isFocused: boolean;

@@ -1,8 +1,20 @@
 import * as React from "react";
 
 import { FormContext, FormContextValue } from "../Form";
-import { AutoUpdateProps, AutoUpdateDefaultProps } from "./AutoUpdateProps";
 import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
+
+export interface AutoUpdateProps {
+    value: (value: any) => any,
+    attribute: string,
+    children: JSX.Element,
+    onBlur?: boolean,
+    onChange?: boolean,
+}
+
+export const AutoUpdateDefaultProps = {
+    onBlur: true,
+    onChange: false,
+};
 
 class AutoUpdateLayout extends React.PureComponent<
     AutoUpdateProps & { getDOMElement: FormContextValue["getDOMElement"]}

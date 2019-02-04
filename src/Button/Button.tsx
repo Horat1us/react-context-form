@@ -1,7 +1,16 @@
 import * as React from "react";
 
 import { BaseButton } from "./BaseButton";
-import { ButtonDefaultProps, ButtonProps } from "./ButtonProps";
+
+export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    action: any,
+    activeClassName?: string
+}
+
+export const ButtonDefaultProps: {[P in keyof ButtonProps]?: ButtonProps[P]} = {
+    className: "btn",
+    activeClassName: "is-active"
+};
 
 export class Button extends BaseButton {
     public static readonly defaultProps = ButtonDefaultProps;

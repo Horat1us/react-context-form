@@ -1,9 +1,28 @@
 import * as React from "react";
 import { FormContext, FormContextValue } from "../Form";
-
-import { AutoValidateDefaultProps, AutoValidateProps } from "./AutoValidateProps";
 import { ModelError } from "../Model";
 import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
+
+export interface AutoValidateProps {
+    groupName?: string,
+    children: JSX.Element,
+
+    onBlur?: boolean,
+    onChange?: boolean,
+    onLength?: number,
+    always?: boolean
+
+    onValidated?: (isValid: boolean) => void,
+
+    on?: (nextValue: string, previousValue: string) => boolean
+}
+
+export const AutoValidateDefaultProps: {[P in keyof AutoValidateProps]?: AutoValidateProps[P]} = {
+    onBlur: true,
+    onChange: false,
+    always: false,
+    onValidated: () => undefined,
+};
 
 class AutoValidateLayout extends React.PureComponent<
     AutoValidateProps & { validate: (group: string) => Promise<ModelError[]>}

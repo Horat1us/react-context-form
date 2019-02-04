@@ -1,7 +1,12 @@
 import * as React from "react";
 
 import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
-import { InputRangeProps } from "./InputRangeProps";
+
+export interface InputRangeProps {
+    max: number,
+    min?: number,
+    children: JSX.Element
+}
 
 export class InputRange extends React.PureComponent<InputRangeProps> {
     public static contextType = FormGroupContext;

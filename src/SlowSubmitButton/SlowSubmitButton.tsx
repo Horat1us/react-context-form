@@ -1,8 +1,16 @@
 import * as React from "react";
 
-import { SubmitButton } from "../SubmitButton";
-import { SlowSubmitButtonProps, SlowSubmitButtonDefaultProps } from "./SlowSubmitButtonProps";
+import { SubmitButton, SubmitButtonDefaultProps, SubmitButtonProps } from "../SubmitButton";
 import { FormContext, FormContextValue } from "../Form";
+
+export interface SlowSubmitButtonProps extends SubmitButtonProps {
+    duration?: number,
+}
+
+export const SlowSubmitButtonDefaultProps: {[P in keyof SlowSubmitButtonProps]?: SlowSubmitButtonProps[P]} = {
+    ...SubmitButtonDefaultProps,
+    duration: 500
+};
 
 export interface SlowSubmitButtonState {
     isLoading: boolean,

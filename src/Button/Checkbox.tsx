@@ -1,7 +1,15 @@
 import * as React from "react";
 
 import { BaseButton } from "./BaseButton";
-import { CheckboxDefaultProps, CheckboxProps } from "./CheckboxProps";
+
+export interface CheckboxProps extends React.HTMLProps<HTMLButtonElement> {
+    activeClassName?: string
+}
+
+export const CheckboxDefaultProps: {[P in keyof CheckboxProps]?: CheckboxProps[P]} = {
+    className: "checkbox",
+    activeClassName: "is-active"
+};
 
 export class Checkbox extends BaseButton<CheckboxProps> {
     public static readonly defaultProps = CheckboxDefaultProps;
