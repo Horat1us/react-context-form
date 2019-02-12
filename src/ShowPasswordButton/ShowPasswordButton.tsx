@@ -1,39 +1,36 @@
 import * as React from "react";
 
-import {
-    ShowPasswordButtonProps,
-    ShowPasswordButtonPropTypes,
-    ShowPasswordButtonDefaultProps
-} from "./ShowPasswordButtonProps";
-import { PasswordGroupContextTypes, PasswordGroupContext } from "../PasswordGroup";
+import { PasswordGroupContext, PasswordGroupContextValue } from "../PasswordGroup";
 
-export class ShowPasswordButton extends React.Component<ShowPasswordButtonProps> {
-    public static readonly defaultProps = ShowPasswordButtonDefaultProps;
-    public static readonly contextTypes = PasswordGroupContextTypes;
-    public static readonly propTypes = ShowPasswordButtonPropTypes;
-
-    public readonly context: PasswordGroupContext;
-
-    public render(): React.ReactNode {
-        if (!this.context.onChangeVisibility) {
-            return this.props.children;
-        }
-
-        const { hoverToShow, clickToShow, children, ...rest } = this.props;
-
-        const childProps = { ...rest };
-
-        if (hoverToShow) {
-            childProps.onMouseOver = this.context.onChangeVisibility(false);
-            childProps.onMouseLeave = this.context.onChangeVisibility(true);
-        } else if (clickToShow) {
-            childProps.onClick = this.context.onChangeVisibility();
-        }
-
-        return (
-            <button {...childProps}>
-                {children}
-            </button>
-        );
-    }
+export interface ShowPasswordButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    hoverToShow?: boolean;
+    clickToShow?: boolean;
 }
+
+export const ShowPasswordButtonDefaultProps: {[P in keyof ShowPasswordButtonProps]?: ShowPasswordButtonProps[P]} = {
+    clickToShow: true,
+    type: "button"
+};
+
+export const ShowPasswordButton = React.memo((props: ShowPasswordButtonProps) => (
+    <PasswordGroupContext.Consumer>
+        {(context: PasswordGroupContextValue) => {
+            const { hoverToShow, clickToShow, children, ...rest } = { ...ShowPasswordButtonDefaultProps, ...props};
+
+            const childProps = { ...rest };
+
+            if (hoverToShow) {
+                childProps.onMouseOver = context.onChangeVisibility(false);
+                childProps.onMouseLeave = context.onChangeVisibility(true);
+            } else if (clickToShow) {
+                childProps.onClick = context.onChangeVisibility();
+            }
+
+            return (
+                <button {...childProps}>
+                    {children}
+                </button>
+            );
+        }}
+    </PasswordGroupContext.Consumer>
+));

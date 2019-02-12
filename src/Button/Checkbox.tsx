@@ -1,14 +1,18 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { BaseButton } from "./BaseButton";
-import { CheckboxDefaultProps, CheckboxProps, CheckboxPropTypes } from "./CheckboxProps";
 
-export class Checkbox extends BaseButton {
-    public static readonly propTypes = CheckboxPropTypes;
+export interface CheckboxProps extends React.HTMLProps<HTMLButtonElement> {
+    activeClassName?: string
+}
+
+export const CheckboxDefaultProps: {[P in keyof CheckboxProps]?: CheckboxProps[P]} = {
+    className: "checkbox",
+    activeClassName: "is-active"
+};
+
+export class Checkbox extends BaseButton<CheckboxProps> {
     public static readonly defaultProps = CheckboxDefaultProps;
-
-    public props: CheckboxProps;
 
     public render(): JSX.Element {
         const { activeClassName, ...HTMLProps } = this.props;

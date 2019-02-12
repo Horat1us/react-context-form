@@ -1,23 +1,25 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import { FormContext, FormContextValue } from "../Form";
 
-import { SubmitButtonContext, SubmitButtonContextTypes } from "./SubmitButtonContext";
-import { SubmitButtonDefaultProps, SubmitButtonProps, SubmitButtonPropTypes } from "./SubmitButtonProps";
+export interface SubmitButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    loadingComponent: JSX.Element;
+}
+
+export const SubmitButtonDefaultProps: {[P in keyof SubmitButtonProps]?: SubmitButtonProps[P]} = {
+    type: "submit",
+};
 
 export interface SubmitButtonState {
     width?: number,
 }
 
-export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButtonState> {
-    public static readonly propTypes = SubmitButtonPropTypes;
+export class SubmitButton extends React.PureComponent<SubmitButtonProps, SubmitButtonState> {
     public static readonly defaultProps = SubmitButtonDefaultProps;
-    public static readonly contextTypes = SubmitButtonContextTypes;
+    public static readonly contextType = FormContext;
 
-    public context: SubmitButtonContext;
+    public context: FormContextValue;
 
-    public state: SubmitButtonState = {
-        width: undefined,
-    };
+    public state: SubmitButtonState = { width: undefined };
     protected button: HTMLButtonElement | undefined;
 
     get children(): React.ReactNode {

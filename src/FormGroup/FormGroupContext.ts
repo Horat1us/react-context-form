@@ -1,13 +1,28 @@
-import * as PropTypes from "prop-types"
+import * as React from "react";
 
-import { HintContext, HintContextTypes } from "../Hint";
-import { LabelContext, LabelContextTypes } from "../Label";
-import { InputContext, InputContextTypes } from "../Input/InputContext";
+export interface FormGroupContextValue<TValue = any> {
+    error?: string;
+    id: string;
 
-export interface FormGroupContext extends LabelContext, HintContext, InputContext { }
+    name: string;
+    value: TValue;
 
-export const FormGroupContextTypes: {[P in keyof FormGroupContext]: PropTypes.Validator<any>} = {
-    ...LabelContextTypes,
-    ...HintContextTypes,
-    ...InputContextTypes,
+    onChange: (value: TValue) => void;
+    onAttributeChange: (attribute: string, value: any) => void;
+    onFocus: () => void;
+    onBlur: () => void;
+    onMount: (ref: HTMLElement) => void;
+}
+
+export const FormGroupContextDefaultValue: FormGroupContextValue = {
+    id: "",
+    name: "",
+    value: "",
+    onChange: () => undefined,
+    onAttributeChange: () => undefined,
+    onFocus: () => undefined,
+    onBlur: () => undefined,
+    onMount: () => undefined,
 };
+
+export const FormGroupContext = React.createContext<FormGroupContextValue>(FormGroupContextDefaultValue);

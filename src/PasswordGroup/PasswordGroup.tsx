@@ -1,36 +1,25 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { PasswordGroupContextTypes, PasswordGroupContext } from "./PasswordGroupContext";
+import { PasswordGroupContext, PasswordGroupContextValue } from "./PasswordGroupContext";
 
-export interface PasswordGroupState {
-    isHidden: boolean
-}
-
-export class PasswordGroup extends React.Component<React.HTMLProps<HTMLDivElement>, PasswordGroupState> {
-    public static readonly childContextTypes = PasswordGroupContextTypes;
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isHidden: true
-        };
-    }
-
-    public getChildContext(): PasswordGroupContext {
-        return {
-            ...this.state,
-            onChangeVisibility: this.handleChangeVisibility
-        };
-    }
+export class PasswordGroup extends React.PureComponent<React.HTMLProps<HTMLDivElement>, { isHidden: boolean }> {
+    public readonly state = { isHidden: true };
 
     public render(): React.ReactNode {
         return (
-            <div {...this.props}>
-                {this.props.children}
-            </div>
+            <PasswordGroupContext.Provider value={this.childContextValue}>
+                <div {...this.props}>
+                    {this.props.children}
+                </div>
+            </PasswordGroupContext.Provider>
         );
+    }
+
+    protected get childContextValue(): PasswordGroupContextValue {
+        return {
+            ...this.state,
+            onChangeVisibility: this.handleChangeVisibility,
+        };
     }
 
     protected handleChangeVisibility = (state?: boolean) => (): void => {

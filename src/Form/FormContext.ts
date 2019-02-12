@@ -1,8 +1,7 @@
-import * as PropTypes from "prop-types";
-
+import * as React from "react";
 import { ModelValue, ModelInterface, ModelError } from "../Model";
 
-export interface FormContext {
+export interface FormContextValue {
     values: ModelValue[];
     addError: (newError: ModelError) => void,
     getError: (attribute: string) => ModelError | undefined,
@@ -19,18 +18,17 @@ export interface FormContext {
     isLoading: boolean;
 }
 
-export const FormContextTypes: {[P in keyof FormContext]: PropTypes.Validator<any>} = {
-    values: PropTypes.arrayOf(PropTypes.object).isRequired,
-    addError: PropTypes.func.isRequired,
-    getError: PropTypes.func.isRequired,
-
-    onChange: PropTypes.func.isRequired,
-    onMount: PropTypes.func.isRequired,
-    onUnmount: PropTypes.func.isRequired,
-    onReset: PropTypes.func.isRequired,
-
-    validate: PropTypes.func.isRequired,
-    getDOMElement: PropTypes.func.isRequired,
-
-    isLoading: PropTypes.bool.isRequired,
+export const FormContextDefaultValue: FormContextValue = {
+    values: [],
+    addError: () => undefined,
+    getError: () => undefined,
+    onChange: () => undefined,
+    onMount: () => undefined,
+    onUnmount: () => undefined,
+    onReset: () => undefined,
+    validate: () => Promise.resolve([]),
+    getDOMElement: () => undefined,
+    isLoading: false,
 };
+
+export const FormContext = React.createContext<FormContextValue>(FormContextDefaultValue);

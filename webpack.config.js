@@ -56,7 +56,8 @@ const config = {
                                 ['env', {
                                     "targets": {
                                         "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
-                                    }
+                                    },
+                                    "exclude": ["transform-regenerator"]
                                 }]
                             ],
                             "plugins": ["transform-object-rest-spread"]
@@ -77,7 +78,8 @@ const config = {
                         ['env', {
                             "targets": {
                                 "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
-                            }
+                            },
+                            "exclude": ["transform-regenerator"]
                         }]
                     ],
                     "plugins": ["transform-object-rest-spread"]

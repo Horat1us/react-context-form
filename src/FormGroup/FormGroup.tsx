@@ -1,53 +1,48 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { ModelValue } from "../Model";
-import { FormContext, FormContextTypes } from "../Form/FormContext";
-import { FormGroupContext, FormGroupContextTypes } from "./FormGroupContext";
-import { EventInterceptorContext, EventInterceptorContextTypes } from "../EventInterceptor";
-import { FormGroupDefaultProps, FormGroupProps, FormGroupPropTypes } from "./FormGroupProps";
+import { FormContext, FormContextValue } from "../Form";
+import { FormGroupContext, FormGroupContextValue } from "./FormGroupContext";
+import { EventInterceptorContext, EventInterceptorContextValue } from "../EventInterceptor";
+
+export interface FormGroupProps extends React.HTMLProps<HTMLDivElement> {
+    name: string; /* field name (will be passed to input) */
+    idPrefix?: string; /* id prefix for input and label */
+
+    errorClassName?: string; /* className, which will be appended when field have error */
+    focusClassName?: string; /* className, which will be appended when focus on input */
+    valueClassName?: string;
+    ref?: any; // https://github.com/Microsoft/TypeScript/issues/16019
+}
+
+export const FormGroupDefaultProps: {[P in keyof FormGroupProps]?: FormGroupProps[P]} = {
+    className: "form-group",
+    idPrefix: "rcf",
+
+    errorClassName: "has-error",
+    focusClassName: "has-focus",
+    valueClassName: "has-value"
+};
 
 export interface FormGroupState {
     isFocused: boolean;
 }
 
-export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
-    public static readonly propTypes = FormGroupPropTypes;
+class FormGroupLayout extends React.Component<
+    FormGroupProps & { interceptor: EventInterceptorContextValue },
+    FormGroupState
+> {
     public static readonly defaultProps = FormGroupDefaultProps;
-    public static readonly childContextTypes = FormGroupContextTypes;
-    public static readonly contextTypes = {
-        ...FormContextTypes,
-        ...EventInterceptorContextTypes
-    };
+    public static readonly contextType = FormContext;
 
-    public context: FormContext & EventInterceptorContext;
-    public state: FormGroupState = {
-        isFocused: false,
-    };
+    public context: FormContextValue;
+    public state: FormGroupState = { isFocused: false };
     public id: string;
 
     constructor(props) {
         super(props);
 
         this.id = (Date.now() + Math.random()).toString().replace(/\./g, "");
-    }
-
-    public getChildContext(): FormGroupContext {
-        const value = this.value;
-        return {
-            id: `${this.props.idPrefix}_${this.id}`,
-            name: this.props.name,
-
-            value: value ? value.value : undefined,
-
-            onChange: this.handleChange,
-            onAttributeChange: this.context.onChange,
-            onBlur: this.handleBlur,
-            onFocus: this.handleFocus,
-            onMount: this.handleMount,
-
-            error: value ? value.error : undefined,
-        };
     }
 
     public componentWillUnmount() {
@@ -58,12 +53,18 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
     public handleBlur = (): void => {
         this.setState({ isFocused: false });
 
-        this.context.onBlur && this.context.onBlur(this.props.name, this.value ? this.value.value : undefined);
+        this.props.interceptor.onBlur && this.props.interceptor.onBlur(
+            this.props.name,
+            this.value ? this.value.value : undefined
+        );
     };
     public handleFocus = (): void => {
         this.setState({ isFocused: true });
 
-        this.context.onFocus && this.context.onFocus(this.props.name, this.value ? this.value.value : undefined);
+        this.props.interceptor.onFocus && this.props.interceptor.onFocus(
+            this.props.name,
+            this.value ? this.value.value : undefined
+        );
     };
 
     public handleMount = (ref: HTMLElement): void => this.context.onMount(this.props.name, ref);
@@ -82,14 +83,36 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
             errorClassName,
             focusClassName,
             valueClassName,
+            interceptor,
             ...childProps
         } = this.props;
 
         return (
-            <div className={this.className} data-name={this.props.name} {...childProps}>
-                {this.props.children}
-            </div>
+            <FormGroupContext.Provider value={this.childContextValue}>
+                <div className={this.className} data-name={this.props.name} {...childProps}>
+                    {this.props.children}
+                </div>
+            </FormGroupContext.Provider>
         );
+    }
+
+    protected get childContextValue(): FormGroupContextValue {
+        const value = this.value;
+
+        return {
+            id: `${this.props.idPrefix}_${this.id}`,
+            name: this.props.name,
+
+            value: value ? value.value : undefined,
+
+            onChange: this.handleChange,
+            onAttributeChange: this.context.onChange,
+            onBlur: this.handleBlur,
+            onFocus: this.handleFocus,
+            onMount: this.handleMount,
+
+            error: value ? value.error : undefined,
+        };
     }
 
     protected get className(): string {
@@ -110,3 +133,9 @@ export class FormGroup extends React.Component<FormGroupProps, FormGroupState> {
             .trim();
     }
 }
+
+export const FormGroup = (props: FormGroupProps) => (
+    <EventInterceptorContext.Consumer>
+        {(context: EventInterceptorContextValue) => <FormGroupLayout {...props} interceptor={context} />}
+    </EventInterceptorContext.Consumer>
+);

@@ -1,38 +1,36 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton } from "../SubmitButton";
+import { SubmitButton, SubmitButtonDefaultProps, SubmitButtonProps } from "../SubmitButton";
+import { FormContext, FormContextValue } from "../Form";
 
-import {
-    SlowSubmitButtonDefaultProps,
-    SlowSubmitButtonPropTypes,
-    SlowSubmitButtonProps
-} from "./SlowSubmitButtonProps";
+export interface SlowSubmitButtonProps extends SubmitButtonProps {
+    duration?: number,
+}
+
+export const SlowSubmitButtonDefaultProps: {[P in keyof SlowSubmitButtonProps]?: SlowSubmitButtonProps[P]} = {
+    ...SubmitButtonDefaultProps,
+    duration: 500
+};
 
 export interface SlowSubmitButtonState {
     isLoading: boolean,
     isDelayed: boolean,
 }
 
-export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, SlowSubmitButtonState> {
-    public static readonly childContextTypes = SubmitButtonContextTypes;
-    public static readonly contextTypes = SubmitButtonContextTypes;
-    public static readonly propTypes = SlowSubmitButtonPropTypes;
+export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps, SlowSubmitButtonState> {
+    public static readonly contextType = FormContext;
     public static readonly defaultProps = SlowSubmitButtonDefaultProps;
 
-    public context: SubmitButtonContext;
+    public context: FormContextValue;
     public state: SlowSubmitButtonState = {
         isLoading: false,
         isDelayed: true,
     };
 
-    public getChildContext(): SubmitButtonContext {
-        return {
-            isLoading: this.state.isLoading,
-        };
-    }
+    protected timeout: number | undefined;
 
     public handleDelayEnd = (): void => {
+        this.timeout = undefined;
         if (this.context.isLoading) {
             this.setState({
                 isDelayed: false,
@@ -54,7 +52,7 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
                 isLoading: true,
                 isDelayed: true,
             });
-            setTimeout(this.handleDelayEnd, this.props.duration);
+            this.timeout = setTimeout(this.handleDelayEnd, this.props.duration);
         } else {
             this.state.isDelayed || this.setState({
                 isLoading: false,
@@ -62,10 +60,25 @@ export class SlowSubmitButton extends React.Component<SlowSubmitButtonProps, Slo
         }
     }
 
+    public componentWillUnmount(): void {
+        this.timeout && clearTimeout(this.timeout);
+    }
+
     public render(): JSX.Element {
         const childProps: any = { ...this.props };
         delete childProps.duration;
 
-        return <SubmitButton {...childProps} />;
+        return (
+            <FormContext.Provider value={this.childContextValue}>
+                <SubmitButton {...childProps} />
+            </FormContext.Provider>
+        );
+    }
+
+    protected get childContextValue(): FormContextValue {
+        return {
+            ...this.context,
+            isLoading: this.state.isLoading,
+        };
     }
 }

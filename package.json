@@ -1,6 +1,6 @@
 {
   "name": "react-context-form",
-  "version": "2.11.0",
+  "version": "3.0.0-3",
   "description": "One more way to handle forms on React",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -37,8 +37,7 @@
     "@types/enzyme": "^2.8.9",
     "@types/mocha": "^2.2.48",
     "@types/node": "^10.3.3",
-    "@types/prop-types": "^15.5.3",
-    "@types/react": "^16.3.17",
+    "@types/react": "^16.8.1",
     "@types/sinon": "^2.3.3",
     "awesome-typescript-loader": "^3.5.0",
     "axios": "^0.18.0",
@@ -62,8 +61,7 @@
     "mocha": "^5.2.0",
     "nyc": "^11.9.0",
     "pre-commit": "^1.2.2",
-    "prop-types": "^15.6.1",
-    "react": "^16.4.1",
+    "react": "^16.7.0",
     "react-dom": "^16.4.1",
     "react-test-renderer": "^16.4.1",
     "sinon": "^6.0.0",
@@ -78,9 +76,9 @@
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
+    "axios": "^0.18.0",
     "class-validator": "^0.7.2",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0"
+    "react": "^16.7.0"
   },
   "nyc": {
     "extension": [
@@ -99,7 +97,6 @@
     ],
     "report-dir": "./tests/output"
   },
-  "dependencies": {},
   "pre-commit": [
     "lint",
     "test"

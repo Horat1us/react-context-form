@@ -1,29 +1,27 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { ModelError } from "../Model";
-import { FormContext } from "../Form";
-import { OnValidatePropTypes, OnValidateProps } from "./OnValidateProps";
+import { FormContext, FormContextValue } from "../Form";
 
-export class OnValidate extends React.Component<OnValidateProps> {
-    public static readonly propTypes = OnValidatePropTypes;
-    public static readonly contextTypes = {
-        validate: PropTypes.func.isRequired,
-        getError: PropTypes.func.isRequired,
-        values: PropTypes.arrayOf(PropTypes.object).isRequired,
-    };
-    public static readonly childContextTypes = { validate: PropTypes.func.isRequired };
+export interface OnValidateProps {
+    onValidate: (result: boolean) => void;
+    groups: string[];
+}
 
-    public readonly context: Pick<FormContext, "validate" | "getError" | "values">;
+export class OnValidate extends React.PureComponent<OnValidateProps> {
+    public static readonly contextType = FormContext;
 
-    public getChildContext(): Pick<FormContext, "validate"> {
-        return {
-            validate: this.validate
-        };
-    }
+    public readonly context: FormContextValue;
 
     public render(): React.ReactNode {
-        return this.props.children;
+        return <FormContext.Provider value={this.childContextValue} children={this.props.children} />;
+    }
+
+    protected get childContextValue(): FormContextValue {
+        return {
+            ...this.context,
+            validate: this.validate,
+        };
     }
 
     protected validate = async (group: string): Promise<ModelError[]> => {
@@ -39,5 +37,4 @@ export class OnValidate extends React.Component<OnValidateProps> {
 
         return errors;
     }
-
 }

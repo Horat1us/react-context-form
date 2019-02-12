@@ -1,11 +1,18 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { BaseButton } from "./BaseButton";
-import { ButtonDefaultProps, ButtonProps, ButtonPropTypes } from "./ButtonProps";
+
+export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    action: any,
+    activeClassName?: string
+}
+
+export const ButtonDefaultProps: {[P in keyof ButtonProps]?: ButtonProps[P]} = {
+    className: "btn",
+    activeClassName: "is-active"
+};
 
 export class Button extends BaseButton {
-    public static readonly propTypes = ButtonPropTypes;
     public static readonly defaultProps = ButtonDefaultProps;
 
     public props: ButtonProps;

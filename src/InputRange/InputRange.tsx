@@ -1,30 +1,28 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { FormGroupContextTypes, FormGroupContext } from "../FormGroup";
-import { InputContextTypes, InputContext } from "../Input";
-import { InputRangeProps } from "./InputRangeProps";
+import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
 
-export class InputRange extends React.Component<InputRangeProps> {
-    public static contextTypes = FormGroupContextTypes;
-    public static childContextTypes = InputContextTypes;
+export interface InputRangeProps {
+    max: number,
+    min?: number,
+    children: JSX.Element
+}
 
-    public context: FormGroupContext;
+export class InputRange extends React.PureComponent<InputRangeProps> {
+    public static contextType = FormGroupContext;
 
-    public getChildContext(): InputContext {
-        const { error, ...context } = this.context;
-
-        return {
-            ...context,
-            ...{
-                onChange: this.handleChange,
-                onBlur: this.handleBlur
-            }
-        }
-    }
+    public context: FormGroupContextValue;
 
     public render(): JSX.Element {
-        return this.props.children;
+        return <FormGroupContext.Provider value={this.childContextValue} children={this.props.children} />;
+    }
+
+    public get childContextValue(): FormGroupContextValue {
+        return {
+            ...this.context,
+            onChange: this.handleChange,
+            onBlur: this.handleBlur
+        }
     }
 
     protected handleChange = (value: number): void => {
@@ -44,6 +42,8 @@ export class InputRange extends React.Component<InputRangeProps> {
     };
 
     protected handleBlur = (): void => {
+        this.context.onBlur();
+
         let value = Number(this.context.value);
 
         if (value > this.props.max) {

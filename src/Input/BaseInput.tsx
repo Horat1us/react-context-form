@@ -1,32 +1,25 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
-
-import { cursorPositionController } from "../helpers/cursorPositionController";
-
-import { PasswordGroupContextTypes, PasswordGroupContext } from "../PasswordGroup";
-import { BaseInputDefaultProps, BaseInputProps, BaseInputPropTypes } from "./BaseInputProps";
-import { InputContext, InputContextTypes } from "./InputContext";
+import { cursorPositionController } from "../helpers";
 import { TransformTypes } from "./TransformTypes";
+import { FormGroupContext, FormGroupContextValue } from "../FormGroup";
 
-export class BaseInput<T> extends React.Component<BaseInputProps & T> {
-    public static readonly contextTypes = {
-        ...InputContextTypes,
-        ...PasswordGroupContextTypes
-    };
+export interface BaseInputProps extends React.HTMLProps<HTMLInputElement> {
+    transform?: TransformTypes;
+}
+
+export const BaseInputDefaultProps: {[P in keyof BaseInputProps]?: BaseInputProps[P]} = {
+    transform: TransformTypes.none,
+    className: "form-control"
+};
+
+export class BaseInput<T> extends React.PureComponent<BaseInputProps & T> {
+    public static readonly contextType = FormGroupContext;
     public static readonly defaultProps = BaseInputDefaultProps;
-    public static readonly propTypes = BaseInputPropTypes;
 
-    public context: InputContext & PasswordGroupContext;
+    public context: FormGroupContextValue;
 
     protected get childProps(): React.HTMLProps<HTMLInputElement> & T {
         const { transform, ...TProps } = this.props as any; // https://github.com/Microsoft/TypeScript/issues/16780
-
-        let passwordInputProps = {};
-        if (this.context.isHidden) {
-            passwordInputProps = {
-                type: "password"
-            };
-        }
 
         return {
             ...TProps,
@@ -40,7 +33,6 @@ export class BaseInput<T> extends React.Component<BaseInputProps & T> {
             onChange: this.handleChange,
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
-            ...passwordInputProps
         };
     }
 
