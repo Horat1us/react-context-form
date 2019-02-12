@@ -27,7 +27,10 @@ export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps,
         isDelayed: true,
     };
 
+    protected timeout: number | undefined;
+
     public handleDelayEnd = (): void => {
+        this.timeout = undefined;
         if (this.context.isLoading) {
             this.setState({
                 isDelayed: false,
@@ -49,12 +52,16 @@ export class SlowSubmitButton extends React.PureComponent<SlowSubmitButtonProps,
                 isLoading: true,
                 isDelayed: true,
             });
-            setTimeout(this.handleDelayEnd, this.props.duration);
+            this.timeout = setTimeout(this.handleDelayEnd, this.props.duration);
         } else {
             this.state.isDelayed || this.setState({
                 isLoading: false,
             });
         }
+    }
+
+    public componentWillUnmount(): void {
+        this.timeout && clearTimeout(this.timeout);
     }
 
     public render(): JSX.Element {
