@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import { ResetButtonContextTypes, ResetButtonContext } from "./ResetButtonContext";
 
-export class ResetButton extends React.Component<React.HTMLProps<HTMLButtonElement>> {
+export class ResetButton extends React.PureComponent<React.ButtonHTMLAttributes<HTMLButtonElement>> {
     public static readonly contextTypes = ResetButtonContextTypes;
 
     public readonly context: ResetButtonContext;
@@ -12,7 +12,7 @@ export class ResetButton extends React.Component<React.HTMLProps<HTMLButtonEleme
         return (
             <button
                 type="button"
-                {...this.props}
+                {...this.props as React.ButtonHTMLAttributes<HTMLButtonElement>}
                 onClick={this.handleClick}
             >
                 {this.props.children}

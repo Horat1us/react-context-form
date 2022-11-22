@@ -1,7 +1,6 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
-import { SubmitButtonContext, SubmitButtonProps, SubmitButtonContextTypes, SubmitButton } from "../SubmitButton";
+import { SubmitButtonContext, SubmitButtonContextTypes, SubmitButton } from "../SubmitButton";
 
 import {
     SlowSubmitButtonDefaultProps,

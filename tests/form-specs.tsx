@@ -15,6 +15,7 @@ import { Input } from "../src/Input/Input";
 describe("<Form/>", () => {
     let wrapper: ReactWrapper<FormProps<ExampleModel>, FormState<ExampleModel>>;
     let node: Form<ExampleModel>;
+    let mounted: boolean = false;
 
     type ExampleForm = new () => Form<ExampleModel>;
     const ExampleForm: ExampleForm = Form as any;
@@ -50,13 +51,17 @@ describe("<Form/>", () => {
                 </FormGroup>
             </Form>
         );
+        mounted = true;
         node = wrapper.instance() as any;
         sinon.spy(node, "forceUpdate");
         sinon.spy(wrapper.state().model, "removeErrors");
     });
 
     afterEach(() => {
-        wrapper.unmount();
+        if (mounted) {
+            wrapper.unmount();
+            mounted = false;
+        }
         (node.forceUpdate as any).restore();
         isOnSubmitTriggered = false;
         props = {
@@ -130,6 +135,7 @@ describe("<Form/>", () => {
 
         (wrapper.instance() as any).getChildContext().onChange("password", changedPassword);
         wrapper.unmount();
+        mounted = false;
         expect(localStorageEmulator).to.have.key(storageKey);
         const storedForm = JSON.parse(localStorageEmulator[storageKey]);
         expect(storedForm).to.have.property("password");

@@ -39,7 +39,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
         }
 
         return (
-            <button {...childProps} ref={this.registerButton}>
+            <button {...childProps as React.ButtonHTMLAttributes<HTMLButtonElement>} ref={this.registerButton}>
                 {this.children}
             </button>
         );

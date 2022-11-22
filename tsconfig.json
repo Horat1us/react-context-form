@@ -10,7 +10,8 @@
     "jsx": "react",
     "declaration": true,
     "declarationDir": "build",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "./node_modules/**/*",

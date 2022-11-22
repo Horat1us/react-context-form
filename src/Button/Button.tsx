@@ -14,12 +14,12 @@ export class Button extends BaseButton {
         const { action, activeClassName, ...HTMLProps } = this.props;
 
         const childProps = {
-            ...HTMLProps,
+            ...HTMLProps as React.HTMLProps<HTMLButtonElement>,
             ...this.childProps,
             ...{
                 className: this.className,
             }
-        };
+        } as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
         return (
             <button {...childProps}>

@@ -30,6 +30,9 @@ describe("<SlowSubmitButton />", () => {
     });
 
     afterEach(() => {
+        if (!timer) {
+            return;
+        }
         timer.restore();
     });
 

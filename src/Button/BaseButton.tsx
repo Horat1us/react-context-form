@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import { InputContext, InputContextTypes } from "../Input";
 
-export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElement>> {
+export abstract class BaseButton extends React.Component<React.HTMLProps<HTMLButtonElement>, {}> {
     public static contextTypes = InputContextTypes;
 
     public context: InputContext;

@@ -55,7 +55,7 @@ const config = {
                                 'react',
                                 ['env', {
                                     "targets": {
-                                        "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
+                                        "browsers": ["last 2 versions"]
                                     }
                                 }]
                             ],
@@ -76,7 +76,7 @@ const config = {
                         'react',
                         ['env', {
                             "targets": {
-                                "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
+                                "browsers": ["last 2 versions", "safari >= 10"]
                             }
                         }]
                     ],

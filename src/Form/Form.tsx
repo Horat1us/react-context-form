@@ -50,7 +50,7 @@ export class Form<M extends Model>
         };
     }
 
-    public async componentWillMount() {
+    public async componentDidMount() {
         this.loadFromStorage();
         await this.state.model.get();
     }

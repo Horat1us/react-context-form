@@ -17,6 +17,7 @@ describe("<FormGroup />", () => {
     let unmountHandler;
     let node: FormGroup;
     let previousContext;
+    let mounted = false;
     const name = "fieldName";
 
     const handleChange = (...args) => handler(...args);
@@ -27,6 +28,7 @@ describe("<FormGroup />", () => {
         handler = (() => undefined)();
         mountHandler = () => undefined;
         unmountHandler = () => undefined;
+        mounted = true;
         const commonHandle = () => undefined;
 
         commonHandle();
@@ -58,6 +60,10 @@ describe("<FormGroup />", () => {
     });
 
     afterEach(() => {
+        if (!mounted) {
+            return;
+        }
+        mounted = false;
         wrapper.unmount();
     });
 
@@ -172,6 +178,7 @@ describe("<FormGroup />", () => {
         let unmountTriggered = false;
         unmountHandler = () => unmountTriggered = true;
         wrapper.unmount();
+        mounted = false;
         expect(unmountTriggered).to.be.true;
     });
 

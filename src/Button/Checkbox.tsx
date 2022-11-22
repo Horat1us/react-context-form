@@ -19,7 +19,7 @@ export class Checkbox extends BaseButton {
             ...{
                 className: this.className
             }
-        };
+        } as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
         return (
             <button {...childProps}>

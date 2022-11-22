@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "typings": "build/index.d.ts",
   "scripts": {
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json ./node_modules/.bin/nyc mocha -r jsdom-global/register -r ts-node/register -r source-map-support/register tests/bootstrap.ts tests/**-specs.ts tests/**-specs.tsx",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json ./node_modules/.bin/nyc mocha --exit -r jsdom-global/register -r ts-node/register -r source-map-support/register tests/bootstrap.ts tests/**-specs.ts tests/**-specs.tsx",
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack",
     "dev": "./node_modules/.bin/webpack-dev-server",
     "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && codecov",
@@ -32,10 +32,10 @@
   },
   "homepage": "https://github.com/Horat1us/react-formgroup#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/cheerio": "^0.22.2",
+    "@types/chai": "^4.3.4",
+    "@types/cheerio": "^0.22.31",
     "@types/enzyme": "^2.8.9",
-    "@types/mocha": "^2.2.48",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^10.3.3",
     "@types/prop-types": "^15.5.3",
     "@types/react": "^16.3.17",
@@ -48,8 +48,8 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-regenerator-runtime": "^6.5.0",
-    "chai": "^4.1.2",
-    "cheerio": "^1.0.0-rc.2",
+    "chai": "^4.3.7",
+    "cheerio": "^1.0.0-rc.12",
     "circular-dependency-plugin": "^4.4.0",
     "class-validator": "^0.7.2",
     "clean-webpack-plugin": "^0.1.19",
@@ -59,7 +59,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "jsdom": "^11.11.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^5.2.0",
+    "mocha": "^10.1.0",
     "nyc": "^11.9.0",
     "pre-commit": "^1.2.2",
     "prop-types": "^15.6.1",
@@ -72,15 +72,15 @@
     "ts-node": "^3.3.0",
     "tslint": "^5.10.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^2.9.2",
+    "typescript": "^3.9.10",
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2",
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
-    "class-validator": "^0.7.2",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0"
+    "class-validator": ">=0.7.2",
+    "prop-types": ">=15.6.0",
+    "react": ">=16.2.0"
   },
   "nyc": {
     "extension": [
@@ -99,7 +99,6 @@
     ],
     "report-dir": "./tests/output"
   },
-  "dependencies": {},
   "pre-commit": [
     "lint",
     "test"

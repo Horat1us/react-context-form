@@ -9,7 +9,7 @@ It requires [context](../src/FormGroup/FormGroupContext.ts) which is provided by
     <FormGroup name="phone" {...FormGroupProps}>
         <AutoFocus to="email" {...AutoValidateProps}>
             // ...
-        </AutoValidate>
+        </AutoFocus>
     </FormGroup>
     <FormGroup name="email" {...FormGroupProps}>
         // ...

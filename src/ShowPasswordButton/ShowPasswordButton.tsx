@@ -21,7 +21,7 @@ export class ShowPasswordButton extends React.Component<ShowPasswordButtonProps>
 
         const { hoverToShow, clickToShow, children, ...rest } = this.props;
 
-        const childProps = { ...rest };
+        const childProps = { ...rest } as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
         if (hoverToShow) {
             childProps.onMouseOver = this.context.onChangeVisibility(false);
