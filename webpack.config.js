@@ -47,41 +47,7 @@ const config = {
         loaders: [
             {
                 test: /\.tsx?$/,
-                loaders: [
-                    {
-                        loader: "babel-loader",
-                        query: {
-                            presets: [
-                                'react',
-                                ['env', {
-                                    "targets": {
-                                        "browsers": ["last 2 versions"]
-                                    }
-                                }]
-                            ],
-                            "plugins": ["transform-object-rest-spread"]
-                        }
-                    },
-                    "awesome-typescript-loader"
-                ]
-            },
-            {
-                test: /\.jsx?$/,
-                exclude:
-                    [/node_modules/],
-                loader:
-                    "babel-loader",
-                query: {
-                    presets: [
-                        'react',
-                        ['env', {
-                            "targets": {
-                                "browsers": ["last 2 versions", "safari >= 10"]
-                            }
-                        }]
-                    ],
-                    "plugins": ["transform-object-rest-spread"]
-                }
+                loader: "awesome-typescript-loader"
             },
             {
                 enforce: "pre",
